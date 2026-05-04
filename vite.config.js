@@ -8,4 +8,5 @@ export default defineConfig({
     tailwindcss(), 
     react(),
   ],
+  base: 'minjae0804.github.io',
 })
