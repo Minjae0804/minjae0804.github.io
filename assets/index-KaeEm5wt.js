@@ -17,6 +17,7 @@ category: "tech"
 tags: ["abstract", "theory"]
 uploader: "Sally"
 excerpt: "추상화란 근본적으로 무엇이며, 이것은 어떻게 활용되는가?"
+draft: false
 ---
 추상화(abstraction)는 컴퓨터에서 가장 근본에 있는 개념이다. 컴퓨터는 추상화로 이루어져 있다고 하더라도 과언이 아니며, 추상화를 빼고 컴퓨터를 논하는 것은 불가능에 가깝다. 그렇다면 추상화란 무엇인가?
 
@@ -73,6 +74,7 @@ category: "tech"
 tags: ["abstract", "theory"]
 uploader: "Sally"
 excerpt: "Joel Spolsky - The Law of Leaky Abstractions의 번역"
+draft: false
 ---
 https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/
 
