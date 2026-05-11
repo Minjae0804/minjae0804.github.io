@@ -13,7 +13,7 @@ Please change the parent <Route path="${e}"> to <Route path="${e===`/`?`*`:`${e}
                     ${i?`text-brown-600 dark:text-brown-300 font-medium bg-brown-50 dark:bg-brown-800`:`text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-800`}`,children:e},r)})})})]})}function $n(){return(0,M.jsx)(`div`,{className:`h-48 sm:h-64 md:h-80 bg-brown-600 dark:bg-brown-900 flex items-end`,children:(0,M.jsxs)(`div`,{className:`max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-8`,children:[(0,M.jsx)(`h1`,{className:`text-2xl sm:text-4xl font-semibold tracking-tight text-brown-50 dark:text-brown-100`,children:j.title}),(0,M.jsxs)(`p`,{className:`mt-1.5 text-sm sm:text-base text-brown-300 dark:text-brown-300 max-w-md`,children:[`\xA0`,j.description]})]})})}function er(){let[e,t]=(0,_.useState)(()=>{if(typeof window>`u`)return!1;let e=localStorage.getItem(`theme`);return e?e===`dark`:window.matchMedia(`(prefers-color-scheme: dark)`).matches});return(0,_.useEffect)(()=>{let t=document.documentElement;e?(t.classList.add(`dark`),localStorage.setItem(`theme`,`dark`)):(t.classList.remove(`dark`),localStorage.setItem(`theme`,`light`))},[e]),(0,M.jsx)(`button`,{onClick:()=>t(e=>!e),"aria-label":e?N.darkMode.toLight:N.darkMode.toDark,className:`w-9 h-9 flex items-center justify-center rounded-lg text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors shrink-0`,children:e?(0,M.jsx)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,fill:`none`,viewBox:`0 0 24 24`,strokeWidth:1.5,stroke:`currentColor`,className:`w-5 h-5`,"aria-hidden":`true`,children:(0,M.jsx)(`path`,{strokeLinecap:`round`,strokeLinejoin:`round`,d:`M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z`})}):(0,M.jsx)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,fill:`none`,viewBox:`0 0 24 24`,strokeWidth:1.5,stroke:`currentColor`,className:`w-5 h-5`,"aria-hidden":`true`,children:(0,M.jsx)(`path`,{strokeLinecap:`round`,strokeLinejoin:`round`,d:`M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998z`})})})}function tr(){return(0,M.jsxs)(`header`,{children:[(0,M.jsx)(`div`,{className:`sticky top-0 z-10 border-b border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-stone-950/80 backdrop-blur-sm transition-colors duration-300`,children:(0,M.jsxs)(`div`,{className:`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4`,children:[(0,M.jsx)(Zn,{}),(0,M.jsx)(Qn,{}),(0,M.jsx)(er,{})]})}),(0,M.jsx)($n,{})]})}var nr=`---
 title: "추상화와 인터페이스 설계에 대하여"
 date: "2026-03-06"
-category: "기술/개념"
+category: "tech"
 tags: ["abstract", "theory"]
 uploader: "Sally"
 excerpt: "추상화란 근본적으로 무엇이며, 이것은 어떻게 활용되는가?"
@@ -84,7 +84,7 @@ OOP의 다형성은 이러한 예측의 산물이다.
 > >`,rr=`---
 title: "Joel Spolsky의 추상화 누수 법칙"
 date: "2026-03-04"
-category: "기술/개념"
+category: "tech"
 tags: ["abstract", "theory"]
 uploader: "Sally"
 excerpt: "Joel Spolsky - The Law of Leaky Abstractions의 번역"
