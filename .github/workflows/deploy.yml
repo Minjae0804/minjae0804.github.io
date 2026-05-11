@@ -22,6 +22,7 @@ jobs:
         with:
           repository: minjae0804/minjae0804-posts
           path: src/posts
+          token: ${{ secrets.POSTS_DEPLOY_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
