@@ -1,11 +1,13 @@
+import blog from "../../config/blog.json";
+
 export default function RSSLink() {
   return (
     <a
-      href="/rss.xml"
+      href={blog.rss.url}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="RSS 피드 구독"
-      className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-orange-500 dark:hover:text-orange-400 transition-colors group"
+      className="flex items-center gap-1.5 text-xs text-stone-400 dark:text-stone-500 hover:text-orange-500 dark:hover:text-orange-400 transition-colors group"
     >
       {/* RSS 아이콘 */}
       <svg

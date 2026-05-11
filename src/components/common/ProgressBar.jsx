@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ui from "../../config/ui.json";
 
 export default function ProgressBar() {
   const [progress, setProgress] = useState(0);
@@ -10,7 +11,6 @@ export default function ProgressBar() {
       const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
       setProgress(pct);
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -22,12 +22,9 @@ export default function ProgressBar() {
       aria-valuenow={progress}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-label="페이지 읽기 진행도"
+      aria-label={ui.progressBar}
     >
-      <div
-        className="h-full bg-indigo-500 transition-[width] duration-100 ease-out"
-        style={{ width: `${progress}%` }}
-      />
+      <div className="h-full bg-brown-500 transition-[width] duration-100 ease-out" style={{ width: `${progress}%` }} />
     </div>
   );
 }

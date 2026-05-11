@@ -10,7 +10,7 @@ export default function PostUploadDateTime({ date = "" }) {
   return (
     <time
       dateTime={date}
-      className="text-xs text-gray-400 dark:text-gray-500"
+      className="text-xs text-stone-400 dark:text-stone-500"
     >
       {formatted}
     </time>

@@ -1,0 +1,16 @@
+{
+  "bio1": "호모 사피엔스 사피엔스, 우리은하 태양계에 거주 중.",
+  "bio2": [
+    "호모 사피엔스 사피엔스, 우리은하 태양계에 거주 중."
+  ],
+  "skills": [
+    { "category": "Frontend", "items": ["React", "Tailwind CSS"] },
+    { "category": "Backend", "items": ["Java", "Spring Boot" ,"PHP"] },
+    { "category": "DB", "items": ["MariaDB", "MySQL"] },
+    { "category": "Tools", "items": ["Git", "GitHub Actions", "Figma"] }
+  ],
+  "links": {
+    "sectionLabel": "링크",
+    "backToBlog": "돌아가기"
+  }
+}

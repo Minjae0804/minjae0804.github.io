@@ -1,12 +1,11 @@
+import blog from "../../config/blog.json";
+import ui from "../../config/ui.json";
+
 export default function PoweredBy() {
   return (
-    <a
-      href="https://vitejs.dev"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-    >
-      Powered by Vite + React
+    <a href={blog.footer.poweredByUrl} target="_blank" rel="noopener noreferrer"
+      className="text-xs text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 transition-colors">
+      {ui.footer.poweredByPrefix} {blog.footer.poweredBy}
     </a>
   );
 }

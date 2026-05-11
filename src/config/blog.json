@@ -1,0 +1,30 @@
+{
+  "title": "Sally's log",
+  "subtitle": "by Sally",
+  "description": "직관의 해부",
+  "author": {
+    "name": "Sally",
+    "initial": "M",
+    "github": "https://github.com/minjae0804",
+    "githubid": "minjae0804",
+    "email": "minjae11662@gmail.com"
+  },
+  "nav": [
+    { "label": "Home", "href": "/" },
+    { "label": "Posts", "href": "/posts" },
+    { "label": "Category", "href": "/categories" },
+    { "label": "Tags", "href": "/tags" },
+    { "label": "About", "href": "/about" }
+  ],
+  "sidebar": {
+    "latestPostCount": 5,
+    "postsPerPage": 5
+  },
+  "footer": {
+    "poweredBy": "Vite + React",
+    "poweredByUrl": "https://vitejs.dev"
+  },
+  "rss": {
+    "url": "/rss.xml"
+  }
+}

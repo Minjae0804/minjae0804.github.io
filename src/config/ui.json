@@ -1,0 +1,61 @@
+{
+  "nav": {
+    "openMenu": "메뉴 열기",
+    "closeMenu": "메뉴 닫기"
+  },
+  "sidebar": {
+    "search": "검색",
+    "searchPlaceholder": "포스트 검색...",
+    "category": "카테고리",
+    "latestPost": "최근 포스트",
+    "tag": "태그",
+    "about": "소개"
+  },
+  "post": {
+    "readMore": "더 읽기 →",
+    "readingTime": "분 읽기",
+    "empty": "아직 작성된 포스트가 없습니다.",
+    "notFound": "포스트를 찾을 수 없습니다.",
+    "backToList": "← 목록으로 돌아가기"
+  },
+  "category": {
+    "postCount": "개의 포스트",
+    "empty": "이 카테고리에 포스트가 없습니다."
+  },
+  "tag": {
+    "postCount": "개의 포스트",
+    "empty": "이 태그의 포스트가 없습니다."
+  },
+  "pagination": {
+    "prev": "이전 페이지",
+    "next": "다음 페이지"
+  },
+  "progressBar": "페이지 읽기 진행도",
+  "scrollToTop": "맨 위로 이동",
+  "darkMode": {
+    "toLight": "라이트 모드로 전환",
+    "toDark": "다크 모드로 전환"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved.",
+    "poweredByPrefix": "Powered by"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "페이지를 찾을 수 없습니다",
+    "desc": "요청하신 페이지가 존재하지 않거나 이동되었습니다.",
+    "backToHome": "← 홈으로 돌아가기"
+  },
+  "breadcrumb": {
+    "home": "홈",
+    "category": "카테고리",
+    "tag": "태그"
+  },
+  "search": {
+    "placeholder": "제목, 태그, 카테고리 검색...",
+    "resultCount": "개의 결과",
+    "empty": "검색 결과가 없습니다.",
+    "emptyDesc": "다른 키워드로 검색해보세요.",
+    "label": "검색"
+  }
+}
