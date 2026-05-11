@@ -1,13 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sally.log</title>
+    <script>
+      // GitHub Pages SPA 리다이렉트 처리
+      (function () {
+        const p = window.location.search.match(/[?&]p=([^&]+)/);
+        if (p) {
+          const path = decodeURIComponent(p[1]);
+          const q = window.location.search.match(/[?&]q=([^&]+)/);
+          const search = q ? '?' + decodeURIComponent(q[1]) : '';
+          window.history.replaceState(null, null, path + search + window.location.hash);
+        }
+      })();
+    </script>
     <script type="module" crossorigin src="/assets/index-Blr669YB.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-D-osJ6GV.css">
-  </head> 
+  </head>
   <body>
     <div id="root"></div>
   </body>
