@@ -39,6 +39,7 @@ function parsePost(raw, slug) {
     excerpt: data.excerpt ?? content.slice(0, 100).replace(/[#*`\n]/g, "").trim(),
     content,
     html: marked.parse(content),
+    draft: data.draft === "true" || data.draft === true,
   };
 }
 
@@ -47,6 +48,7 @@ export const allPosts = Object.entries(modules)
     const slug = path.replace("../posts/", "").replace(".md", "");
     return parsePost(raw, slug);
   })
+  .filter((post) => !post.draft)  // 이 줄 추가
   .sort((a, b) => new Date(b.date) - new Date(a.date));
 
 export function getPostBySlug(slug) {
