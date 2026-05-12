@@ -13,7 +13,6 @@
   },
   "post": {
     "readMore": "더 읽기 →",
-    "readingTime": "분 읽기",
     "empty": "아직 작성된 포스트가 없습니다.",
     "notFound": "포스트를 찾을 수 없습니다.",
     "backToList": "← 목록으로 돌아가기"
