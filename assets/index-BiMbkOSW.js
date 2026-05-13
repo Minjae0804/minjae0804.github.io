@@ -35,7 +35,7 @@ title: "추상화와 인터페이스 설계에 대하여"
 date: "2026-03-06"
 category: "tech"
 tags: ["abstract", "theory"]
-uploader: "Sally"
+uploader: "minjae"
 excerpt: "추상화란 근본적으로 무엇이며, 이것은 어떻게 활용되는가?"
 draft: false
 ---
@@ -88,7 +88,7 @@ title: "기술은 어떻게 우리의 직관을 해부하는가"
 date: "2026-05-06"
 category: "essay"
 tags: ["thoughts"]
-uploader: "Sally"
+uploader: "minjae"
 excerpt: "기술의 본질은 인지의 해체와 같다."
 draft: false
 ---
@@ -115,7 +115,7 @@ title: "Joel Spolsky의 추상화 누수 법칙"
 date: "2026-03-04"
 category: "tech"
 tags: ["abstract", "theory"]
-uploader: "Sally"
+uploader: "minjae"
 excerpt: "Joel Spolsky - The Law of Leaky Abstractions의 번역"
 draft: false
 ---
