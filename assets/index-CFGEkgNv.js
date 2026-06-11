@@ -573,7 +573,7 @@ ASP.NET 프로그래밍도 마찬가지다. 버튼을 클릭하면 서버에서 
 추상화의 누수 법칙은 우리를 끊임없이 끌어내리고 있다.`,cr=`---
 title: "public과 private, protected를 정하는 기준에 대해"
 date: "2026-06-09"
-category: "essay"
+category: "tech"
 tags: ["coding"]
 uploader: "minjae"
 excerpt: "클래스 멤버의 접근 지정자는 해당 멤버가 클래스와 어떤 추상 수준 관계에 있는지에 따라 결정된다."
@@ -602,7 +602,7 @@ draft: false
 클래스 객체를 사용하는 코드는 클래스가 표현을 통해 이루는 의미에 의존한다. 
 예를 들어 사람이라는 클래스가 존재하며 해당 클래스가 걷고, 말하고, 잠을 잔다는 멤버 함수만으로 이루어져 있다고 하자. 
 \`\`\`cpp
-class Human{
+class Human {
     ...;
 public:
     // 걷기
@@ -618,7 +618,7 @@ public:
 
 그런데, 사람을 이루는 요소가 구현에 포함된다면 어떻게 될까? 예를 들어 해당 클래스의 public 데이터 멤버로 나이가 존재한다고 한다면? 
 \`\`\`cpp
-class Human{
+class Human {
     ...;
 public:
     void walk();
@@ -638,7 +638,7 @@ public:
 
 그렇다면, 멤버에 private를 붙이는 것으로 이는 해결될까?
 \`\`\`cpp
-class Human{
+class Human {
     // 나이
     int age;
 public:
