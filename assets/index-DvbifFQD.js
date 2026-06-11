@@ -673,47 +673,57 @@ public:
 ### protected
 protected는 어떨까?
 
-protected는 자신을 표현으로 받을 수 있는 대상을 파생 클래스로 한정한다. 때문에 자신과 자신을 상속하는 클래스에 대한 표현이 된다. 
-protected는 자신 이하의 상속계통에 자신을 표현으로 제공한다. 때문에 protected 멤버는 자신 및 그 이하의 상속계통 클래스에 대해, 그 클래스들의 의미를 설명할 수 있는 것이어야 한다.
+protected는 자신을 표현으로 받을 수 있는 대상을 파생 클래스로 한정한다. 때문에 자신과 자신을 상속하는 클래스들에 대한 표현이 된다. 
+protected는 자신 이하의 상속계통에 자신을 표현으로 제공한다. 때문에 protected 멤버는 자신 및 그 이하의 상속계통 클래스에 대해 그 클래스들의 의미를 설명할 수 있는 "표현"이어야 한다. 
+때문에 protected에는 데이터 멤버가 들어가면 안 된다.
 
 예를 들어 GUI 라이브러리의 위젯 클래스가 존재한다고 하자.
 
 \`\`\`cpp
+// 위젯의 경계를 나타내는 구조체
+struct Rect {
+    ...
+};
+
 class Widget {
-protected:
     Rect bounds;
+protected:
+    Rect getBounds() const;
+    // 내부에서 validation, notification 처리
+    void setBounds(const Rect& newBounds);  
+
+    // 파생 클래스가 확장할 수 있는 훅
+    virtual void onBoundsChanged();   
+    // 내부 redraw 로직      
+    virtual void repaint();                 
+
 public:
     virtual void draw() = 0;
+    void resize(const Rect& newBounds);
 };
-\`\`\`
 
-그리고 이를 상속하는 버튼 클래스가 존재한다.
-
-\`\`\`cpp
 class Button : public Widget {
 public:
     void draw() override;
+
+protected:
+    void onBoundsChanged() override {
+        ...
+    }
 };
 \`\`\`
 
-여기서 bounds는 Widget의 구현이 아니다. Button, Label, CheckBox 등의 모든 파생 클래스와 동등한 추상 수준에서 그 의미를 설명할 수 있는 요소이다. 
-따라서 bounds는 상속 계층 전체와 동등한 추상 수준에서 의미를 설명할 수 있는 요소이며, 상속 계층에 대한 표현이 된다.
+여기서 protected 멤버들은 Widget 자신 및 Button 등 모든 파생 클래스에 대해 즉 상속계통 전체와 동등한 추상 수준에서 의미를 설명할 수 있는 요소이다. 
+따라서 protected 멤버들은 해당 클래스의 상속계통이 공유하는 절대한 개념(부모의 private 데이터 멤버)에 대한 표현이 된다. 
 
-즉, bounds는 클래스 외부에서는 구현이 되지만 클래스 계통 내부에서는 그 존재만으로 암묵적인 표현이 된다.
+여기에서 착각하면 안 되는 것이 하나 있다. 상속계통 전체와 동등한 추상 수준이라는 것은 상속계통에 속하는 모든 클래스에서 그것들의 의미를 직접 설명할 수 있다는 것이 아니다. 그러한 추상 수준의 멤버는 public 멤버여야 한다. 
+protected 멤버는 상속계통에 속하는 모든 클래스들에서 그들 각각의 표현, 즉 public 멤버 함수가 공통적으로 의존하여야 하는 추상화여야 한다. 
+다른 말로 하자면, protected 멤버들은 클래스 상속계통에 속하는 모든 클래스의 public 멤버함수에서 직접 사용될 수 있는 정도의 추상수준을 지녀야 한다.
+
+때문에 추상수준관계의 경우 일반적으로 상위 표현이 하위 구현을 포함하는 구조, 즉 트리 형태를 지니게 되지만 protected 멤버가 추가되는 순간 protected 멤버가 모든 깊이의 각 표현에 여러 번 참조될 수 있으므로 추상수준관계가 DAG의 형태가 된다.
 
 결론적으로 **protected 멤버는 클래스 계통 내부에서 그 존재 자체만으로 클래스 상속 계통 전반의 표현이 될 수 있는 특수한 요소가 되어야 한다.** 
 다만 "클래스 상속계통 전반의 표현이 될 수 있는 요소"의 판별 기준을 세우는 것은 매우 어려우며 논쟁의 여지가 크다. 따라서 protected의 사용은 최대한 조심하여야 한다.
-
-## 결론.
-클래스의 본질은 자신이 어떤 존재인지를 명확하고 일관된 추상 수준으로 표현하는 데 있다. 데이터 멤버든 멤버 함수든, 모든 구성 요소는 이 표현의 일관성을 해치지 않아야 한다. 
-
-접근 지정자는 단순한 가시성 제어가 아니라, 클래스가 자신의 의미 주도권을 지키기 위한 설계 도구이다.
-
-1. public은 클래스와 동등한 추상 수준에서 그 클래스의 본질적인 모습을 드러내는 데에만 사용되어야 한다.
-2. private은 표현이 아닌 구현, 즉 수단으로서의 세부 사항을 철저히 숨기는 데 사용한다.
-3. protected는 상속 계층 전체가 공유할 수 있는 “내부적 표현”으로서 매우 제한적으로, 그리고 신중하게 사용해야 한다.
-
-public 데이터 멤버를 선언하거나, 저수준 getter/setter를 남발하는 순간 클래스는 더 이상 의미를 주도하는 주체가 아니라, 그 구현에 끌려다니는 껍데기가 된다. 반대로 추상 수준을 의식하고 접근 지정자를 철저히 구분한다면, 클래스는 외부에 자신의 의도를 명확히 전달하면서도 내부 구현을 안전하게 보호할 수 있는 강력한 추상체가 된다.
 `;function lr(){return{async:!1,breaks:!1,extensions:null,gfm:!0,hooks:null,pedantic:!1,renderer:null,silent:!1,tokenizer:null,walkTokens:null}}var ur=lr();function dr(e){ur=e}var fr={exec:()=>null};function P(e,t=``){let n=typeof e==`string`?e:e.source,r={replace:(e,t)=>{let i=typeof t==`string`?t:t.source;return i=i.replace(mr.caret,`$1`),n=n.replace(e,i),r},getRegex:()=>new RegExp(n,t)};return r}var pr=((e=``)=>{try{return!!RegExp(`(?<=1)(?<!1)`+e)}catch{return!1}})(),mr={codeRemoveIndent:/^(?: {1,4}| {0,3}\t)/gm,outputLinkReplace:/\\([\[\]])/g,indentCodeCompensation:/^(\s+)(?:```)/,beginningSpace:/^\s+/,endingHash:/#$/,startingSpaceChar:/^ /,endingSpaceChar:/ $/,nonSpaceChar:/[^ ]/,newLineCharGlobal:/\n/g,tabCharGlobal:/\t/g,multipleSpaceGlobal:/\s+/g,blankLine:/^[ \t]*$/,doubleBlankLine:/\n[ \t]*\n[ \t]*$/,blockquoteStart:/^ {0,3}>/,blockquoteSetextReplace:/\n {0,3}((?:=+|-+) *)(?=\n|$)/g,blockquoteSetextReplace2:/^ {0,3}>[ \t]?/gm,listReplaceNesting:/^ {1,4}(?=( {4})*[^ ])/g,listIsTask:/^\[[ xX]\] +\S/,listReplaceTask:/^\[[ xX]\] +/,listTaskCheckbox:/\[[ xX]\]/,anyLine:/\n.*\n/,hrefBrackets:/^<(.*)>$/,tableDelimiter:/[:|]/,tableAlignChars:/^\||\| *$/g,tableRowBlankLine:/\n[ \t]*$/,tableAlignRight:/^ *-+: *$/,tableAlignCenter:/^ *:-+: *$/,tableAlignLeft:/^ *:-+ *$/,startATag:/^<a /i,endATag:/^<\/a>/i,startPreScriptTag:/^<(pre|code|kbd|script)(\s|>)/i,endPreScriptTag:/^<\/(pre|code|kbd|script)(\s|>)/i,startAngleBracket:/^</,endAngleBracket:/>$/,pedanticHrefTitle:/^([^'"]*[^\s])\s+(['"])(.*)\2/,unicodeAlphaNumeric:/[\p{L}\p{N}]/u,escapeTest:/[&<>"']/,escapeReplace:/[&<>"']/g,escapeTestNoEncode:/[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/,escapeReplaceNoEncode:/[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/g,caret:/(^|[^\[])\^/g,percentDecode:/%25/g,findPipe:/\|/g,splitPipe:/ \|/,slashPipe:/\\\|/g,carriageReturn:/\r\n|\r/g,spaceLine:/^ +$/gm,notSpaceStart:/^\S*/,endingNewline:/\n$/,listItemRegex:e=>RegExp(`^( {0,3}${e})((?:[	 ][^\\n]*)?(?:\\n|$))`),nextBulletRegex:e=>RegExp(`^ {0,${Math.min(3,e-1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`),hrRegex:e=>RegExp(`^ {0,${Math.min(3,e-1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`),fencesBeginRegex:e=>RegExp(`^ {0,${Math.min(3,e-1)}}(?:\`\`\`|~~~)`),headingBeginRegex:e=>RegExp(`^ {0,${Math.min(3,e-1)}}#`),htmlBeginRegex:e=>RegExp(`^ {0,${Math.min(3,e-1)}}<(?:[a-z].*>|!--)`,`i`),blockquoteBeginRegex:e=>RegExp(`^ {0,${Math.min(3,e-1)}}>`)},hr=/^(?:[ \t]*(?:\n|$))+/,gr=/^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/,_r=/^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/,vr=/^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/,yr=/^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/,br=/ {0,3}(?:[*+-]|\d{1,9}[.)])/,xr=/^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/,Sr=P(xr).replace(/bull/g,br).replace(/blockCode/g,/(?: {4}| {0,3}\t)/).replace(/fences/g,/ {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g,/ {0,3}>/).replace(/heading/g,/ {0,3}#{1,6}/).replace(/html/g,/ {0,3}<[^\n>]+>\n/).replace(/\|table/g,``).getRegex(),Cr=P(xr).replace(/bull/g,br).replace(/blockCode/g,/(?: {4}| {0,3}\t)/).replace(/fences/g,/ {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g,/ {0,3}>/).replace(/heading/g,/ {0,3}#{1,6}/).replace(/html/g,/ {0,3}<[^\n>]+>\n/).replace(/table/g,/ {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex(),wr=/^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/,Tr=/^[^\n]+/,Er=/(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/,Dr=P(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace(`label`,Er).replace(`title`,/(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(),Or=P(/^(bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g,br).getRegex(),kr=`address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul`,Ar=/<!--(?:-?>|[\s\S]*?(?:-->|$))/,jr=P(`^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))`,`i`).replace(`comment`,Ar).replace(`tag`,kr).replace(`attribute`,/ +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(),Mr=P(wr).replace(`hr`,vr).replace(`heading`,` {0,3}#{1,6}(?:\\s|$)`).replace(`|lheading`,``).replace(`|table`,``).replace(`blockquote`,` {0,3}>`).replace(`fences`," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace(`list`,` {0,3}(?:[*+-]|1[.)])[ \\t]`).replace(`html`,`</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)`).replace(`tag`,kr).getRegex(),Nr={blockquote:P(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace(`paragraph`,Mr).getRegex(),code:gr,def:Dr,fences:_r,heading:yr,hr:vr,html:jr,lheading:Sr,list:Or,newline:hr,paragraph:Mr,table:fr,text:Tr},Pr=P(`^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)`).replace(`hr`,vr).replace(`heading`,` {0,3}#{1,6}(?:\\s|$)`).replace(`blockquote`,` {0,3}>`).replace(`code`,`(?: {4}| {0,3}	)[^\\n]`).replace(`fences`," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace(`list`,` {0,3}(?:[*+-]|1[.)])[ \\t]`).replace(`html`,`</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)`).replace(`tag`,kr).getRegex(),Fr={...Nr,lheading:Cr,table:Pr,paragraph:P(wr).replace(`hr`,vr).replace(`heading`,` {0,3}#{1,6}(?:\\s|$)`).replace(`|lheading`,``).replace(`table`,Pr).replace(`blockquote`,` {0,3}>`).replace(`fences`," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace(`list`,` {0,3}(?:[*+-]|1[.)])[ \\t]`).replace(`html`,`</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)`).replace(`tag`,kr).getRegex()},Ir={...Nr,html:P(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace(`comment`,Ar).replace(/tag/g,`(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b`).getRegex(),def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,heading:/^(#{1,6})(.*)(?:\n+|$)/,fences:fr,lheading:/^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,paragraph:P(wr).replace(`hr`,vr).replace(`heading`,` *#{1,6} *[^
 ]`).replace(`lheading`,Sr).replace(`|table`,``).replace(`blockquote`,` {0,3}>`).replace(`|fences`,``).replace(`|list`,``).replace(`|html`,``).replace(`|tag`,``).getRegex()},Lr=/^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/,Rr=/^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,zr=/^( {2,}|\\)\n(?!\s*$)/,Br=/^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/,Vr=/[\p{P}\p{S}]/u,Hr=/[\s\p{P}\p{S}]/u,Ur=/[^\s\p{P}\p{S}]/u,Wr=P(/^((?![*_])punctSpace)/,`u`).replace(/punctSpace/g,Hr).getRegex(),Gr=/(?!~)[\p{P}\p{S}]/u,Kr=/(?!~)[\s\p{P}\p{S}]/u,qr=/(?:[^\s\p{P}\p{S}]|~)/u,Jr=P(/link|precode-code|html/,`g`).replace(`link`,/\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace(`precode-`,pr?"(?<!`)()":"(^^|[^`])").replace(`code`,/(?<b>`+)[^`]+\k<b>(?!`)/).replace(`html`,/<(?! )[^<>]*?>/).getRegex(),Yr=/^(?:\*+(?:((?!\*)punct)|([^\s*]))?)|^_+(?:((?!_)punct)|([^\s_]))?/,Xr=P(Yr,`u`).replace(/punct/g,Vr).getRegex(),Zr=P(Yr,`u`).replace(/punct/g,Gr).getRegex(),Qr=`^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)`,$r=P(Qr,`gu`).replace(/notPunctSpace/g,Ur).replace(/punctSpace/g,Hr).replace(/punct/g,Vr).getRegex(),ei=P(Qr,`gu`).replace(/notPunctSpace/g,qr).replace(/punctSpace/g,Kr).replace(/punct/g,Gr).getRegex(),ti=P(`^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)`,`gu`).replace(/notPunctSpace/g,Ur).replace(/punctSpace/g,Hr).replace(/punct/g,Vr).getRegex(),ni=P(/^~~?(?:((?!~)punct)|[^\s~])/,`u`).replace(/punct/g,Vr).getRegex(),ri=P(`^[^~]+(?=[^~])|(?!~)punct(~~?)(?=[\\s]|$)|notPunctSpace(~~?)(?!~)(?=punctSpace|$)|(?!~)punctSpace(~~?)(?=notPunctSpace)|[\\s](~~?)(?!~)(?=punct)|(?!~)punct(~~?)(?!~)(?=punct)|notPunctSpace(~~?)(?=notPunctSpace)`,`gu`).replace(/notPunctSpace/g,Ur).replace(/punctSpace/g,Hr).replace(/punct/g,Vr).getRegex(),ii=P(/\\(punct)/,`gu`).replace(/punct/g,Vr).getRegex(),ai=P(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace(`scheme`,/[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace(`email`,/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(),oi=P(Ar).replace(`(?:-->|$)`,`-->`).getRegex(),si=P(`^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>`).replace(`comment`,oi).replace(`attribute`,/\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(),ci=/(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+(?!`)[^`]*?`+(?!`)|``+(?=\])|[^\[\]\\`])*?/,li=P(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]+(?:\n[ \t]*)?|\n[ \t]*)(title))?\s*\)/).replace(`label`,ci).replace(`href`,/<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace(`title`,/"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(),ui=P(/^!?\[(label)\]\[(ref)\]/).replace(`label`,ci).replace(`ref`,Er).getRegex(),di=P(/^!?\[(ref)\](?:\[\])?/).replace(`ref`,Er).getRegex(),fi=P(`reflink|nolink(?!\\()`,`g`).replace(`reflink`,ui).replace(`nolink`,di).getRegex(),pi=/[hH][tT][tT][pP][sS]?|[fF][tT][pP]/,mi={_backpedal:fr,anyPunctuation:ii,autolink:ai,blockSkip:Jr,br:zr,code:Rr,del:fr,delLDelim:fr,delRDelim:fr,emStrongLDelim:Xr,emStrongRDelimAst:$r,emStrongRDelimUnd:ti,escape:Lr,link:li,nolink:di,punctuation:Wr,reflink:ui,reflinkSearch:fi,tag:si,text:Br,url:fr},hi={...mi,link:P(/^!?\[(label)\]\((.*?)\)/).replace(`label`,ci).getRegex(),reflink:P(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace(`label`,ci).getRegex()},gi={...mi,emStrongRDelimAst:ei,emStrongLDelim:Zr,delLDelim:ni,delRDelim:ri,url:P(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace(`protocol`,pi).replace(`email`,/[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),_backpedal:/(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,del:/^(~~?)(?=[^\s~])((?:\\[\s\S]|[^\\])*?(?:\\[\s\S]|[^\s~\\]))\1(?=[^~]|$)/,text:P(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace(`protocol`,pi).getRegex()},_i={...gi,br:P(zr).replace(`{2,}`,`*`).getRegex(),text:P(gi.text).replace(`\\b_`,`\\b_| {2,}\\n`).replace(/\{2,\}/g,`*`).getRegex()},vi={normal:Nr,gfm:Fr,pedantic:Ir},yi={normal:mi,gfm:gi,breaks:_i,pedantic:hi},bi={"&":`&amp;`,"<":`&lt;`,">":`&gt;`,'"':`&quot;`,"'":`&#39;`},xi=e=>bi[e];function F(e,t){if(t){if(mr.escapeTest.test(e))return e.replace(mr.escapeReplace,xi)}else if(mr.escapeTestNoEncode.test(e))return e.replace(mr.escapeReplaceNoEncode,xi);return e}function Si(e){try{e=encodeURI(e).replace(mr.percentDecode,`%`)}catch{return null}return e}function Ci(e,t){let n=e.replace(mr.findPipe,(e,t,n)=>{let r=!1,i=t;for(;--i>=0&&n[i]===`\\`;)r=!r;return r?`|`:` |`}).split(mr.splitPipe),r=0;if(n[0].trim()||n.shift(),n.length>0&&!n.at(-1)?.trim()&&n.pop(),t)if(n.length>t)n.splice(t);else for(;n.length<t;)n.push(``);for(;r<n.length;r++)n[r]=n[r].trim().replace(mr.slashPipe,`|`);return n}function wi(e,t,n){let r=e.length;if(r===0)return``;let i=0;for(;i<r;){let a=e.charAt(r-i-1);if(a===t&&!n)i++;else if(a!==t&&n)i++;else break}return e.slice(0,r-i)}function Ti(e){let t=e.split(`
 `),n=t.length-1;for(;n>=0&&mr.blankLine.test(t[n]);)n--;return t.length-n<=2?e:t.slice(0,n+1).join(`
