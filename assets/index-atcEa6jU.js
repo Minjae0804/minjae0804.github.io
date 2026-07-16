@@ -89,7 +89,7 @@ C++에는 선언과 정의가 모두 가능한 것들이 많다.
 new가 반환하는 포인터 등 내장(built-in) 포인터를 의미한다.
 이의 반대는 **스마트 포인터(smart pointer)**라고 하며, 보통 포인터 역참조 연산자를 중복적재한다. 다만 std::weak_ptr은 예외이다.`,ir=`---
 title: "Effective Modern C++ #1"
-date: "2026-07-16T10:31:00"
+date: "2026-07-16T14:29:00"
 category: "Effective Modern C++"
 tags: ["c++"]
 uploader: "minjae"
