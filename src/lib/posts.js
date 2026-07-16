@@ -13,12 +13,17 @@ function parseFrontmatter(raw) {
     const key = line.slice(0, colonIdx).trim();
     let value = line.slice(colonIdx + 1).trim().replace(/^"|"$/g, "");
 
-    // tags 배열 파싱: ["a", "b"] 형태
+    // tags 배열 파싱
     if (value.startsWith("[")) {
       data[key] = value
         .slice(1, -1)
         .split(",")
         .map((v) => v.trim().replace(/^"|"$/g, ""));
+    } else if (key === "date") {
+      // 날짜는 따옴표 안의 전체 값을 그대로 사용
+      const dateMatch = line.match(/date:\s*"([^"]+)"/);
+      if (dateMatch) data[key] = dateMatch[1];
+      else data[key] = value;
     } else {
       data[key] = value;
     }
