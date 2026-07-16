@@ -94,7 +94,7 @@ category: "Effective Modern C++"
 tags: ["c++"]
 uploader: "minjae"
 excerpt: "템플릿 형식 연역 규칙을 숙지하라"
-draft: true
+draft: false
 ---
 # 템플릿 형식 연역(type deduction, 타입 추론) 규칙을 숙지하라.
 
