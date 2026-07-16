@@ -20,7 +20,7 @@ excerpt: ""
 draft: true
 ---`,rr=`---
 title: "Effective Modern C++ #0"
-date: "2026-07-16T10:31:00"
+date: "2026-07-16 10:31:00"
 category: "Effective Modern C++"
 tags: ["c++"]
 uploader: "minjae"
@@ -89,7 +89,7 @@ C++에는 선언과 정의가 모두 가능한 것들이 많다.
 new가 반환하는 포인터 등 내장(built-in) 포인터를 의미한다.
 이의 반대는 **스마트 포인터(smart pointer)**라고 하며, 보통 포인터 역참조 연산자를 중복적재한다. 다만 std::weak_ptr은 예외이다.`,ir=`---
 title: "Effective Modern C++ #1"
-date: "2026-07-16T14:29:00"
+date: "2026-07-16 14:29:00"
 category: "Effective Modern C++"
 tags: ["c++"]
 uploader: "minjae"
@@ -435,7 +435,7 @@ draft: false
 \`\`\`
 `,or=`---
 title: "추상화와 인터페이스 설계에 대하여"
-date: "2026-03-06T14:30:00"
+date: "2026-03-06 14:30:00"
 category: "tech"
 tags: ["abstract", "theory"]
 uploader: "minjae"
@@ -724,7 +724,7 @@ protected 멤버는 상속계통에 속하는 모든 클래스들에서 그들 �
 다만 "클래스 상속계통 전반의 표현이 될 수 있는 요소"의 판별 기준을 세우는 것은 매우 어려우며 논쟁의 여지가 크다. 따라서 protected의 사용은 최대한 조심하여야 한다.
 `,ur=`---
 title: "C++의 값 범주(Value Category)"
-date: "2026-07-16T10:30:00"
+date: "2026-07-16 10:30:00"
 category: "C++"
 tags: ["c++"]
 uploader: "minjae"
