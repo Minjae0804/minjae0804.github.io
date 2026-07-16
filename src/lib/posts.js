@@ -3,31 +3,32 @@ import { marked } from "marked";
 const modules = import.meta.glob("../posts/**/*.md", { query: "?raw", import: "default", eager: true });
 
 function parseFrontmatter(raw) {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!match) return { data: {}, content: raw };
 
   const data = {};
-  match[1].split("\n").forEach((line) => {
-    const colonIdx = line.indexOf(":");
-    if (colonIdx === -1) return;
-    const key = line.slice(0, colonIdx).trim();
-    let value = line.slice(colonIdx + 1).trim().replace(/^"|"$/g, "");
+  const lines = match[1].split(/\r?\n/);
 
-    // tags 배열 파싱
+  for (const line of lines) {
+    const colonIdx = line.indexOf(":");
+    if (colonIdx === -1) continue;
+
+    const key = line.slice(0, colonIdx).trim();
+    const rest = line.slice(colonIdx + 1).trim();
+
+    // 따옴표로 감싸진 값 전체 추출
+    const quotedMatch = rest.match(/^"(.*)"$/);
+    const value = quotedMatch ? quotedMatch[1] : rest;
+
     if (value.startsWith("[")) {
       data[key] = value
         .slice(1, -1)
         .split(",")
         .map((v) => v.trim().replace(/^"|"$/g, ""));
-    } else if (key === "date") {
-      // 날짜는 따옴표 안의 전체 값을 그대로 사용
-      const dateMatch = line.match(/date:\s*"([^"]+)"/);
-      if (dateMatch) data[key] = dateMatch[1];
-      else data[key] = value;
     } else {
       data[key] = value;
     }
-  });
+  }
 
   return { data, content: match[2].trim() };
 }
@@ -50,10 +51,10 @@ function parsePost(raw, slug) {
 
 export const allPosts = Object.entries(modules)
   .map(([path, raw]) => {
-    const slug = path.replace("../posts/", "").replace(".md", "");
+    const slug = path.replace("../posts/", "").replace(/^.*\//, "").replace(".md", "");
     return parsePost(raw, slug);
   })
-  .filter((post) => !post.draft)  // 이 줄 추가
+  .filter((post) => !post.draft)
   .sort((a, b) => new Date(b.date) - new Date(a.date));
 
 export function getPostBySlug(slug) {
