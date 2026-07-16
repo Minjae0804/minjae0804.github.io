@@ -487,7 +487,7 @@ OOP의 다형성은 이러한 예측의 산물이다. 다형성의 핵심은 동
 > https://toss.tech/article/will-ai-replace-developers
 > >`,sr=`---
 title: "기술은 어떻게 우리의 직관을 해부하는가"
-date: "2026-05-06T14:30:00"
+date: "2026-05-06 14:30:00"
 category: "essay"
 tags: ["thoughts"]
 uploader: "minjae"
@@ -514,7 +514,7 @@ draft: false
 
 기술의 발전이란 단순한 도구의 개선이 아니라, 사람이 스스로를 되돌아보고 인지 너머의 자연을 탐구하는 과정이다. 인류가 앞으로 나아가는 힘은 그 자신을 뒤돌아봄에서 나왔으며, 앞으로도 그리할 것이다.`,cr=`---
 title: "Joel Spolsky의 추상화 누수 법칙"
-date: "2026-03-04T14:30:00"
+date: "2026-03-04 14:30:00"
 category: "tech"
 tags: ["abstract", "theory"]
 uploader: "minjae"
@@ -568,7 +568,7 @@ ASP.NET 프로그래밍도 마찬가지다. 버튼을 클릭하면 서버에서 
 
 추상화의 누수 법칙은 우리를 끊임없이 끌어내리고 있다.`,lr=`---
 title: "public과 private, protected를 정하는 기준에 대해"
-date: "2026-06-09T14:30:00"
+date: "2026-06-09 14:30:00"
 category: "tech"
 tags: ["coding"]
 uploader: "minjae"
