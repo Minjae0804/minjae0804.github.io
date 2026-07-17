@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @font-face {
@@ -29,10 +31,6 @@
   font-weight: 700;
   font-style: normal;
 }
-
-
-@plugin "@tailwindcss/typography";
-
 
 @theme {
   /* Brown 포인트 컬러 */
