@@ -8,26 +8,41 @@ function parseFrontmatter(raw) {
 
   const data = {};
   const lines = match[1].split(/\r?\n/);
+  let i = 0;
 
-  for (const line of lines) {
+  while (i < lines.length) {
+    const line = lines[i];
     const colonIdx = line.indexOf(":");
-    if (colonIdx === -1) continue;
+    if (colonIdx === -1) { i++; continue; }
 
     const key = line.slice(0, colonIdx).trim();
     const rest = line.slice(colonIdx + 1).trim();
 
-    // 따옴표로 감싸진 값 전체 추출
-    const quotedMatch = rest.match(/^"(.*)"$/);
-    const value = quotedMatch ? quotedMatch[1] : rest;
+    // 멀티라인 배열 (tags:\n  - a\n  - b 형태)
+    if (rest === "" && lines[i + 1]?.trimStart().startsWith("- ")) {
+      const items = [];
+      i++;
+      while (i < lines.length && lines[i].trimStart().startsWith("- ")) {
+        items.push(lines[i].trimStart().slice(2).trim());
+        i++;
+      }
+      data[key] = items;
+      continue;
+    }
 
-    if (value.startsWith("[")) {
-      data[key] = value
+    // 인라인 배열 ["a", "b"] 형태
+    if (rest.startsWith("[")) {
+      data[key] = rest
         .slice(1, -1)
         .split(",")
         .map((v) => v.trim().replace(/^"|"$/g, ""));
-    } else {
-      data[key] = value;
+      i++; continue;
     }
+
+    // 따옴표로 감싸진 값
+    const quotedMatch = rest.match(/^"(.*)"$/);
+    data[key] = quotedMatch ? quotedMatch[1] : rest;
+    i++;
   }
 
   return { data, content: match[2].trim() };
