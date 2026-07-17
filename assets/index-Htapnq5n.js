@@ -628,7 +628,7 @@ auto myWidget1 = cw;
 decltype(auto) myWidget2 = cw;
 \`\`\`
 
-### 추가. 참조형 파라미터에 인수로 오른값이 전달되는 경우
+### 추가 1. 참조형 파라미터에 인수로 오른값이 전달되는 경우
 \`\`\`cpp
 template<typename Container, typename index>
 decltype(auto) authAndAccess(Container& c, index i);
@@ -643,7 +643,7 @@ template<typename Container, typename index>
 decltype(auto) authAndAccess(Container&& c, index i);
 \`\`\`
 
-### 추가 2. 
+### 추가 2. decltype이 의도하지 않은 결과를 산출하는 경우
 decltype을 이름에 적용하면 그 이름에 대해 선언된 형식이 산출된다.
 대체로 이름은 왼값 표현식이지만, 그 점이 decltype의 행동에 영향을 주지는 않는다.
 
@@ -679,7 +679,7 @@ decltype(auto) f2() {
 1. decltype은 항상 변수나 표현식의 형식을 아무 수정 없이 산출한다.
 2. decltype은 형식이 T이며 이름이 아닌 왼값 표현식에 대해서는 항상 T& 타입으로 평가한다.
 3. C++14는 decltype(auto)를 지원한다. decltype(auto)는 auto처럼 초기치로부터 형식을 연역하나 해당 형식 연역과정에서 decltype의 규칙을 적용한다.`,sr=`---
-title: "Effective Modern C++ #n"
+title: "Effective Modern C++ #n. abcde"
 date: 2026-07-16 10:31:00
 category: Effective Modern C++
 tags:
@@ -688,7 +688,7 @@ uploader: minjae
 excerpt: ""
 draft: true
 ---
-fdsaf
+
 fdsaf`,cr=`---
 title: C++의 값 범주(Value Category)
 date: 2026-07-16 10:30:00
