@@ -22,8 +22,7 @@
 
   /* 폰트 */
   --font-sans: "Elice Digital Baeum", sans-serif;
-  --font-mono: "Elice Digital Coding ver.H", monospace;
-}
+--font-mono: "Elice Digital Coding verH", monospace;}
 
 @font-face {
   font-family: "Elice Digital Baeum";
