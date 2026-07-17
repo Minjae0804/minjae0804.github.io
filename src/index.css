@@ -1,8 +1,20 @@
 @import "tailwindcss";
 
+@import "highlight.js/styles/github.css";
+
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* 다크모드에서 github-dark-dimmed 테마 적용 */
+[data-theme="dark"] .hljs {
+  background: transparent;
+  color: #adbac7;
+}
+
+.hljs {
+  background: transparent;
+}
 
 @font-face {
   font-family: "Elice Digital Baeum";

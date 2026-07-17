@@ -1,4 +1,16 @@
 import { marked } from "marked";
+import hljs from "highlight.js";
+
+// marked에 highlight.js 연결
+marked.use({
+  renderer: {
+    code({ text, lang }) {
+      const language = lang && hljs.getLanguage(lang) ? lang : "plaintext";
+      const highlighted = hljs.highlight(text, { language }).value;
+      return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`;
+    }
+  }
+});
 
 const modules = import.meta.glob("../posts/**/*.md", { query: "?raw", import: "default", eager: true });
 
@@ -18,7 +30,6 @@ function parseFrontmatter(raw) {
     const key = line.slice(0, colonIdx).trim();
     const rest = line.slice(colonIdx + 1).trim();
 
-    // 멀티라인 배열 (tags:\n  - a\n  - b 형태)
     if (rest === "" && lines[i + 1]?.trimStart().startsWith("- ")) {
       const items = [];
       i++;
@@ -30,7 +41,6 @@ function parseFrontmatter(raw) {
       continue;
     }
 
-    // 인라인 배열 ["a", "b"] 형태
     if (rest.startsWith("[")) {
       data[key] = rest
         .slice(1, -1)
@@ -39,7 +49,6 @@ function parseFrontmatter(raw) {
       i++; continue;
     }
 
-    // 따옴표로 감싸진 값
     const quotedMatch = rest.match(/^"(.*)"$/);
     data[key] = quotedMatch ? quotedMatch[1] : rest;
     i++;
