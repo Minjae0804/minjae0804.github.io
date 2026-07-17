@@ -17,8 +17,9 @@ category: "Effective Modern C++"
 tags: ["c++"]
 uploader: "minjae"
 excerpt: ""
-draft: true
----`,rr=`---
+draft: false
+---
+fdsaf`,rr=`---
 title: "Effective Modern C++ #0"
 date: "2026-07-16 10:31:00"
 category: "Effective Modern C++"
