@@ -21,7 +21,7 @@ excerpt: 용어 및 관례
 draft: false
 ---
 ## 이동 의미론(move semantics)
-**오른값(rvalue)**과 **왼값(lvalue)**에 해당하는 표현식이 구분된다는 점에 근거하는 이론.
+**오른값(rvalue)과 왼값(lvalue)**에 해당하는 표현식이 구분된다는 점에 근거하는 이론.
 여기에서 오른값은 이동 연산이 가능한 객체가 해당되어야 하며 왼값은 그렇지 않다.
 
 개념적으로 오른값은 함수가 돌려준 임시 객체에 해당하며 왼값은 식별자, 포인터, 왼값 참조를 통해 지칭 가능한 객체에 해당한다.
@@ -519,8 +519,166 @@ excerpt: decltype의 작동방식을 숙지하라
 draft: false
 ---
 ### decltype의 작동방식을 숙지하라
-decltype은 주어진 이름이나 표현식의 형식을 알려준다.
-대부분의 경우 decltype이 독자가 예측한 바로 그 타입을 말해주지만, 아주 가끔은 예상 밖의 결과를 제공하므로 `,sr=`---
+decltype은 주어진 이름이나 표현식의 형식을 산출한다.
+대부분의 경우 decltype이 독자가 예측한 바로 그 타입을 말해주지만, 아주 가끔은 예상 밖의 결과를 제공하므로 주의가 필요하다.
+
+## decltype이 예측한 대로 동작하는 경우
+delctype은 주어진 이름이나 표현식의 구체적인 형식을 그대로 산출한다.
+\`\`\`cpp
+// delctype(i)는 const int
+const int i = 0;
+
+// delctype(w)는 const Widget&
+// delctype(f)는 bool(const Widget&)
+bool f(const Widget& w);
+
+// delctype(point::x)는 int
+// delctype(point::y)는 int 
+struct point { int x, y; };
+
+// delctype(w)는 Widget
+Widget w;
+
+// delctype(f(w))는 bool
+if (f(w)) ...;
+
+template<typename T>
+class Vector {
+public:
+	...;
+	T& operator[](std::size_t index);
+	...;
+};
+
+// delctype(v)는 vector<int>
+vector<int> v;
+...;
+
+// delctype(v[0])은 int&
+if(v[0] == 0) ...;
+\`\`\`
+
+C++11에서 delctype은 함수의 반환형이 해당 매개변수 형식들에 의존하는 함수 템플릿을 선언할 때 주로 사용된다.
+예로, 관례상 타입 T의 객체들을 담은 컨테이너에 대한 \`operator[]\` 연산의 반환형은 T&인데, delctype을 이용하면 그러한 함수의 반환형을 손쉽게 표현 가능하다.
+\`\`\`cpp
+template<typename Container, typename index>
+auto authAndAccess(Container& c, Index i) -> delctype(c[i]) {
+	authenticateUser();
+	return c[i];
+}
+\`\`\`
+
+참고로 여기에서 함수의 리턴형으로 사용된 auto는 형식 연역과는 전혀 상관이 없다.
+이는 해당 함수에 후행 반환 형식(trailing return type)구문을 사용하겠음을 나타내는 것, 즉 함수의 반환형을 일반적인 반환형을 선언하는 자리가 아니라 매개변수 정의 이후에 선언하겠다는 것을 의미한다.
+
+이러한 후행 반환형 구문은 반환형을 매개변수를 통해 지정 가능하다는 장점이 있다. 예로 authAndAccess에서는 매개변수 c와 i를 통해 반환형을 지정했는데, 만약 통상적인 함수명 앞에서 반환형을 지정할 경우 c와 i는 아직 선언되지 않았으므로 사용 불가하다.
+이렇게 선언된 authAndAccess의 반환형은 인수로 주어진 컨테이너에 적용된 \`operator[]\`의 반환형과 동일하다.
+
+## decltype이 예측한 대로 동작하지 않는 경우
+C++11은 람다가 한 문장으로 작성되어 있을 경우 해당 반환형의 연역을 허용하며, C++14는 모든 람다와 모든 함수의 반환형 연역을 허용한다. 심지어 리턴문이 여럿인 함수도 허용된다.(물론 이는 모든 리턴문의 형식 연역 결과가 일치할 경우에만 가능하다.)
+따라서, authAndAccess의 경우 C++14에서는 후행반환형을 생략하고 리턴형 자리에 auto만 남겨두어도 괜찮다. 그러한 형태의 선언에서는 auto가 실제로 형식 연역이 발생함을 뜻하는 용도로 사용된다. 더 정확히는, 이 경우 auto는 컴파일러가 함수 구현으로부터 함수의 반환형을 연역할 것임을 의미하게 된다.
+\`\`\`cpp
+template<typename Container, typename index>
+// 후행 반환형 생략
+auto authAndAccess(Container& c, Index i) {
+	authenticateUser();
+	// 반환형이 c[i]로부터 연역됨
+	return c[i];
+}
+\`\`\`
+
+함수의 반환형에 auto가 지정되어 있을 경우 컴파일러는 템플릿 형식 연역을 적용한다. 지금의 예에서는 그것이 문제가 된다.
+앞에서 적었듯 타입 T의 객체들을 담은 컨테이너에 대한 \`operator[]\` 연산자는 T&를 반환하는 것이 관례인데, 템플릿 형식 연역 과정에서 참조성이 해제되기 때문이다.
+\`\`\`cpp
+std::deque<int> d;
+...;
+
+// 사용자 인증 후 d[5]를 돌려준 후, 10을 d[5]에 할당한다.
+authAndAccess(d, 5) = 10;
+\`\`\`
+
+때문에, 이 경우 오른값에 대입하는 꼴이 되므로 컴파일이 거부된다.
+
+### 예측 가능하게 동작하게 하는 방법
+authAndAccess가 우리가 원하는 대로 동작케 하려면 함수의 반환형에 decltype 형식 연역이 적용되게 해야 한다.
+더 정확히는, authAndAccess가 \`c[i]\`의 반환형과 정확히 동일한 타입을 산출하게 해야 한다.
+
+그리고 이는 decltype(auto)로 구현할 수 있다.
+\`\`\`cpp
+template<typename Container, typename index>
+decltype(auto) authAndAccess(Container& c, index i) { return c[i]; }
+
+int main() {
+	std::deque d = { 1,2,3,4,5,6,7,8,9,10 };
+	authAndAccess(d, 5) = 10;
+}
+\`\`\`
+
+이러면 authAndAccess의 반환형은 실제로 \`c[i]\`의 반환형과 일치하게 된다.
+
+decltype(auto)은 변수 선언에도 사용할 수 있다. 
+\`\`\`cpp
+Widget w;
+auto myWidget& cw = w;
+
+// auto 형식 연역에 따라 myWidget1은 Widget이 된다.
+auto myWidget1 = cw;
+
+// decltype 형식 연역에 따라 myWidget1은 Widget&이 된다.
+decltype(auto) myWidget2 = cw;
+\`\`\`
+
+### 추가. 참조형 파라미터에 인수로 오른값이 전달되는 경우
+\`\`\`cpp
+template<typename Container, typename index>
+decltype(auto) authAndAccess(Container& c, index i);
+\`\`\`
+
+위 함수선언의 경우 매개변수로 받는 c는 비상수 컨테이너 객체에 대한 왼값 참조를 전달받는다.
+비상수 왼값 참조는 오른값에 바인딩될 수 없으므로, 인수로 오른값 객체를 전달하면 컴파일이 거부된다.
+
+위 함수가 오른값을 받아도 정상적으로 동작하게 하기 위해서는 전달참조를 사용하면 된다.
+\`\`\`cpp
+template<typename Container, typename index>
+decltype(auto) authAndAccess(Container&& c, index i);
+\`\`\`
+
+### 추가 2. 
+decltype을 이름에 적용하면 그 이름에 대해 선언된 형식이 산출된다.
+대체로 이름은 왼값 표현식이지만, 그 점이 decltype의 행동에 영향을 주지는 않는다.
+
+그런데 이름보다 복잡한 왼값 표현식에 대해서는 일반적으로 decltype이 항상 왼값 참조를 산출한다.
+즉 이름이 아닌, 그리고 형식이 T인 어떠한 왼값 표현식에 대해서 decltype은 T&을 산출한다.
+
+차피 대부분의 왼값 표현식에는 태생적으로 왼값 참조가 포함되므로 이 때문에 뭔가 달라지는 경우는 드물다만, 그 드문 경우가 문제가 된다.
+\`\`\`cpp
+int x = 0;
+\`\`\`
+
+위 코드에서 x는 변수명이므로 decltype(x)는 int를 산출한다. 그러나 x를 괄호로 감쌀 경우 이는 이름 자체보다 더 복잡한 표현식이 된다.
+decltype은 (x)라는 표현식 또한 왼값으로 정의하므로 decltype((x))는 int&이다.
+\`\`\`cpp
+// int를 반환
+decltype(auto) f1() {
+	int x = 0;
+	...;
+	return x;
+}
+
+// int&를 반환
+decltype(auto) f2() {
+ int x = 0;
+ ...;
+ return (x);
+}
+\`\`\`
+
+따라서 decltype(auto)는 조심해서 사용하여야 한다.
+
+# 결론
+1. decltype은 항상 변수나 표현식의 형식을 아무 수정 없이 산출한다.
+2. decltype은 형식이 T이며 이름이 아닌 왼값 표현식에 대해서는 항상 T& 타입으로 평가한다.
+3. C++14는 decltype(auto)를 지원한다. decltype(auto)는 auto처럼 초기치로부터 형식을 연역하나 해당 형식 연역과정에서 decltype의 규칙을 적용한다.`,sr=`---
 title: "Effective Modern C++ #n"
 date: 2026-07-16 10:31:00
 category: Effective Modern C++
