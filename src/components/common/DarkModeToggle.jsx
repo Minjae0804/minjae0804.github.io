@@ -10,15 +10,15 @@ export default function DarkModeToggle() {
   });
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark]);
+  const root = document.documentElement;
+  if (isDark) {
+    root.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+  } else {
+    root.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "light");
+  }
+}, [isDark]);
 
   return (
     <button
