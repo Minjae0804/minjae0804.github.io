@@ -1,29 +1,6 @@
 @import "tailwindcss";
 @variant dark (&:is(.dark *));
 
-@plugin "@tailwindcss/typography";
-
-@theme {
-  /* Brown 포인트 컬러 */
-  --color-brown-50:  #F5EDE3;
-  --color-brown-100: #E8D5BA;
-  --color-brown-200: #D4C4B0;
-  --color-brown-300: #C9A882;
-  --color-brown-400: #A87850;
-  --color-brown-500: #7C4E2D;
-  --color-brown-600: #5C3D22;
-  --color-brown-700: #3D2B1A;
-  --color-brown-800: #2E1F12;
-  --color-brown-900: #1E160E;
-
-
-  --color-stone-950: #0c0a09;
-
-
-  /* 폰트 */
-  --font-sans: "Elice Digital Baeum", sans-serif;
---font-mono: "Elice Digital Coding verH", monospace;}
-
 @font-face {
   font-family: "Elice Digital Baeum";
   src: url("./fonts/EliceDigitalBaeum_Regular.ttf") format("truetype");
@@ -50,4 +27,28 @@
   src: url("./fonts/EliceDigitalCodingverH_Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
+}
+
+
+@plugin "@tailwindcss/typography";
+
+
+@theme {
+  /* Brown 포인트 컬러 */
+  --color-brown-50:  #F5EDE3;
+  --color-brown-100: #E8D5BA;
+  --color-brown-200: #D4C4B0;
+  --color-brown-300: #C9A882;
+  --color-brown-400: #A87850;
+  --color-brown-500: #7C4E2D;
+  --color-brown-600: #5C3D22;
+  --color-brown-700: #3D2B1A;
+  --color-brown-800: #2E1F12;
+  --color-brown-900: #1E160E;
+
+  --color-stone-950: #0c0a09;
+
+  /* 폰트 */
+  --font-sans: "Elice Digital Baeum", sans-serif;
+  --font-mono: "Elice Digital Coding verH", monospace;
 }
