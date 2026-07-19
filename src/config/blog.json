@@ -19,7 +19,7 @@
   ],
   "sidebar": {
     "latestPostCount": 5,
-    "postsPerPage": 5
+    "postsPerPage": 10
   },
   "footer": {
     "poweredBy": "Vite + React",
