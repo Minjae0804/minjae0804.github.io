@@ -15,7 +15,7 @@ export default function AboutPage() {
       <div className="max-w-2xl mx-auto flex flex-col gap-10">
         <div className="flex items-center gap-6">
           <div className="w-20 h-20 rounded-full bg-brown-50 dark:bg-brown-800 flex items-center justify-center ring-2 ring-stone-100 dark:ring-stone-800 shrink-0">
-            <span className="text-3xl font-semibold text-brown-500 dark:text-brown-300" aria-hidden="true">{initial}</span>
+            <img src={blog.author.avatar} alt={blog.author.name} className="w-full h-full object-cover" />
           </div>
           <div>
             <h1 className="text-2xl font-semibold text-stone-900 dark:text-white">{name}</h1>
