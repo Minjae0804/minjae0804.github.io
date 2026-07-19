@@ -13,38 +13,37 @@ export default function AboutPage() {
   return (
     <PageLayout>
       <div className="max-w-2xl mx-auto flex flex-col gap-10">
-        <div className="flex items-center gap-6">
-          <div className="w-20 h-20 rounded-full bg-brown-50 dark:bg-brown-800 flex items-center justify-center ring-2 ring-stone-100 dark:ring-stone-800 shrink-0">
-            <img src={blog.author.avatar} alt={blog.author.name} className="w-full h-full object-cover" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-semibold text-stone-900 dark:text-white">{name}</h1>
-            <p className="text-stone-500 dark:text-stone-400 mt-1">{blog.description}</p>
-          </div>
+        <div className="flex items-center gap-6"><div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-stone-100 dark:ring-stone-800 shrink-0">
+          <img src={blog.author.avatar} alt={blog.author.name} className="w-full h-full object-cover" />
         </div>
-
-        <div className="flex flex-col gap-3 text-stone-600 dark:text-stone-400 leading-relaxed text-sm">
-          <p><strong className="text-stone-900 dark:text-white font-medium">{aboutConfig.bio1}</strong></p>
-          {/* {aboutConfig.bio2.map((line, i) => <p key={i}>{line}</p>)} */}
+        <div>
+          <h1 className="text-2xl font-semibold text-stone-900 dark:text-white">{name}</h1>
+          <p className="text-stone-500 dark:text-stone-400 mt-1">{blog.description}</p>
         </div>
+      </div>
 
-        <div className="flex flex-col gap-4">
-          <h2 className="text-xs font-semibold tracking-widest text-stone-400 dark:text-stone-500 uppercase">기술 스택</h2>
-          <div className="flex flex-col gap-3">
-            {aboutConfig.skills.map(({ category, items }) => (
-              <div key={category} className="flex items-start gap-4">
-                <span className="text-xs font-medium text-brown-500 dark:text-brown-300 w-20 shrink-0 pt-0.5">{category}</span>
-                <div className="flex flex-wrap gap-2">
-                  {items.map((item) => (
-                    <span key={item} className="text-xs px-2.5 py-1 rounded-full border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400">
-                      {item}
-                    </span>
-                  ))}
-                </div>
+      <div className="flex flex-col gap-3 text-stone-600 dark:text-stone-400 leading-relaxed text-sm">
+        <p><strong className="text-stone-900 dark:text-white font-medium">{aboutConfig.bio1}</strong></p>
+        {/* {aboutConfig.bio2.map((line, i) => <p key={i}>{line}</p>)} */}
+      </div>
+
+      <div className="flex flex-col gap-4">
+        <h2 className="text-xs font-semibold tracking-widest text-stone-400 dark:text-stone-500 uppercase">기술 스택</h2>
+        <div className="flex flex-col gap-3">
+          {aboutConfig.skills.map(({ category, items }) => (
+            <div key={category} className="flex items-start gap-4">
+              <span className="text-xs font-medium text-brown-500 dark:text-brown-300 w-20 shrink-0 pt-0.5">{category}</span>
+              <div className="flex flex-wrap gap-2">
+                {items.map((item) => (
+                  <span key={item} className="text-xs px-2.5 py-1 rounded-full border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400">
+                    {item}
+                  </span>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
+      </div>
 
         <div className="flex flex-col gap-3">
           <h2 className="text-xs font-semibold tracking-widest text-stone-400 dark:text-stone-500 uppercase">{aboutConfig.links.sectionLabel}</h2>
