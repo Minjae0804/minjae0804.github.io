@@ -10,8 +10,7 @@ export default function AboutMe() {
       </h2>
       <div className="flex flex-col items-center text-center gap-3 p-4 rounded-xl border border-stone-100 dark:border-stone-800">
         <div className="w-16 h-16 rounded-full overflow-hidden bg-brown-50 dark:bg-brown-800 flex items-center justify-center ring-2 ring-stone-100 dark:ring-stone-800 shrink-0">
-          <span className="text-xl font-semibold text-brown-500 dark:text-brown-300" aria-hidden="true">{initial}</span>
-        </div>
+          <img src={blog.author.avatar} alt={blog.author.name} className="w-full h-full object-cover" />        </div>
         <div>
           <p className="font-medium text-md text-stone-900 dark:text-white">{name}</p>
           {/* <p className="text-xs text-stone-500 dark:text-stone-400 mt-1 leading-relaxed">{description}</p> */}
