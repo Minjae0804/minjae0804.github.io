@@ -65,8 +65,9 @@ function parsePost(raw, slug) {
   let html = marked.parse(content);
 
   // 한국어 뒤 백틱 인라인 코드 후처리 (code 태그 안은 건드리지 않음)
-  html = html.replace(/(<code[^>]*>[\s\S]*?<\/code>)|`([^`\n]+)`/g, (match, codeTag, inline) => {
+  html = html.replace(/(<code[^>]*>[\s\S]*?<\/code>)|\*\*([^*\n]+)\*\*|`([^`\n]+)`/g, (match, codeTag, bold, inline) => {
     if (codeTag) return codeTag;
+    if (bold) return `<strong>${bold}</strong>`;
     return `<code>${inline}</code>`;
   });
 
