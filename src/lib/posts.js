@@ -1,8 +1,9 @@
+js
 import { marked } from "marked";
 import hljs from "highlight.js";
 
-// marked에 highlight.js 연결
 marked.use({
+  breaks: true,
   renderer: {
     code({ text, lang }) {
       const language = lang && hljs.getLanguage(lang) ? lang : "plaintext";
@@ -113,9 +114,3 @@ export function getPostsByPage(page = 1, perPage = 5) {
     currentPage: page,
   };
 }
-
-
-marked.use({
-  breaks: true,
-  renderer: { ... }
-});
