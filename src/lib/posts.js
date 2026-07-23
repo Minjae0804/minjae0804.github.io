@@ -113,3 +113,9 @@ export function getPostsByPage(page = 1, perPage = 5) {
     currentPage: page,
   };
 }
+
+
+marked.use({
+  breaks: true,
+  renderer: { ... }
+});
