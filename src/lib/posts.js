@@ -62,6 +62,14 @@ function parseFrontmatter(raw) {
 
 function parsePost(raw, slug) {
   const { data, content } = parseFrontmatter(raw);
+  let html = marked.parse(content);
+
+  // 한국어 뒤 백틱 인라인 코드 후처리 (code 태그 안은 건드리지 않음)
+  html = html.replace(/(<code[^>]*>[\s\S]*?<\/code>)|`([^`\n]+)`/g, (match, codeTag, inline) => {
+    if (codeTag) return codeTag;
+    return `<code>${inline}</code>`;
+  });
+
   return {
     slug,
     title: data.title ?? "제목 없음",
@@ -71,7 +79,7 @@ function parsePost(raw, slug) {
     uploader: data.uploader ?? "",
     excerpt: data.excerpt ?? content.slice(0, 100).replace(/[#*`\n]/g, "").trim(),
     content,
-    html: marked.parse(content),
+    html,
     draft: data.draft === "true" || data.draft === true,
   };
 }
