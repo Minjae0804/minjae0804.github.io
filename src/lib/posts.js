@@ -8,6 +8,9 @@ marked.use({
       const language = lang && hljs.getLanguage(lang) ? lang : "plaintext";
       const highlighted = hljs.highlight(text, { language }).value;
       return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`;
+    },
+    paragraph({ text }) {
+      return `<p>${text.replace(/\n/g, "<br>")}</p>\n`;
     }
   }
 });
