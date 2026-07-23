@@ -62,3 +62,13 @@
   --font-sans: "Elice Digital Baeum", sans-serif;
   --font-mono: "Elice Digital Coding verH", monospace;
 }
+
+.prose :where(code):not(:where([class~=not-prose],[class~=not-prose] *))::before,
+.prose :where(code):not(:where([class~=not-prose],[class~=not-prose] *))::after {
+  content: none;
+}
+
+marked.use({
+  breaks: true,
+  renderer: { ... }
+});
