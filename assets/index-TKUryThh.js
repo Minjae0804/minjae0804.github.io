@@ -809,7 +809,7 @@ tags:
   - cpp
 uploader: minjae
 excerpt: 객체 생성 시 ()와 {}를 구분하라
-draft: true
+draft: false
 ---
 
 C++에서 다음의 모든 구문은 모두 정수형 변수 x에 0을 대입하는 동작을 수행한다.
