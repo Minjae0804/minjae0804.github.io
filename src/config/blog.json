@@ -20,8 +20,8 @@
   "sidebar": {
     "latestPostCount": 5,
     "postsPerPage": 5,
-    "categoryPostCount": 3,
-    "categoryMoreCount": 3,
+    "categoryPostCount": 10,
+    "categoryMoreCount": 20,
     "categoryPostSort": "date-desc"
   },
   "footer": {
