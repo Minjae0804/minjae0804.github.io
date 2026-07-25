@@ -21,7 +21,7 @@ const categoryConfigs = import.meta.glob("../posts/**/_config.json", { eager: tr
 function getCategoryConfig(categoryPath, parentConfig = {}) {
   const key = `../posts/${categoryPath}/_config.json`;
   const ownConfig = categoryConfigs[key]?.default ?? categoryConfigs[key];
-  if (ownConfig) return { ...parentConfig, ...ownConfig };
+  if (ownConfig) return ownConfig;
   return parentConfig;
 }
 
@@ -168,6 +168,31 @@ export function getPostsByPage(page = 1, perPage = 5) {
   };
 }
 
+export function getParentConfig(categoryPath) {
+  const parts = categoryPath.split("/");
+  if (parts.length <= 1) return {};
+  const parentPath = parts.slice(0, -1).join("/");
+  return getCategoryConfig(parentPath, getParentConfig(parentPath));
+}
+
+export function getConfigOwner(categoryPath) {
+  const parts = categoryPath.split("/");
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const path = parts.slice(0, i).join("/");
+    if (!path) break;
+    const key = `../posts/${path}/_config.json`;
+    if (categoryConfigs[key]) return path;
+  }
+  return null;
+}
+
+export function getTotalPostCount(categoryPath) {
+  const prefix = categoryPath + "/";
+  return allPosts.filter((p) =>
+    p.category === categoryPath || p.category.startsWith(prefix)
+  ).length;
+}
+
 export function getMaxCategoryDepth() {
   return Math.max(0, ...allPosts.map((p) => p.category ? p.category.split("/").length : 0));
 }
@@ -181,30 +206,4 @@ export function getMaxDepthByRoot() {
     map[root] = Math.max(map[root] ?? 0, parts.length);
   }
   return map;
-}
-
-export function getTotalPostCount(categoryPath) {
-  const prefix = categoryPath + "/";
-  return allPosts.filter((p) => 
-    p.category === categoryPath || p.category.startsWith(prefix)
-  ).length;
-}
-
-export function getParentConfig(categoryPath) {
-  const parts = categoryPath.split("/");
-  if (parts.length <= 1) return {};
-  const parentPath = parts.slice(0, -1).join("/");
-  return getCategoryConfig(parentPath, getParentConfig(parentPath));
-}
-
-export function getConfigOwner(categoryPath) {
-  const parts = categoryPath.split("/");
-  // 상위부터 내려오면서 _config.json 가진 카테고리 찾기
-  for (let i = parts.length - 1; i >= 0; i--) {
-    const path = parts.slice(0, i).join("/");
-    if (!path) break;
-    const key = `../posts/${path}/_config.json`;
-    if (categoryConfigs[key]) return path;
-  }
-  return null;
 }

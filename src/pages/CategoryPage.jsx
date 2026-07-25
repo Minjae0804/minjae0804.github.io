@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { getCategoryInfo, getConfigOwner, getParentConfig } from "../lib/posts";
+import { getCategoryInfo, getConfigOwner, getParentConfig, getTotalPostCount } from "../lib/posts";
 import useSEO from "../lib/useSEO";
 import PageLayout from "./PageLayout";
 import PostCard from "../components/post/PostCard";
@@ -13,7 +13,6 @@ export default function CategoryPage() {
   const parts = categoryPath.split("/");
   const configOwner = getConfigOwner(categoryPath);
 
-  // configOwner의 마지막부터 현재 바로 전까지 PostCategory로 표시
   const configOwnerParts = configOwner ? configOwner.split("/") : [];
   const displayCategory = configOwner && configOwner !== categoryPath
     ? parts.slice(configOwnerParts.length - 1, -1).join("/")
@@ -75,7 +74,8 @@ export default function CategoryPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {childCategories.map((child) => {
                 const childPath = `${categoryPath}/${child}`;
-                const { directPosts: cp } = getCategoryInfo(childPath, config);
+                const { childCategories: cc } = getCategoryInfo(childPath, config);
+                const totalCount = getTotalPostCount(childPath);
                 return (
                   <Link
                     key={child}
@@ -86,7 +86,7 @@ export default function CategoryPage() {
                       {child}
                     </span>
                     <span className="text-sm text-stone-400 dark:text-stone-500 tabular-nums">
-                      {cp.length}{ui.category.postCount}
+                      {cc.length > 0 && `${cc.length}개 하위 · `}{totalCount}{ui.category.postCount}
                     </span>
                   </Link>
                 );
