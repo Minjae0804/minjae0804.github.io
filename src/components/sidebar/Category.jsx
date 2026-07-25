@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getCategories, getCategoryInfo } from "../../lib/posts";
 import ui from "../../config/ui.json";
 import blog from "../../config/blog.json";
@@ -12,22 +12,27 @@ function CategoryItem({ name, path, depth = 0, parentConfig = {} }) {
   const { directPosts, childCategories, config } = getCategoryInfo(path, parentConfig);
   const hasChildren = childCategories.length > 0;
   const visiblePosts = directPosts.slice(0, visibleCount);
+  const navigate = useNavigate();
 
   return (
     <li style={{ minWidth: 0, width: "100%" }}>
-      <div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
-        className="rounded-md hover:bg-brown-50 dark:hover:bg-stone-800 transition-colors group">
-        <Link
-          to={`/categories/${path}`}
-          style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "6px 8px", fontSize: "0.875rem", fontWeight: 600 }}
+      <div
+        style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
+        className="rounded-md hover:bg-brown-50 dark:hover:bg-stone-800 transition-colors group"
+      >
+        <a
+          href={`/categories/${path}`}
+          onClick={(e) => { e.preventDefault(); navigate(`/categories/${path}`); }}
+          style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "6px 8px", fontSize: "0.875rem", fontWeight: 600 }}
           className="text-stone-600 dark:text-stone-400 group-hover:text-brown-600 dark:group-hover:text-brown-300 transition-colors"
         >
           {name}
-        </Link>
+        </a>
+        <div className="flex-1 self-stretch" onClick={() => setIsOpen((prev) => !prev)} />
         {(hasChildren || directPosts.length > 0) && (
           <button
             onClick={() => setIsOpen((prev) => !prev)}
-            className="w-6 h-6 flex items-center justify-center text-stone-400 group-hover:text-brown-500 transition-colors"
+            className="w-6 h-6 flex items-center justify-center text-stone-400 group-hover:text-brown-500 transition-colors shrink-0"
             aria-label={isOpen ? "접기" : "펼치기"}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"
