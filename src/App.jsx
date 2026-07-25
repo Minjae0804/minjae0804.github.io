@@ -8,10 +8,12 @@ import TagsPage from "./pages/TagsPage";
 import TagPage from "./pages/TagPage";
 import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ScrollToTopOnNavigate from "./lib/ScrollToTopOnNavigate";
 
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTopOnNavigate />
       <Routes>
         <Route path="/" element={<BlogMain />} />
         <Route path="/posts" element={<PostsPage />} />
