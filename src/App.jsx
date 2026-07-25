@@ -17,7 +17,7 @@ export default function App() {
         <Route path="/posts" element={<PostsPage />} />
         <Route path="/posts/:slug" element={<PostDetail />} />
         <Route path="/categories" element={<CategoriesPage />} />
-        <Route path="/categories/:name" element={<CategoryPage />} />
+        <Route path="/categories/*" element={<CategoryPage />} />
         <Route path="/tags" element={<TagsPage />} />
         <Route path="/tags/:name" element={<TagPage />} />
         <Route path="/about" element={<AboutPage />} />

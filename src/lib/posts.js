@@ -60,11 +60,11 @@ function parseFrontmatter(raw) {
   return { data, content: match[2].trim() };
 }
 
-function parsePost(raw, slug) {
+function parsePost(raw, slug, category) {
   const { data, content } = parseFrontmatter(raw);
   let html = marked.parse(content);
 
-  // 한국어 뒤 백틱 인라인 코드 후처리 (code 태그 안은 건드리지 않음)
+  // 인라인 요소 후처리 (code 태그 안은 건드리지 않음)
   html = html.replace(/(<code[^>]*>[\s\S]*?<\/code>)|\*\*([^*\n]+)\*\*|`([^`\n]+)`/g, (match, codeTag, bold, inline) => {
     if (codeTag) return codeTag;
     if (bold) return `<strong>${bold}</strong>`;
@@ -75,7 +75,7 @@ function parsePost(raw, slug) {
     slug,
     title: data.title ?? "제목 없음",
     date: data.date ? String(data.date) : "",
-    category: data.category ?? "",
+    category, // 폴더 경로에서 추출
     tags: Array.isArray(data.tags) ? data.tags : [],
     uploader: data.uploader ?? "",
     excerpt: data.excerpt ?? content.slice(0, 100).replace(/[#*`\n]/g, "").trim(),
@@ -87,8 +87,12 @@ function parsePost(raw, slug) {
 
 export const allPosts = Object.entries(modules)
   .map(([path, raw]) => {
-    const slug = path.replace("../posts/", "").replace(/^.*\//, "").replace(".md", "");
-    return parsePost(raw, slug);
+    const relativePath = path.replace("../posts/", "");
+    const slug = relativePath.replace(/^.*\//, "").replace(".md", "");
+    const category = relativePath.includes("/")
+      ? relativePath.replace(/\/[^/]+\.md$/, "")
+      : "";
+    return parsePost(raw, slug, category);
   })
   .filter((post) => !post.draft)
   .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -97,10 +101,47 @@ export function getPostBySlug(slug) {
   return allPosts.find((p) => p.slug === slug) ?? null;
 }
 
+// 카테고리 트리 구조 반환
+export function getCategoryTree() {
+  const tree = {};
+
+  for (const post of allPosts) {
+    if (!post.category) continue;
+    const parts = post.category.split("/");
+    let node = tree;
+    for (const part of parts) {
+      if (!node[part]) node[part] = { _posts: [], _children: {} };
+      node = node[part]._children;
+    }
+  }
+
+  return tree;
+}
+
+// 특정 카테고리 경로의 직접 포스트 + 하위 카테고리 목록 반환
+export function getCategoryInfo(categoryPath) {
+  const directPosts = allPosts.filter((p) => p.category === categoryPath);
+
+  const prefix = categoryPath + "/";
+  const childCategories = [...new Set(
+    allPosts
+      .filter((p) => p.category.startsWith(prefix))
+      .map((p) => {
+        const rest = p.category.slice(prefix.length);
+        return rest.split("/")[0];
+      })
+  )];
+
+  return { directPosts, childCategories };
+}
+
+// 최상위 카테고리 목록 + 포스트 수
 export function getCategories() {
   const map = {};
   for (const post of allPosts) {
-    if (post.category) map[post.category] = (map[post.category] ?? 0) + 1;
+    if (!post.category) continue;
+    const root = post.category.split("/")[0];
+    map[root] = (map[root] ?? 0) + 1;
   }
   return Object.entries(map).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count);
 }
@@ -111,6 +152,21 @@ export function getTags() {
     for (const tag of post.tags) map[tag] = (map[tag] ?? 0) + 1;
   }
   return Object.entries(map).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count);
+}
+
+export function getMaxCategoryDepth() {
+  return Math.max(0, ...allPosts.map((p) => p.category ? p.category.split("/").length : 0));
+}
+
+export function getMaxDepthByRoot() {
+  const map = {};
+  for (const post of allPosts) {
+    if (!post.category) continue;
+    const parts = post.category.split("/");
+    const root = parts[0];
+    map[root] = Math.max(map[root] ?? 0, parts.length);
+  }
+  return map;
 }
 
 export function getLatestPosts(n = 5) {

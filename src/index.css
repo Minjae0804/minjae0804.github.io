@@ -81,3 +81,12 @@
 .prose blockquote p::after {
   content: none;
 }
+
+.pc-0 { @apply bg-brown-400 text-brown-50; }
+.pc-0:hover { @apply bg-brown-500; }
+.pc-1 { @apply bg-brown-300 text-brown-800; }
+.pc-1:hover { @apply bg-brown-300; }
+.pc-2 { @apply bg-brown-100 text-brown-600; }
+.pc-2:hover { @apply bg-brown-200; }
+.pc-3 { @apply bg-brown-50 text-brown-400; }
+.pc-3:hover { @apply bg-brown-100; }

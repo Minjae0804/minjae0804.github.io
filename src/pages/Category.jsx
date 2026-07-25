@@ -6,11 +6,12 @@ import blog from "../../config/blog.json";
 
 function CategoryItem({ name, path, depth = 0 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [showAll, setShowAll] = useState(false);
+  const maxPosts = blog.sidebar.categoryPostCount ?? 3;
+  const moreCount = blog.sidebar.categoryMoreCount ?? 3;
+  const [visibleCount, setVisibleCount] = useState(maxPosts);
   const { directPosts, childCategories } = getCategoryInfo(path);
   const hasChildren = childCategories.length > 0;
-  const maxPosts = blog.sidebar.categoryPostCount ?? 3;
-  const visiblePosts = showAll ? directPosts : directPosts.slice(0, maxPosts);
+  const visiblePosts = directPosts.slice(0, visibleCount);
 
   return (
     <li style={{ minWidth: 0, width: "100%" }}>
@@ -66,20 +67,20 @@ function CategoryItem({ name, path, depth = 0 }) {
                   </Link>
                 </li>
               ))}
-              {!showAll && directPosts.length > maxPosts && (
+              {visibleCount < directPosts.length && (
                 <li>
                   <button
-                    onClick={() => setShowAll(true)}
+                    onClick={() => setVisibleCount((prev) => prev + moreCount)}
                     className="block w-full text-left px-2 py-1 text-xs text-stone-400 dark:text-stone-500 hover:text-brown-500 transition-colors"
                   >
-                    +{directPosts.length - maxPosts}개 더보기
+                    +{Math.min(moreCount, directPosts.length - visibleCount)}개 더보기
                   </button>
                 </li>
               )}
-              {showAll && directPosts.length > maxPosts && (
+              {visibleCount >= directPosts.length && directPosts.length > maxPosts && (
                 <li>
                   <button
-                    onClick={() => setShowAll(false)}
+                    onClick={() => setVisibleCount(maxPosts)}
                     className="block w-full text-left px-2 py-1 text-xs text-stone-400 dark:text-stone-500 hover:text-brown-500 transition-colors"
                   >
                     접기
