@@ -2,32 +2,33 @@ import { Link } from "react-router-dom";
 import { getMaxDepthByRoot } from "../../lib/posts";
 
 const maxDepthByRoot = getMaxDepthByRoot();
+const COLORS_LENGTH = 4;
 
-const BG_COLORS = [
-  "bg-brown-400 text-white hover:bg-brown-500",
-  "bg-brown-200 text-brown-800 hover:bg-brown-300",
-  "bg-brown-100 text-brown-600 hover:bg-brown-200",
-  "bg-brown-50 text-brown-400 hover:bg-brown-100",
-];
-
-export default function PostCategory({ category = "" }) {
+export default function PostCategory({ category = "", fontSize = "0.75rem", rootCategory = null }) {
   if (!category) return null;
 
   const parts = category.split("/");
-  const root = parts[0];
+  const root = rootCategory ? rootCategory.split("/")[0] : parts[0];
   const rootMaxDepth = maxDepthByRoot[root] ?? parts.length;
+  const rootParts = rootCategory ? rootCategory.split("/") : null;
+  const startDepth = rootParts ? rootParts.indexOf(parts[0]) : 0;
 
   return (
-    <div className="inline-flex items-center rounded overflow-hidden">
+    <div style={{ display: "inline-flex", alignItems: "center", borderRadius: "4px", overflow: "hidden" }}>
       {parts.map((part, idx) => {
-        const path = parts.slice(0, idx + 1).join("/");
-        const colorIdx = Math.min(Math.max(0, (BG_COLORS.length - 1) - (rootMaxDepth - 1 - idx)), BG_COLORS.length - 1);
-        const colorClass = BG_COLORS[colorIdx];
+        const path = rootParts
+          ? rootParts.slice(0, startDepth + idx + 1).join("/")
+          : parts.slice(0, idx + 1).join("/");
+        const colorIdx = Math.min(
+          Math.max(0, (COLORS_LENGTH - 1) - (rootMaxDepth - 1 - (idx + startDepth))),
+          COLORS_LENGTH - 1
+        );
         return (
           <Link
             key={path}
             to={`/categories/${path}`}
-            className={`text-xs font-medium px-2 py-0.5 transition-colors pc-${colorIdx}`}
+            className={`pc-${colorIdx} font-medium transition-colors`}
+            style={{ fontSize, padding: "2px 8px" }}
           >
             {part}
           </Link>

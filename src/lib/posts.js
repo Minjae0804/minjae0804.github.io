@@ -21,7 +21,7 @@ const categoryConfigs = import.meta.glob("../posts/**/_config.json", { eager: tr
 function getCategoryConfig(categoryPath, parentConfig = {}) {
   const key = `../posts/${categoryPath}/_config.json`;
   const ownConfig = categoryConfigs[key]?.default ?? categoryConfigs[key];
-  if (ownConfig) return ownConfig;
+  if (ownConfig) return { ...parentConfig, ...ownConfig };
   return parentConfig;
 }
 
@@ -188,4 +188,23 @@ export function getTotalPostCount(categoryPath) {
   return allPosts.filter((p) => 
     p.category === categoryPath || p.category.startsWith(prefix)
   ).length;
+}
+
+export function getParentConfig(categoryPath) {
+  const parts = categoryPath.split("/");
+  if (parts.length <= 1) return {};
+  const parentPath = parts.slice(0, -1).join("/");
+  return getCategoryConfig(parentPath, getParentConfig(parentPath));
+}
+
+export function getConfigOwner(categoryPath) {
+  const parts = categoryPath.split("/");
+  // 상위부터 내려오면서 _config.json 가진 카테고리 찾기
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const path = parts.slice(0, i).join("/");
+    if (!path) break;
+    const key = `../posts/${path}/_config.json`;
+    if (categoryConfigs[key]) return path;
+  }
+  return null;
 }

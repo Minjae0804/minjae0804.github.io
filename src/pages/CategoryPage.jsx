@@ -1,14 +1,23 @@
 import { useParams, Link } from "react-router-dom";
-import { getCategoryInfo, getTotalPostCount } from "../lib/posts";
+import { getCategoryInfo, getConfigOwner, getParentConfig } from "../lib/posts";
 import useSEO from "../lib/useSEO";
 import PageLayout from "./PageLayout";
 import PostCard from "../components/post/PostCard";
+import PostCategory from "../components/post/PostCategory";
 import ui from "../config/ui.json";
 
 export default function CategoryPage() {
   const { "*": categoryPath } = useParams();
-  const { directPosts, childCategories, config } = getCategoryInfo(categoryPath);
+  const parentConfig = getParentConfig(categoryPath);
+  const { directPosts, childCategories, config } = getCategoryInfo(categoryPath, parentConfig);
   const parts = categoryPath.split("/");
+  const configOwner = getConfigOwner(categoryPath);
+
+  // configOwner의 마지막부터 현재 바로 전까지 PostCategory로 표시
+  const configOwnerParts = configOwner ? configOwner.split("/") : [];
+  const displayCategory = configOwner && configOwner !== categoryPath
+    ? parts.slice(configOwnerParts.length - 1, -1).join("/")
+    : null;
 
   useSEO({ title: parts[parts.length - 1] });
 
@@ -44,8 +53,11 @@ export default function CategoryPage() {
 
         {/* 제목 + 설명 */}
         <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold text-stone-900 dark:text-white">
-            {parts[parts.length - 1]}
+          <h1 className="text-2xl font-semibold text-stone-900 dark:text-white flex items-center flex-wrap gap-2">
+            {displayCategory && (
+              <PostCategory category={displayCategory} fontSize="1.5rem" rootCategory={categoryPath} />
+            )}
+            <span>{parts[parts.length - 1]}</span>
           </h1>
           {config.description && (
             <p className="text-sm text-stone-500 dark:text-stone-400 whitespace-pre-line leading-relaxed">
@@ -74,7 +86,7 @@ export default function CategoryPage() {
                       {child}
                     </span>
                     <span className="text-sm text-stone-400 dark:text-stone-500 tabular-nums">
-                      {getTotalPostCount(childPath)}{ui.category.postCount}
+                      {cp.length}{ui.category.postCount}
                     </span>
                   </Link>
                 );
