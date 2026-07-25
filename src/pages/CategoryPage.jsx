@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { getCategoryInfo } from "../lib/posts";
+import { getCategoryInfo, getTotalPostCount } from "../lib/posts";
 import useSEO from "../lib/useSEO";
 import PageLayout from "./PageLayout";
 import PostCard from "../components/post/PostCard";
@@ -74,7 +74,7 @@ export default function CategoryPage() {
                       {child}
                     </span>
                     <span className="text-sm text-stone-400 dark:text-stone-500 tabular-nums">
-                      {cp.length}{ui.category.postCount}
+                      {getTotalPostCount(childPath)}{ui.category.postCount}
                     </span>
                   </Link>
                 );

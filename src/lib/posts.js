@@ -182,3 +182,10 @@ export function getMaxDepthByRoot() {
   }
   return map;
 }
+
+export function getTotalPostCount(categoryPath) {
+  const prefix = categoryPath + "/";
+  return allPosts.filter((p) => 
+    p.category === categoryPath || p.category.startsWith(prefix)
+  ).length;
+}
