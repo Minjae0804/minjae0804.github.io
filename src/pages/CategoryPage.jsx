@@ -7,8 +7,8 @@ import ui from "../config/ui.json";
 
 export default function CategoryPage() {
   const { "*": categoryPath } = useParams();
-  const { directPosts, childCategories } = getCategoryInfo(categoryPath);
   const parts = categoryPath.split("/");
+  const { directPosts, childCategories, config } = getCategoryInfo(categoryPath);
 
   useSEO({ title: parts[parts.length - 1] });
 
@@ -45,6 +45,9 @@ export default function CategoryPage() {
         <h1 className="text-2xl font-semibold text-stone-900 dark:text-white">
           {parts[parts.length - 1]}
         </h1>
+        {config.description && (
+          <p className="text-sm text-stone-500 dark:text-stone-400 whitespace-pre-line">{config.description}</p>
+        )}
 
         {/* 하위 카테고리 */}
         {childCategories.length > 0 && (

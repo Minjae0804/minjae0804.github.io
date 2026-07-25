@@ -16,6 +16,12 @@ marked.use({
 });
 
 const modules = import.meta.glob("../posts/**/*.md", { query: "?raw", import: "default", eager: true });
+const categoryConfigs = import.meta.glob("../posts/**/_config.json", { eager: true });
+
+function getCategoryConfig(categoryPath) {
+  const key = `../posts/${categoryPath}/_config.json`;
+  return categoryConfigs[key]?.default ?? categoryConfigs[key] ?? {};
+}
 
 function parseFrontmatter(raw) {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -64,7 +70,6 @@ function parsePost(raw, slug, category) {
   const { data, content } = parseFrontmatter(raw);
   let html = marked.parse(content);
 
-  // 인라인 요소 후처리 (code 태그 안은 건드리지 않음)
   html = html.replace(/(<code[^>]*>[\s\S]*?<\/code>)|\*\*([^*\n]+)\*\*|`([^`\n]+)`/g, (match, codeTag, bold, inline) => {
     if (codeTag) return codeTag;
     if (bold) return `<strong>${bold}</strong>`;
@@ -75,7 +80,7 @@ function parsePost(raw, slug, category) {
     slug,
     title: data.title ?? "제목 없음",
     date: data.date ? String(data.date) : "",
-    category, // 폴더 경로에서 추출
+    category,
     tags: Array.isArray(data.tags) ? data.tags : [],
     uploader: data.uploader ?? "",
     excerpt: data.excerpt ?? content.slice(0, 100).replace(/[#*`\n]/g, "").trim(),
@@ -101,26 +106,19 @@ export function getPostBySlug(slug) {
   return allPosts.find((p) => p.slug === slug) ?? null;
 }
 
-// 카테고리 트리 구조 반환
-export function getCategoryTree() {
-  const tree = {};
-
-  for (const post of allPosts) {
-    if (!post.category) continue;
-    const parts = post.category.split("/");
-    let node = tree;
-    for (const part of parts) {
-      if (!node[part]) node[part] = { _posts: [], _children: {} };
-      node = node[part]._children;
-    }
-  }
-
-  return tree;
-}
-
-// 특정 카테고리 경로의 직접 포스트 + 하위 카테고리 목록 반환
 export function getCategoryInfo(categoryPath) {
-  const directPosts = allPosts.filter((p) => p.category === categoryPath);
+  const config = getCategoryConfig(categoryPath);
+  const sort = config.postSort ?? "date-desc";
+
+  let directPosts = allPosts.filter((p) => p.category === categoryPath);
+
+  if (sort === "date-asc") {
+    directPosts = [...directPosts].sort((a, b) => new Date(a.date) - new Date(b.date));
+  } else if (sort === "title-asc") {
+    directPosts = [...directPosts].sort((a, b) => a.title.localeCompare(b.title, "ko", { numeric: true }));
+  } else if (sort === "title-desc") {
+    directPosts = [...directPosts].sort((a, b) => b.title.localeCompare(a.title, "ko", { numeric: true }));
+  }
 
   const prefix = categoryPath + "/";
   const childCategories = [...new Set(
@@ -130,12 +128,11 @@ export function getCategoryInfo(categoryPath) {
         const rest = p.category.slice(prefix.length);
         return rest.split("/")[0];
       })
-  )];
+  )].sort((a, b) => a.localeCompare(b, "ko", { numeric: true }));
 
-  return { directPosts, childCategories };
+  return { directPosts, childCategories, config };
 }
 
-// 최상위 카테고리 목록 + 포스트 수
 export function getCategories() {
   const map = {};
   for (const post of allPosts) {
@@ -145,7 +142,7 @@ export function getCategories() {
   }
   return Object.entries(map)
     .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => a.name.localeCompare(b.name, "ko"));
+    .sort((a, b) => a.name.localeCompare(b.name, "ko", { numeric: true }));
 }
 
 export function getTags() {
@@ -154,6 +151,19 @@ export function getTags() {
     for (const tag of post.tags) map[tag] = (map[tag] ?? 0) + 1;
   }
   return Object.entries(map).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count);
+}
+
+export function getLatestPosts(n = 5) {
+  return allPosts.slice(0, n);
+}
+
+export function getPostsByPage(page = 1, perPage = 5) {
+  const start = (page - 1) * perPage;
+  return {
+    posts: allPosts.slice(start, start + perPage),
+    totalPages: Math.ceil(allPosts.length / perPage),
+    currentPage: page,
+  };
 }
 
 export function getMaxCategoryDepth() {
@@ -169,17 +179,4 @@ export function getMaxDepthByRoot() {
     map[root] = Math.max(map[root] ?? 0, parts.length);
   }
   return map;
-}
-
-export function getLatestPosts(n = 5) {
-  return allPosts.slice(0, n);
-}
-
-export function getPostsByPage(page = 1, perPage = 5) {
-  const start = (page - 1) * perPage;
-  return {
-    posts: allPosts.slice(start, start + perPage),
-    totalPages: Math.ceil(allPosts.length / perPage),
-    currentPage: page,
-  };
 }
