@@ -143,7 +143,9 @@ export function getCategories() {
     const root = post.category.split("/")[0];
     map[root] = (map[root] ?? 0) + 1;
   }
-  return Object.entries(map).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count);
+  return Object.entries(map)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => a.name.localeCompare(b.name, "ko"));
 }
 
 export function getTags() {
