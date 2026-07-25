@@ -7,8 +7,8 @@ import ui from "../config/ui.json";
 
 export default function CategoryPage() {
   const { "*": categoryPath } = useParams();
-  const parts = categoryPath.split("/");
   const { directPosts, childCategories, config } = getCategoryInfo(categoryPath);
+  const parts = categoryPath.split("/");
 
   useSEO({ title: parts[parts.length - 1] });
 
@@ -42,12 +42,17 @@ export default function CategoryPage() {
           })}
         </div>
 
-        <h1 className="text-2xl font-semibold text-stone-900 dark:text-white">
-          {parts[parts.length - 1]}
-        </h1>
-        {config.description && (
-          <p className="text-sm text-stone-500 dark:text-stone-400 whitespace-pre-line">{config.description}</p>
-        )}
+        {/* 제목 + 설명 */}
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-semibold text-stone-900 dark:text-white">
+            {parts[parts.length - 1]}
+          </h1>
+          {config.description && (
+            <p className="text-sm text-stone-500 dark:text-stone-400 whitespace-pre-line leading-relaxed">
+              {config.description}
+            </p>
+          )}
+        </div>
 
         {/* 하위 카테고리 */}
         {childCategories.length > 0 && (
@@ -58,8 +63,7 @@ export default function CategoryPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {childCategories.map((child) => {
                 const childPath = `${categoryPath}/${child}`;
-                const { directPosts: cp, childCategories: cc } = getCategoryInfo(childPath);
-                const count = cp.length + cc.length;
+                const { directPosts: cp } = getCategoryInfo(childPath, config);
                 return (
                   <Link
                     key={child}

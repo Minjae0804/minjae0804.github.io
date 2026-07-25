@@ -18,9 +18,11 @@ marked.use({
 const modules = import.meta.glob("../posts/**/*.md", { query: "?raw", import: "default", eager: true });
 const categoryConfigs = import.meta.glob("../posts/**/_config.json", { eager: true });
 
-function getCategoryConfig(categoryPath) {
+function getCategoryConfig(categoryPath, parentConfig = {}) {
   const key = `../posts/${categoryPath}/_config.json`;
-  return categoryConfigs[key]?.default ?? categoryConfigs[key] ?? {};
+  const ownConfig = categoryConfigs[key]?.default ?? categoryConfigs[key];
+  if (ownConfig) return ownConfig;
+  return parentConfig;
 }
 
 function parseFrontmatter(raw) {
@@ -106,8 +108,8 @@ export function getPostBySlug(slug) {
   return allPosts.find((p) => p.slug === slug) ?? null;
 }
 
-export function getCategoryInfo(categoryPath) {
-  const config = getCategoryConfig(categoryPath);
+export function getCategoryInfo(categoryPath, parentConfig = {}) {
+  const config = getCategoryConfig(categoryPath, parentConfig);
   const sort = config.postSort ?? "date-desc";
 
   let directPosts = allPosts.filter((p) => p.category === categoryPath);
