@@ -2,11 +2,19 @@ import { marked } from "marked";
 import hljs from "highlight.js";
 
 marked.use({
+  breaks: true,
   renderer: {
     code({ text, lang }) {
       const language = lang && hljs.getLanguage(lang) ? lang : "plaintext";
       const highlighted = hljs.highlight(text, { language }).value;
       return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`;
+    },
+    paragraph({ text }) {
+      return `<p>${text.replace(/\n/g, "<br>")}</p>\n`;
+    },
+    heading({ text, depth }) {
+      const id = text.toLowerCase().replace(/[^\w\uAC00-\uD7A3\s-]/g, "").replace(/\s+/g, "-").trim();
+      return `<h${depth} id="${id}">${text}</h${depth}>\n`;
     }
   }
 });

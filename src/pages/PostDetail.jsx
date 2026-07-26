@@ -2,16 +2,19 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getPostBySlug } from "../lib/posts";
 import useSEO from "../lib/useSEO";
+import useTOC from "../lib/useTOC";
 import PageLayout from "./PageLayout";
 import PostCategory from "../components/post/PostCategory";
 import PostTag from "../components/post/PostTag";
 import PostUploadDateTime from "../components/post/PostUploadDateTime";
-import ui from "../config/ui.json";
 import PostNavigation from "../components/post/PostNavigation";
+import PostSidebar from "../components/post/PostSidebar";
+import ui from "../config/ui.json";
 
 export default function PostDetail() {
   const { slug } = useParams();
   const post = getPostBySlug(slug);
+  const { headings, activeId } = useTOC(post?.html ?? "");
 
   useSEO({
     title: post?.title,
@@ -67,37 +70,52 @@ export default function PostDetail() {
 
   return (
     <PageLayout>
-      <article className="max-w-3xl mx-auto">
-        <header className="mb-8 pb-8 border-b border-stone-100 dark:border-stone-800">
-          <div className="flex items-center gap-2 mb-3 flex-wrap">
-            <PostCategory category={post.category} />
-            <span className="text-stone-300 dark:text-stone-600 text-xs" aria-hidden="true">·</span>
-            <PostUploadDateTime date={post.date} />
+      <div className="flex gap-10 justify-center">
+        {/* 본문 */}
+        <article className="flex-1 max-w-3xl min-w-0">
+          <header className="mb-8 pb-8 border-b border-stone-100 dark:border-stone-800">
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
+              <PostCategory category={post.category} />
+              <span className="text-stone-300 dark:text-stone-600 text-xs" aria-hidden="true">·</span>
+              <PostUploadDateTime date={post.date} />
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-stone-900 dark:text-white leading-snug mb-4">
+              {post.title}
+            </h1>
+            <PostTag tags={post.tags} />
+          </header>
+
+          <div
+            className="prose prose-stone dark:prose-invert max-w-none
+              prose-headings:font-semibold
+              prose-a:text-brown-500 dark:prose-a:text-brown-300 prose-a:no-underline hover:prose-a:underline
+              prose-code:text-brown-600 dark:prose-code:text-brown-300
+              prose-pre:bg-stone-50 dark:prose-pre:bg-stone-900
+              prose-blockquote:border-brown-300 dark:prose-blockquote:border-brown-600"
+            dangerouslySetInnerHTML={{ __html: post.html }}
+          />
+
+          <PostNavigation slug={post.slug} category={post.category} />
+
+          <div className="mt-6">
+            <Link to="/" className="text-sm text-brown-500 dark:text-brown-300 hover:underline underline-offset-2">
+              {ui.post.backToList}
+            </Link>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-stone-900 dark:text-white leading-snug mb-4">
-            {post.title}
-          </h1>
-          <PostTag tags={post.tags} />
-        </header>
+        </article>
 
-        <div
-          className="prose prose-stone dark:prose-invert max-w-none
-            prose-headings:font-semibold
-            prose-a:text-brown-500 dark:prose-a:text-brown-300 prose-a:no-underline hover:prose-a:underline
-            prose-code:text-brown-600 dark:prose-code:text-brown-300
-            prose-pre:bg-stone-50 dark:prose-pre:bg-stone-900
-            prose-blockquote:border-brown-300 dark:prose-blockquote:border-brown-600"
-          dangerouslySetInnerHTML={{ __html: post.html }}
-        />
-
-        <PostNavigation slug={post.slug} category={post.category} />
-
-        <div className="mt-6">
-          <Link to="/" className="text-sm text-brown-500 dark:text-brown-300 hover:underline underline-offset-2">
-            {ui.post.backToList}
-          </Link>
-        </div>
-      </article>
+        {/* 포스트 사이드바 */}
+        <aside className="hidden xl:block w-56 shrink-0">
+          <div className="sticky top-24">
+            <PostSidebar
+              headings={headings}
+              activeId={activeId}
+              currentSlug={post.slug}
+              category={post.category}
+            />
+          </div>
+        </aside>
+      </div>
     </PageLayout>
   );
 }
