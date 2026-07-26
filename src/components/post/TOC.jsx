@@ -30,7 +30,7 @@ export default function TOC({ headings, activeIds = [] }) {
                   ? "border-transparent text-brown-400 dark:text-brown-400"
                   : "border-transparent text-stone-300 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
                 }`}
-            >
+            > 
               {h.text}
             </a>
           );
