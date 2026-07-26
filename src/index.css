@@ -86,3 +86,12 @@
 .pc-2:hover { @apply bg-brown-200; }
 .pc-3 { @apply bg-brown-50 text-brown-400; }
 .pc-3:hover { @apply bg-brown-100; }
+
+[data-theme="dark"] .pc-0 { @apply bg-brown-600 text-brown-50; }
+[data-theme="dark"] .pc-0:hover { @apply bg-brown-700; }
+[data-theme="dark"] .pc-1 { @apply bg-brown-700 text-brown-200; }
+[data-theme="dark"] .pc-1:hover { @apply bg-brown-600; }
+[data-theme="dark"] .pc-2 { @apply bg-brown-800 text-brown-300; }
+[data-theme="dark"] .pc-2:hover { @apply bg-brown-700; }
+[data-theme="dark"] .pc-3 { @apply bg-brown-900 text-brown-400; }
+[data-theme="dark"] .pc-3:hover { @apply bg-brown-800; }
