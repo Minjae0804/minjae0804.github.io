@@ -2,7 +2,6 @@ import { marked } from "marked";
 import hljs from "highlight.js";
 
 marked.use({
-  breaks: true,
   renderer: {
     code({ text, lang }) {
       const language = lang && hljs.getLanguage(lang) ? lang : "plaintext";

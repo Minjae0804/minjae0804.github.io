@@ -68,10 +68,6 @@
   content: none !important;
 }
 
-.prose p {
-  white-space: pre-wrap;
-}
-
 .prose blockquote {
   font-style: normal;
   quotes: none;
