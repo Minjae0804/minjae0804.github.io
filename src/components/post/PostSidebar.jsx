@@ -12,7 +12,7 @@ export default function PostSidebar({ headings, activeIds, currentSlug, category
 
   // 탭이 하나만 있으면 탭 없이 바로 표시
   if (!hasTOC) return <RelatedPosts currentSlug={currentSlug} category={category} />;
-  if (!hasCategory) return <TOC headings={headings} activeId={activeIds} />;
+  if (!hasCategory) return <TOC headings={headings} activeIds={activeIds} />;
 
   return (
     <div className="flex flex-col gap-4">
@@ -42,7 +42,7 @@ export default function PostSidebar({ headings, activeIds, currentSlug, category
 
       {/* 탭 내용 */}
       <div className="overflow-y-auto max-h-[calc(100vh-12rem)]">
-        {activeTab === "toc" && <TOC headings={headings} activeId={activeIds} />}
+        {activeTab === "toc" && <TOC headings={headings} activeIds={activeIds} />}
         {activeTab === "category" && <RelatedPosts currentSlug={currentSlug} category={category} />}
       </div>
     </div>

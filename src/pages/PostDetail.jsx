@@ -14,7 +14,7 @@ import ui from "../config/ui.json";
 export default function PostDetail() {
   const { slug } = useParams();
   const post = getPostBySlug(slug);
-  const { headings, activeId } = useTOC(post?.html ?? "");
+  const { headings, activeIds } = useTOC(post?.html ?? "");
 
   useSEO({
     title: post?.title,
@@ -68,6 +68,7 @@ export default function PostDetail() {
     );
   }
 
+
   return (
     <PageLayout>
       <div className="flex gap-10 justify-center">
@@ -109,7 +110,7 @@ export default function PostDetail() {
           <div className="sticky top-24">
             <PostSidebar
               headings={headings}
-              activeId={activeId}
+              activeIds={activeIds}
               currentSlug={post.slug}
               category={post.category}
             />
