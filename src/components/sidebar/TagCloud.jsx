@@ -16,6 +16,8 @@ export default function TagCloud() {
   const spawnMoreRef = useRef(null);
   const initializedRef = useRef(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonKey, setButtonKey] = useState(0);
+  const [buttonVisible, setButtonVisible] = useState(false);
 
 
   useEffect(() => {
@@ -209,7 +211,7 @@ export default function TagCloud() {
 
       // 마지막 태그 떨어지고 1초 후 버튼 표시
       const totalDelay = 1000 + initialCount * 150 + 1500 + 1000;
-      setTimeout(() => setShowButton(true), totalDelay);
+      setTimeout(() => { setShowButton(true); setButtonVisible(true); }, totalDelay);
 
       const mouse = Mouse.create(canvas);
       const mc = MouseConstraint.create(engine, {
@@ -319,10 +321,13 @@ export default function TagCloud() {
     const next = Math.min(visibleCount + moreCount, allTags.length);
     const newTags = allTags.slice(visibleCount, next);
     setVisibleCount(next);
-    setButtonDisabled(true);
+    setButtonVisible(false);
     const extraH = Math.ceil(newTags.length / 4) * 25;
     if (spawnMoreRef.current) spawnMoreRef.current(newTags, extraH);
-    setTimeout(() => setButtonDisabled(false), 500);
+    setTimeout(() => {
+      setButtonKey(k => k + 1);
+      setButtonVisible(true);
+    }, 500);
   };
 
   return (
@@ -331,10 +336,11 @@ export default function TagCloud() {
         ref={canvasRef}
         style={{ width: "100%", height: "280px", borderRadius: "8px", display: "block" }}
       />
-      {hasMore && showButton && (
+      {hasMore && showButton && buttonVisible && (
         <button
-          onClick={handleMore}
+          key={buttonKey}
           style={{ animation: "fadeIn 0.5s ease" }}
+          onClick={handleMore}
           disabled={buttonDisabled}
           className="text-xs text-stone-400 dark:text-stone-500 hover:text-brown-500 dark:hover:text-brown-300 transition-colors text-center py-1 disabled:opacity-30 disabled:cursor-not-allowed"
         >
