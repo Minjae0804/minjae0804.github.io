@@ -106,9 +106,6 @@ export default function Category() {
 
   return (
     <div className="overflow-hidden">
-      <h2 className="text-xs font-semibold tracking-widest text-stone-400 dark:text-stone-500 uppercase mb-3">
-        {ui.sidebar.category}
-      </h2>
       <ul className="flex flex-col gap-1 overflow-hidden">
         {categories.map(({ name }) => (
           <CategoryItem key={name} name={name} path={name} depth={0} />

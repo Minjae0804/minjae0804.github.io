@@ -72,9 +72,9 @@ export default function Side() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors border-b-2 -mb-px
+              className={`px-3 py-1.5 text-s font-medium whitespace-nowrap transition-colors border-b-2 -mb-px
                 ${activeTab === tab.id
-                  ? "border-brown-400 text-brown-600 dark:text-brown-300"
+                  ? "border-brown-400 text-brown-600 dark:text-brown-300 font-semibold "
                   : "border-transparent text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300"
                 }`}
             >
