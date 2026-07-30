@@ -93,12 +93,8 @@ title: "#1. 템플릿 형식 연역 규칙을 숙지하라"
 date: 2026-07-16 14:29:00
 category: Effective Modern C++
 tags:
-  - cpp 
-  - template-type-deduction
-  - reference-params
-  - pointer-params 
-  - universal-reference-params 
-  - array-decay
+- type-deduction
+- templates
 uploader: minjae
 excerpt: 템플릿 형식 연역 규칙을 숙지하라
 draft: false
@@ -424,11 +420,8 @@ title: "#2. auto의 형식 연역 규칙을 숙지하라"
 date: 2026-07-17 10:00:00
 category: Effective Modern C++
 tags:
-  - cpp
-  - auto-deduction
-  - template-deduction-parallel
-  - braced-initializer
-  - auto-vs-template
+- type-deduction 
+- auto
 uploader: minjae
 excerpt: auto의 형식 연역 규칙을 숙지하라
 draft: false
@@ -523,11 +516,8 @@ title: "#3. decltype의 작동방식을 숙지하라"
 date: 2026-07-17 12:00:00
 category: Effective Modern C++
 tags:
-  - cpp
-  - decltype 
-  - trailing-return-type 
-  - decltype-auto 
-  - lvalue-vs-prvalue
+- type-deduction 
+- decltype
 uploader: minjae
 excerpt: decltype의 작동방식을 숙지하라
 draft: false
@@ -697,12 +687,8 @@ title: "#4. 연역된 형식을 파악하는 방법을 알아두라"
 date: 2026-07-20 10:31:00
 category: Effective Modern C++
 tags:
-  - cpp
-  - IDE-tools 
-  - compiler-diagnostics 
-  - typeid 
-  - Boost-TypeIndex 
-  - runtime-type-output
+- tooling 
+- type-deduction
 uploader: minjae
 excerpt: 연역된 형식을 파악하는 방법을 알아두라
 draft: false
@@ -819,113 +805,12 @@ type_id_with_cvr은 하나의 boost::typeindex::type_index 객체를 산출하�
 
 # 결론
 1. 컴파일러가 연역하는 형식을 IDE 편집기나 컴파일러 오류 메시지,  Boost TypeIndex 라이브러리를 이용하여 파악할 수 있는 경우가 많다.
-2. 일부 도구의 결과는 유용하지도 않고 결과 또한 정확하지 않을 수 있으므로 형식 연역 규칙들을 제대로 이해하는 것이 중요하다.`,er=`---
-title: "#5. 명시적 형식 선언보다 auto를 선호하라"
-date: 2026-07-22 19:44:52
-category: Effective Modern C++
-tags:
-  - cpp
-  - auto-benefits 
-  - uninitialized-variables 
-  - type-mismatch-avoidance 
-  - closure-types
-uploader: minjae
-excerpt: 명시적 형식 선언보다 auto를 선호하라
-draft: false
----
-
-\`auto\`는 세 가지의 장점이 있다. 
- 1. 사용자의 초기화 누락을 방지한다.
- 2. 선언 불가능한 형식을 지정할 수 있다.
- 3. 형식 단축 문제를 회피할 수 있다.
-
-## 1. 사용자의 초기화 누락 방지
-일반 변수의 경우 초기화를 누락했을 때 예상치 못한 문제가 발생할 수 있는데, \`auto\` 변수의 경우 초기화를 누락하면 컴파일이 불가능하다. 따라서 사용자의 실수를 방지할 수 있다.
-
-\`\`\`cpp
-int x1;      // 이후 구문에서 초기화되지 않을 수 있다.
-auto x2;     // 이후 구문에서 초기화되지 않으면 컴파일이 불가능하다.
-\`\`\`
-
-## 2. 선언 불가능한 형식 지정
-일반적으로 람다 표현식으로 선언된 변수는 형식 지정이 불가능하지만, \`auto\` 변수는 람다 표현식 변수의 타입을 지정할 수 있다.
-\`\`\`cpp
-auto derefUPLess = [](
-	const std::unique_ptr<Widget>& p1,
-	const std::unique_ptr<Widget>& p2
-) { 
-	return *p1 < *p2;
-}
-\`\`\`
-다만 클로저를 담는 변수를 선언할 때 굳이 auto를 선언할 필요가 없다고 생각할 수도 있다. 클로저는 \`std::function\` 객체를 사용해도 되기 때문이다.
-\`derefUPLess\`를\` std::function\`으로 선언하면 다음과 같은 형태가 된다.
-
-\`\`\`cpp
-std::function<bool(
-	const std::unique_ptr<Widget>&, 
-	const std::unique_ptr<Widget>&
-)> derefUPLess = [](
-	const std::unique_ptr<Widget>& p1,
-	const std::unique_ptr<Widget>& p2
-) { 
-	return *p1 < *p2;
-}
-\`\`\`
-
-> 참고로 std::function은 C++11 표준 라이브러리 템플릿 중 하나로, 함수 포인터 개념을 일반화한 것이다. 함수 포인터와 달리 호출 가능 객체일 경우 무엇이든 가리킬 수 있다. 
-
-클로저를 변수에 저장할 때 \`std::function\`를 사용하는 것과 \`auto\`를 사용하는 것의 차이는 외견보다 중요한 차이가 있다.
-\`auto\`로 선언된 클로저를 담는 변수는 클로저 자체와 동일한 형식이며, 해당 클로저에 요구되는 만큼의 메모리만 사용한다.
-그러나 클로저를 담는 \`std::function\`으로 선언된 변수의 형식은 \`std::function \`템플릿의 한 인스턴스이며, 그 크기는 임의의 주어진 서명에 대해 고정되어 있다. 고정된 크기는 요구된 클로저를 저장하기에 부족할 수 있는데, 이 경우 \`std::function\`은 힙 메모리를 할당하여 클로저를 저장한다.
-
-결과적으로 \`std::function\`은 \`auto\`로 선언된 객체보다 메모리를 더 많이 소비한다.
-또한 인라인화를 제한하는 구현 세부사항으로 인해 \`std::function\`을 사용하여 구현한 경우는 거의 반드시 \`auto\`로 구현한 경우보다 느리다. 
-
-## 3. 형식 단축 문제 회피
-형식 단축이란 실제로 변수에 적용될 긴 타입 이름을 줄여서 코드 가독성을 높이고 타이핑을 줄이는 기법이다. 
-형식 단축은 그 특성상 요구 세부사항이 컴파일 단계에서 누락될 수 있는데, auto는 그것을 방지할 수 있다.
-\`\`\`cpp
-std::vector<int> v;
-unsigned sz = v.size();
-\`\`\`
-\`v.size()\`의 실제 반환형은 \`std::vector<int>::size_type\`인데, 이는 부호 없는 정수 형식이므로 보통 \`int\`나 \`unsigned\` 형식 변수에 저장한다. 그런데 64비트 환경에서는 \`unsigned\`가 4바이트이지만 \`std::vector<int>::size_type\`은 8바이트이므로 의도하지 않은 동작이 발생할 여지가 있다. 
-
-이 때 \`auto\`를 사용하면 그런 일이 발생할 여지가 사라진다.
-\`\`\`cpp
-auto sz = v.size():
-\`\`\`
-
-\`\`\`cpp
-std::unordered_map<std::string, int> m;
-
-for (const std::pair<std::string, int>& p : m) { ... }
-\`\`\`
-위의 경우에도 동일한 문제가 발생하는데, \`std::unordered_map\` 템플릿의 키 부분은 const이므로 해시 테이블에 담긴 \`std::pair\`의 형식은 \`std::pair<std::string, int>\`이 아니라 \`std::pair<const std::string, int>\`이다. 
-그런데, 이는 반복문 내부 변수 p와 형식이 다르므로 복잡한 형변환이 발생한다.
-
-물론, 이 또한 auto가 해결할 수 있다.
-\`\`\`cpp
-for (const auto& p : m) { ... }
-\`\`\`
-이 경우 좋은 것은, p가 m 내부의 실제 요소를 가리키는 포인터를 잡는다는 것이다. auto를 사용하지 않는 경우 임시 객체를 가리키는 포인터를 얻게 되므로 p는 루프 반복이 종료되면 댕글링이 된다.
-
-## auto의 한계
-물론 auto도 한계는 있다. 특유의 형식 연역 방식으로 인해 원치 않은 형식으로 연역되는 경우가 있기도 하다만, 또 중요한 것은 가독성 문제이다. auto를 사용하면 객체의 형식 파악이 힘들어지게 되기도 한다.
-다만 이 부분은 IDE의 기능으로 완화되는 경우가 많아서 현대에는 그리 큰 단점은 아니기도 하다.
-
-# 결론
-1. auto 변수는 사용자의 초기화 누락을 방지하고, 선언 불가능한 형식을 지정할 수 있으며, 형식 단축 문제를 회피할 수 있다.
-2. auto로 형식을 지정한 변수는 특유의 형식 연역 방식으로 인해 원치 않은 형식이 지정되기도 한다.`,tr='---\ntitle: "#6. auto가 의도치 않은 형식으로 연역될 경우 명시적 형식의 초기치를 사용하라"\ndate: 2026-07-23 10:35:51\ncategory: Effective Modern C++\ntags:\n  - cpp\n  - proxy-types \n  - invisible-proxy-classes \n  - static-cast \n  - explicitly-typed-initializer\nuploader: minjae\nexcerpt: auto가 의도치 않은 형식으로 연역될 경우 명시적 형식의 초기치를 사용하라\ndraft: false\n---\n\n항목 5에서 설명했듯 `auto`로 변수를 선언하면 여러 가지의 장점이 있다. 그러나 가끔씩은 `auto`의 형식 연역이 의도대로 동작하지 않는 경우가 있다.\n```cpp\nstd::vector<bool> features(const Widget& w){}\n\nWidget w;\nauto highPriority = features(w)[5];\n\nprocessWidget(w, highPriority);\n```\n위 코드에서 `auto highPriority = features(w)[5]` 구문을 통해 선언된 `highPriority`는 `bool`로 연역되지 않는다. `std::vector<bool>::operator[]`는 해당 벡터의 요소의 참조가 아니라, `std::vector<bool>::reference` 객체를 반환하기 때문이다.\n\n> **`std::vector<bool>::reference`에 대해서**\n> \n> 대리자 클래스(proxy class), 즉 어떠한 형식의 행동을 흉내내는 것이 목적인 클래스 중 하나.\n> \n> 일반적으로 `std::vector<T>`의 `operator[]`는\xA0`T&`를 반환하는데 `std::vector<bool>`에 대해서는 그것이 불가능하다. `std::vector<bool>`은 자신의 항목들을 `bool`당 1비트의 압축된 형태로 표현하도록 명시되어 있는데, C++에서 비트 단위에 대한 참조는 금지되어 있기 때문이다. 즉, `std::vector<bool>::operator[]`는 `bool&`을 반환할 수 없다. \n> \n> 때문에 `bool&`처럼 동작하는 객체를 반환하는 방법을 쓴다. 이 때 `bool&`처럼 동작하는 것이란 모든 문맥에서 `bool&`처럼 사용 가능해야 한다는 의미로, 바로 이것이 `std::vector<bool>::reference`이다. 때문에 이것은 `bool`로의 묵시적 변환이 가능하다.\n\n이 때문에 `bool highPriority = features(w)[5]`의 경우 `features(w)[5]`의 반환인 `std::vector<bool>::reference`가 `bool`으로 연역되어 `bool`형 `highPriority`에 저장될 수 있다. 최종적으로 `highPriority`는 `feature`의 5번 비트를 가지게 되며, 이는 의도한 결과이다. \n\n그런데 `auto highPriority = features(w)[5]`의 경우 `auto`가 `std::vector<bool>::reference`를 `bool`로 연역하지 않는다, 이 때 `highPriority`의 값은 `std::vector<bool>::reference`의 구현에 따라 달라지는데, 보통 댕글링 포인터가 된다. 때문에 `processWidget(w, highPriority)`는 미정의 동작을 발생시킨다. 때문에 **`auto`는 보이지 않는 대리자 클래스 형식의 표현식을 대입하는 것을 피해야 한다.**\n\n> **`auto highPriority = features(w)[5]`에서 실제로 발생하는 일**\n> \n> `features(w)[5]`는 임시\xA0`std::vector<bool>` 객체를 반환한다. 이 임시 객체에 대해 호출된\xA0`operator[]`는\xA0`std::vector<bool>::reference`\xA0객체를 반환하는데, 객체에는 임시 객체가 관리하는 비트들을 담은 자료구조의 워드 하나를 가리키는 포인터와, 그 워드에서 참조된 비트에 해당하는 비트의 오프셋이 담겨 있다.\n> \n> `highPriority`는 이 임시 객체를 담는데, 이것은 구문 종료 시 소멸하므로 `highPriority`는 결과적으로 댕글링 포인터가 된다.\n\n그러면 이 경우 `auto`를 어떻게 사용해야 할까? 이 경우 `features(w)[5]`을 `bool`로 캐스팅하여 대입하면 된다.\n```cpp\nauto highPriority = static_cast<bool>(features(w)[5]);\n```\n이렇게 하면 `auto`가 `bool`로 캐스팅되므로 원치 않은 형식 연역을 회피할 수 있다.\n\n# 결론\n1.  `auto`의 형식 연역은 보이지 않는 대리자 형식으로 인해 사용자의 의도대로 동작하지 않을 수 있다.\n2. 캐스팅을 통해 `auto`가 사용자가 원하는 형식으로 연역되도록 강제할 수 있다.',nr=`---
+2. 일부 도구의 결과는 유용하지도 않고 결과 또한 정확하지 않을 수 있으므로 형식 연역 규칙들을 제대로 이해하는 것이 중요하다.`,er='---\ntitle: "#5. 명시적 형식 선언보다 auto를 선호하라"\ndate: 2026-07-22 19:44:52\ncategory: Effective Modern C++\ntags:\n- auto \n- best-practices\nuploader: minjae\nexcerpt: 명시적 형식 선언보다 auto를 선호하라\ndraft: false\n---\n\n`auto`는 세 가지의 장점이 있다. \n 1. 사용자의 초기화 누락을 방지한다.\n 2. 선언 불가능한 형식을 지정할 수 있다.\n 3. 형식 단축 문제를 회피할 수 있다.\n\n## 1. 사용자의 초기화 누락 방지\n일반 변수의 경우 초기화를 누락했을 때 예상치 못한 문제가 발생할 수 있는데, `auto` 변수의 경우 초기화를 누락하면 컴파일이 불가능하다. 따라서 사용자의 실수를 방지할 수 있다.\n\n```cpp\nint x1;      // 이후 구문에서 초기화되지 않을 수 있다.\nauto x2;     // 이후 구문에서 초기화되지 않으면 컴파일이 불가능하다.\n```\n\n## 2. 선언 불가능한 형식 지정\n일반적으로 람다 표현식으로 선언된 변수는 형식 지정이 불가능하지만, `auto` 변수는 람다 표현식 변수의 타입을 지정할 수 있다.\n```cpp\nauto derefUPLess = [](\n	const std::unique_ptr<Widget>& p1,\n	const std::unique_ptr<Widget>& p2\n) { \n	return *p1 < *p2;\n}\n```\n다만 클로저를 담는 변수를 선언할 때 굳이 auto를 선언할 필요가 없다고 생각할 수도 있다. 클로저는 `std::function` 객체를 사용해도 되기 때문이다.\n`derefUPLess`를` std::function`으로 선언하면 다음과 같은 형태가 된다.\n\n```cpp\nstd::function<bool(\n	const std::unique_ptr<Widget>&, \n	const std::unique_ptr<Widget>&\n)> derefUPLess = [](\n	const std::unique_ptr<Widget>& p1,\n	const std::unique_ptr<Widget>& p2\n) { \n	return *p1 < *p2;\n}\n```\n\n> 참고로 std::function은 C++11 표준 라이브러리 템플릿 중 하나로, 함수 포인터 개념을 일반화한 것이다. 함수 포인터와 달리 호출 가능 객체일 경우 무엇이든 가리킬 수 있다. \n\n클로저를 변수에 저장할 때 `std::function`를 사용하는 것과 `auto`를 사용하는 것의 차이는 외견보다 중요한 차이가 있다.\n`auto`로 선언된 클로저를 담는 변수는 클로저 자체와 동일한 형식이며, 해당 클로저에 요구되는 만큼의 메모리만 사용한다.\n그러나 클로저를 담는 `std::function`으로 선언된 변수의 형식은 `std::function `템플릿의 한 인스턴스이며, 그 크기는 임의의 주어진 서명에 대해 고정되어 있다. 고정된 크기는 요구된 클로저를 저장하기에 부족할 수 있는데, 이 경우 `std::function`은 힙 메모리를 할당하여 클로저를 저장한다.\n\n결과적으로 `std::function`은 `auto`로 선언된 객체보다 메모리를 더 많이 소비한다.\n또한 인라인화를 제한하는 구현 세부사항으로 인해 `std::function`을 사용하여 구현한 경우는 거의 반드시 `auto`로 구현한 경우보다 느리다. \n\n## 3. 형식 단축 문제 회피\n형식 단축이란 실제로 변수에 적용될 긴 타입 이름을 줄여서 코드 가독성을 높이고 타이핑을 줄이는 기법이다. \n형식 단축은 그 특성상 요구 세부사항이 컴파일 단계에서 누락될 수 있는데, auto는 그것을 방지할 수 있다.\n```cpp\nstd::vector<int> v;\nunsigned sz = v.size();\n```\n`v.size()`의 실제 반환형은 `std::vector<int>::size_type`인데, 이는 부호 없는 정수 형식이므로 보통 `int`나 `unsigned` 형식 변수에 저장한다. 그런데 64비트 환경에서는 `unsigned`가 4바이트이지만 `std::vector<int>::size_type`은 8바이트이므로 의도하지 않은 동작이 발생할 여지가 있다. \n\n이 때 `auto`를 사용하면 그런 일이 발생할 여지가 사라진다.\n```cpp\nauto sz = v.size():\n```\n\n```cpp\nstd::unordered_map<std::string, int> m;\n\nfor (const std::pair<std::string, int>& p : m) { ... }\n```\n위의 경우에도 동일한 문제가 발생하는데, `std::unordered_map` 템플릿의 키 부분은 const이므로 해시 테이블에 담긴 `std::pair`의 형식은 `std::pair<std::string, int>`이 아니라 `std::pair<const std::string, int>`이다. \n그런데, 이는 반복문 내부 변수 p와 형식이 다르므로 복잡한 형변환이 발생한다.\n\n물론, 이 또한 auto가 해결할 수 있다.\n```cpp\nfor (const auto& p : m) { ... }\n```\n이 경우 좋은 것은, p가 m 내부의 실제 요소를 가리키는 포인터를 잡는다는 것이다. auto를 사용하지 않는 경우 임시 객체를 가리키는 포인터를 얻게 되므로 p는 루프 반복이 종료되면 댕글링이 된다.\n\n## auto의 한계\n물론 auto도 한계는 있다. 특유의 형식 연역 방식으로 인해 원치 않은 형식으로 연역되는 경우가 있기도 하다만, 또 중요한 것은 가독성 문제이다. auto를 사용하면 객체의 형식 파악이 힘들어지게 되기도 한다.\n다만 이 부분은 IDE의 기능으로 완화되는 경우가 많아서 현대에는 그리 큰 단점은 아니기도 하다.\n\n# 결론\n1. auto 변수는 사용자의 초기화 누락을 방지하고, 선언 불가능한 형식을 지정할 수 있으며, 형식 단축 문제를 회피할 수 있다.\n2. auto로 형식을 지정한 변수는 특유의 형식 연역 방식으로 인해 원치 않은 형식이 지정되기도 한다.',tr='---\ntitle: "#6. auto가 의도치 않은 형식으로 연역될 경우 명시적 형식의 초기치를 사용하라"\ndate: 2026-07-23 10:35:51\ncategory: Effective Modern C++\ntags:\n- auto \n- type-safety\nuploader: minjae\nexcerpt: auto가 의도치 않은 형식으로 연역될 경우 명시적 형식의 초기치를 사용하라\ndraft: false\n---\n\n항목 5에서 설명했듯 `auto`로 변수를 선언하면 여러 가지의 장점이 있다. 그러나 가끔씩은 `auto`의 형식 연역이 의도대로 동작하지 않는 경우가 있다.\n```cpp\nstd::vector<bool> features(const Widget& w){}\n\nWidget w;\nauto highPriority = features(w)[5];\n\nprocessWidget(w, highPriority);\n```\n위 코드에서 `auto highPriority = features(w)[5]` 구문을 통해 선언된 `highPriority`는 `bool`로 연역되지 않는다. `std::vector<bool>::operator[]`는 해당 벡터의 요소의 참조가 아니라, `std::vector<bool>::reference` 객체를 반환하기 때문이다.\n\n> **`std::vector<bool>::reference`에 대해서**\n> \n> 대리자 클래스(proxy class), 즉 어떠한 형식의 행동을 흉내내는 것이 목적인 클래스 중 하나.\n> \n> 일반적으로 `std::vector<T>`의 `operator[]`는\xA0`T&`를 반환하는데 `std::vector<bool>`에 대해서는 그것이 불가능하다. `std::vector<bool>`은 자신의 항목들을 `bool`당 1비트의 압축된 형태로 표현하도록 명시되어 있는데, C++에서 비트 단위에 대한 참조는 금지되어 있기 때문이다. 즉, `std::vector<bool>::operator[]`는 `bool&`을 반환할 수 없다. \n> \n> 때문에 `bool&`처럼 동작하는 객체를 반환하는 방법을 쓴다. 이 때 `bool&`처럼 동작하는 것이란 모든 문맥에서 `bool&`처럼 사용 가능해야 한다는 의미로, 바로 이것이 `std::vector<bool>::reference`이다. 때문에 이것은 `bool`로의 묵시적 변환이 가능하다.\n\n이 때문에 `bool highPriority = features(w)[5]`의 경우 `features(w)[5]`의 반환인 `std::vector<bool>::reference`가 `bool`으로 연역되어 `bool`형 `highPriority`에 저장될 수 있다. 최종적으로 `highPriority`는 `feature`의 5번 비트를 가지게 되며, 이는 의도한 결과이다. \n\n그런데 `auto highPriority = features(w)[5]`의 경우 `auto`가 `std::vector<bool>::reference`를 `bool`로 연역하지 않는다, 이 때 `highPriority`의 값은 `std::vector<bool>::reference`의 구현에 따라 달라지는데, 보통 댕글링 포인터가 된다. 때문에 `processWidget(w, highPriority)`는 미정의 동작을 발생시킨다. 때문에 **`auto`는 보이지 않는 대리자 클래스 형식의 표현식을 대입하는 것을 피해야 한다.**\n\n> **`auto highPriority = features(w)[5]`에서 실제로 발생하는 일**\n> \n> `features(w)[5]`는 임시\xA0`std::vector<bool>` 객체를 반환한다. 이 임시 객체에 대해 호출된\xA0`operator[]`는\xA0`std::vector<bool>::reference`\xA0객체를 반환하는데, 객체에는 임시 객체가 관리하는 비트들을 담은 자료구조의 워드 하나를 가리키는 포인터와, 그 워드에서 참조된 비트에 해당하는 비트의 오프셋이 담겨 있다.\n> \n> `highPriority`는 이 임시 객체를 담는데, 이것은 구문 종료 시 소멸하므로 `highPriority`는 결과적으로 댕글링 포인터가 된다.\n\n그러면 이 경우 `auto`를 어떻게 사용해야 할까? 이 경우 `features(w)[5]`을 `bool`로 캐스팅하여 대입하면 된다.\n```cpp\nauto highPriority = static_cast<bool>(features(w)[5]);\n```\n이렇게 하면 `auto`가 `bool`로 캐스팅되므로 원치 않은 형식 연역을 회피할 수 있다.\n\n# 결론\n1.  `auto`의 형식 연역은 보이지 않는 대리자 형식으로 인해 사용자의 의도대로 동작하지 않을 수 있다.\n2. 캐스팅을 통해 `auto`가 사용자가 원하는 형식으로 연역되도록 강제할 수 있다.',nr=`---
 title: "#7. 객체 생성 시 ()와 {}를 구분하라"
 date: 2026-07-24 13:43:13
 category: Effective Modern C++
 tags:
-  - cpp
-  - braced-init 
-  - parens-init 
-  - narrowing-conversion 
-  - most-vexing-parse 
-  - initializer-list-constructors
+- initialization
 uploader: minjae
 excerpt: 객체 생성 시 ()와 {}를 구분하라
 draft: false
@@ -1065,16 +950,11 @@ Widget w1{10, 5.0};     // Widget(int i, double d) 호출
 
 # 결론
 1. 중괄호 초기화는 가장 광범위하게 적용 가능한 초기화 구문이며, C++의 가장 성가신 구문 해석 문제에서 자유롭다.
-2. 생성자 중복적재 해소 과정에서 중괄호 초기화는 가능한 한 std::initializer_list 매개변수가 존재하는 생성자와 연결된다. `,rr='---\ntitle: "#8. 0과 NULL보다 nullptr을 선호하라"\ndate: 2026-07-26 22:16:57\ntags:\n  - cpp\n  - nullptr \n  - null-pointer-constant \n  - overload-resolution \n  - template-deduction-null\nuploader: minjae\nexcerpt: 0과 NULL보다 nullptr을 선호하라\ndraft: false\n---\n\nC++에서 리터럴 `0`은 `int`이며 포인터가 아니다. 포인터만 사용 가능한 위치에 존재할 때 C++은 그것을 널 포인터로 해석하긴 하나, 기본적으로 `0`은 포인터가 아니다. 이와 마찬가지로 `NULL` 또한 포인터가 아니며, 특히 `NULL`의 경우 더욱 많은 특이사항이 존재한다. 때믄에 예상치 못한 동작을 회피하기 위해 `nullptr`을 주로 사용하는 것이 좋다.\n\n## nullptr\n`nullptr`은 이름과 달리 포인터 형식이 아니다. 실제로는 `std::nullptr_t`인데, 사실 이는 `nullptr`만을 담는 형식이므로 타입이 큰 의미가 없다. `nullptr`은 모든 raw 포인터 형식으로 암묵적 변환되며, 모든 형식의 포인터처럼 행동한다. \n\n### nullptr의 장점\n오버로딩 시 `NULL`이나 `0 `대신 `nullptr`을 사용하면 오버로딩이 예상과 다르게 동작하지 않는다.\n```cpp\nvoid f(int);\nvoid f(bool);\nvoid f(void*);\n\nf(0);\nf(NULL);\nf(nullptr);\n```\n\n위 경우 `f(0)`은 `f(int)`를 호출하고, `f(NULL)`은 정수형으로 해석되어 `f(int)`를 호출한다. 그러나` f(nullptr)`은 반드시 `f(void*)`를 호출한다. \n\n`nullptr`은 코드를 더 명확하게 하기도 한다.\n```cpp\nauto result = findRecord(/*인수들*/);\n\n// 정수랑 비교\nif (result == 0) { ... }\n\n// nullptr랑 비교\nif (result == nullptr) { ... }\n```\n\n`findRecond()`의 반환형을 모른다고 가정할 때 `if (result == 0)`은 `result`의 형식이 포인터나 정수형 둘 중 하나에만이라도 해당할 경우 정상 동작하며, 이로 인해 모호함(ambiguity)이 발생한다. 그러나 `if (result == nullptr)`은` result`가 정수형일 때  컴파일 에러가 발생하므로 모호함이 발생하지 않는다.\n\n#### 템플릿의 경우\n`nullptr`은 템플릿이 관여할 때 특히 유용하다.\n\n다음 코드는 적절한 뮤텍스를 잠근 상태에서만 호출해야 하는 함수들이다. 이 함수들은 각각 다른 종류의 포인터를 매개변수로 전달받는다.\n```cpp\nint f1(std::shared_ptr<Widget> spw);\ndouble f2(std::unique_ptr<Widget> upw);\nbool f3(Widget* pw);\n\nstd::mutex f1m, f2m, f3m;\nusing MuxGuard = std::lock_guard<std::mutex>;\n\n{\n    MuxGuard g(f1m);            // f1용 뮤텍스 잠금\n    auto result = f1(0);        // 0을 널 포인터로서 f1에 전달\n}                               // 뮤텍스 해금\n\n{\n    MuxGuard g(f2m);            // f2용 뮤텍스 잠금\n    auto result = f2(NULL);     // NULL을 널 포인터로서 f2에 전달\n}                               // 뮤텍스 해금\n\n{\n    MuxGuard g(f3m);            // f3용 뮤텍스 잠금\n    auto result = f3(nullptr);  // nullptr를 널 포인터로서 f3에 전달\n}                               // 뮤텍스 해금\n```\n\n위의 코드는 동일한 형태가 반복되는데, 이러한 소스 코드 중복을 회피하기 위해 템플릿화한 결과는 아래와 같다.\n```cpp\ntemplate<typename FuncType, typename MuxType, typename PtrType>\ndecltype(auto) lockAndCall(FuncType func, MuxType& mutex, PtrType ptr) {\n    using MuxGuard = std::lock_guard<MuxType>;\n    MuxGuard g(mutex);\n    return func(ptr);\n}\n\nauto result = lockAndCall(f1, f1m, 0);        // 오류\nauto result = lockAndCall(f2, f2m, NULL);     // 오류\nauto result = lockAndCall(f3, f3m, nullptr);  // 성공\n```\n\n주석에서 지적했듯 `lockAndCall(f1, f1m, 0)`과 `lockAndCall(f2, f2m, NULL)`은 컴파일되지 않는다. \n\n최초 호출의 경우 `lockAndCall()`을 0에 넘기면 컴파일러가 템플릿 형식 영역 방식을 통해 `0`을 연역하며, 이에 따라 `0`은 `int`로 연역된다. 때문에 `f1()`의 매개변수 타입인 `std::shared_ptr<Widget>`과 일치하지 않아 컴파일 에러가 발생한다. 두 번째 호출의 경우 `NULL`은 정수형으로 연역되는데, 이 또한 위와 동일한 이유로 컴파일 에러가 발생한다.\n\n반면 세 번째의 `nullptr`을 이용한 호출에서는 `ptr`이 `std::nullptr_t`로 연역되며 이는 `Widget*`으로 암묵적 형 변환이 발생하므로 컴파일이 성공한다. \n\n# 결론\n1. `0`이나 `NULL`보다 `nullptr`을 선호하라.\n2. 정수 형식과 포인터 형식에 대한 오버로딩은 피하라.',ir='---\ntitle: "#9. typedef보다 using을 선호하라"\ndate: 2026-07-28 22:29:58\ntags:\n  - cpp\n  - using-alias \n  - typedef \n  - template-aliases \n  - dependent-types \n  - typename\nuploader: minjae\nexcerpt: typedef보다 using을 선호하라\ndraft: false\n---\n\n```cpp\ntypedef std::unique_ptr<std::unordered_map<std::string, std::string>> UPtrMapSS;\nusing UPtrMapSS = std::unique_ptr<std::unordered_map<std::string, std::string>>;\n```\n위 두 코드는 똑같이 타입에 별칭을 붙이는 기능을 하며, 완전히 동일하게 동작한다. 하지만 **별칭 템플릿(alias template)** 을 쓸 수 있다는 이유 때문에 `typedef`보다 `using`을 쓰는 게 더 이롭다.\n\n## 별칭 템플릿 alias templates\n`typedef`는 템플릿으로 만들 수 없지만, `using` 별칭 선언은 템플릿으로 만들 수 있다. 이렇게 템플릿화한 것을 별칭 템플릿이라고 부른다.\n\n아래는 커스텀 얼로케이터 `MyAlloc`을 쓰는 연결 리스트 타입을 정의하는 예시다.\n\n```cpp\ntemplate<typename T>\nstruct MyAllocList {\n    typedef std::list<T, MyAlloc<T>> type;\n};\n\ntemplate<typename T>\nusing MyAllocList = std::list<T, MyAlloc<T>>;\n```\n별칭 템플릿을 쓰면 훨씬 간단하게 정의할 수 있다.\n\n여기서 만약 템플릿 파라미터 타입의 객체를 담는 연결 리스트를 클래스 내부에서 `typedef`로 쓰려면, `typedef` 이름 앞에 `typename`을 붙여야 한다.\n\n```cpp\ntemplate<typename T>\nclass Widget{\nprivate:\n    typename MyAllocList<T>::type list;\n};\n```\n이 예시에서 `MyAllocList<T>::type`은 템플릿 타입 파라미터에 의존하는 타입이다. 즉 `MyAllocList<T>::type`은 **종속 타입(dependent type)** 이며, C++에서는 종속 타입 이름 앞에 반드시 `typename`을 붙여야 한다.\n\n별칭 템플릿으로 정의하면 이 부분도 더 간단해진다.\n\n```cpp\ntemplate<typename T>\nusing MyAllocList = std::list<T, MyAlloc<T>>;\n\ntemplate<typename T>\nclass Widget {\nprivate:\n    MyAllocList<T> list;\n};\n```\n컴파일러가 `Widget` 템플릿을 처리하다가 `MyAllocList<T>`를 만나면, 이게 타입 이름이라는 걸 바로 안다. `MyAllocList`가 타입 템플릿이기 때문에 `MyAllocList<T>`는 무조건 타입 이름일 수밖에 없다. 즉 `MyAllocList<T>`는 **비종속 타입(non-dependent type)** 이므로 `typename`을 붙일 필요가 없고, 오히려 붙이면 안 된다.\n\n반면 `MyAllocList<T>::type`을 만나면 컴파일러는 이게 타입인지 확신할 수 없다. `MyAllocList`의 어떤 특수화(specialization)에서는 `MyAllocList<T>::type`이 타입이 아닌 다른 걸 가리킬 수도 있기 때문이다.\n\n```cpp\nclass Wine { ... };\n\ntemplate<>\nclass MyAllocList<Wine> {\nprivate:\n    enum class WineType\n    { White, Red, Rose };\n    \n    WineType type;\n    ...\n};\n```\n이 경우 `MyAllocList<Wine>::type`은 타입이 아니라 멤버 변수를 가리킨다. 따라서 `Widget` 템플릿 안에서 `MyAllocList<T>::type`이 타입을 가리키는지는 전적으로 `T`가 뭐냐에 달려 있다. 그래서 이 경우엔 `typename`을 붙여야 한다.\n\n# 결론\n1. `typedef`는 템플릿화를 지원하지 않지만, `using` 별칭 선언은 템플릿화를 지원한다.\n2. 별칭 템플릿을 쓰면 `::type` 접미사를 붙일 필요가 없다.\n3. 템플릿 내부에서 종속 타입을 가리킬 때는 `typename` 접두사를 붙여야 하는 경우가 많다.',ar=`---
+2. 생성자 중복적재 해소 과정에서 중괄호 초기화는 가능한 한 std::initializer_list 매개변수가 존재하는 생성자와 연결된다. `,rr='---\ntitle: "#8. 0과 NULL보다 nullptr을 선호하라"\ndate: 2026-07-26 22:16:57\ntags:\n- pointers \n- type-safety\nuploader: minjae\nexcerpt: 0과 NULL보다 nullptr을 선호하라\ndraft: false\n---\n\nC++에서 리터럴 `0`은 `int`이며 포인터가 아니다. 포인터만 사용 가능한 위치에 존재할 때 C++은 그것을 널 포인터로 해석하긴 하나, 기본적으로 `0`은 포인터가 아니다. 이와 마찬가지로 `NULL` 또한 포인터가 아니며, 특히 `NULL`의 경우 더욱 많은 특이사항이 존재한다. 때믄에 예상치 못한 동작을 회피하기 위해 `nullptr`을 주로 사용하는 것이 좋다.\n\n## nullptr\n`nullptr`은 이름과 달리 포인터 형식이 아니다. 실제로는 `std::nullptr_t`인데, 사실 이는 `nullptr`만을 담는 형식이므로 타입이 큰 의미가 없다. `nullptr`은 모든 raw 포인터 형식으로 암묵적 변환되며, 모든 형식의 포인터처럼 행동한다. \n\n### nullptr의 장점\n오버로딩 시 `NULL`이나 `0 `대신 `nullptr`을 사용하면 오버로딩이 예상과 다르게 동작하지 않는다.\n```cpp\nvoid f(int);\nvoid f(bool);\nvoid f(void*);\n\nf(0);\nf(NULL);\nf(nullptr);\n```\n\n위 경우 `f(0)`은 `f(int)`를 호출하고, `f(NULL)`은 정수형으로 해석되어 `f(int)`를 호출한다. 그러나` f(nullptr)`은 반드시 `f(void*)`를 호출한다. \n\n`nullptr`은 코드를 더 명확하게 하기도 한다.\n```cpp\nauto result = findRecord(/*인수들*/);\n\n// 정수랑 비교\nif (result == 0) { ... }\n\n// nullptr랑 비교\nif (result == nullptr) { ... }\n```\n\n`findRecond()`의 반환형을 모른다고 가정할 때 `if (result == 0)`은 `result`의 형식이 포인터나 정수형 둘 중 하나에만이라도 해당할 경우 정상 동작하며, 이로 인해 모호함(ambiguity)이 발생한다. 그러나 `if (result == nullptr)`은` result`가 정수형일 때  컴파일 에러가 발생하므로 모호함이 발생하지 않는다.\n\n#### 템플릿의 경우\n`nullptr`은 템플릿이 관여할 때 특히 유용하다.\n\n다음 코드는 적절한 뮤텍스를 잠근 상태에서만 호출해야 하는 함수들이다. 이 함수들은 각각 다른 종류의 포인터를 매개변수로 전달받는다.\n```cpp\nint f1(std::shared_ptr<Widget> spw);\ndouble f2(std::unique_ptr<Widget> upw);\nbool f3(Widget* pw);\n\nstd::mutex f1m, f2m, f3m;\nusing MuxGuard = std::lock_guard<std::mutex>;\n\n{\n    MuxGuard g(f1m);            // f1용 뮤텍스 잠금\n    auto result = f1(0);        // 0을 널 포인터로서 f1에 전달\n}                               // 뮤텍스 해금\n\n{\n    MuxGuard g(f2m);            // f2용 뮤텍스 잠금\n    auto result = f2(NULL);     // NULL을 널 포인터로서 f2에 전달\n}                               // 뮤텍스 해금\n\n{\n    MuxGuard g(f3m);            // f3용 뮤텍스 잠금\n    auto result = f3(nullptr);  // nullptr를 널 포인터로서 f3에 전달\n}                               // 뮤텍스 해금\n```\n\n위의 코드는 동일한 형태가 반복되는데, 이러한 소스 코드 중복을 회피하기 위해 템플릿화한 결과는 아래와 같다.\n```cpp\ntemplate<typename FuncType, typename MuxType, typename PtrType>\ndecltype(auto) lockAndCall(FuncType func, MuxType& mutex, PtrType ptr) {\n    using MuxGuard = std::lock_guard<MuxType>;\n    MuxGuard g(mutex);\n    return func(ptr);\n}\n\nauto result = lockAndCall(f1, f1m, 0);        // 오류\nauto result = lockAndCall(f2, f2m, NULL);     // 오류\nauto result = lockAndCall(f3, f3m, nullptr);  // 성공\n```\n\n주석에서 지적했듯 `lockAndCall(f1, f1m, 0)`과 `lockAndCall(f2, f2m, NULL)`은 컴파일되지 않는다. \n\n최초 호출의 경우 `lockAndCall()`을 0에 넘기면 컴파일러가 템플릿 형식 영역 방식을 통해 `0`을 연역하며, 이에 따라 `0`은 `int`로 연역된다. 때문에 `f1()`의 매개변수 타입인 `std::shared_ptr<Widget>`과 일치하지 않아 컴파일 에러가 발생한다. 두 번째 호출의 경우 `NULL`은 정수형으로 연역되는데, 이 또한 위와 동일한 이유로 컴파일 에러가 발생한다.\n\n반면 세 번째의 `nullptr`을 이용한 호출에서는 `ptr`이 `std::nullptr_t`로 연역되며 이는 `Widget*`으로 암묵적 형 변환이 발생하므로 컴파일이 성공한다. \n\n# 결론\n1. `0`이나 `NULL`보다 `nullptr`을 선호하라.\n2. 정수 형식과 포인터 형식에 대한 오버로딩은 피하라.',ir='---\ntitle: "#9. typedef보다 using을 선호하라"\ndate: 2026-07-28 22:29:58\ntags:\n- typedef \n- templates\nuploader: minjae\nexcerpt: typedef보다 using을 선호하라\ndraft: false\n---\n\n```cpp\ntypedef std::unique_ptr<std::unordered_map<std::string, std::string>> UPtrMapSS;\nusing UPtrMapSS = std::unique_ptr<std::unordered_map<std::string, std::string>>;\n```\n위 두 코드는 똑같이 타입에 별칭을 붙이는 기능을 하며, 완전히 동일하게 동작한다. 하지만 **별칭 템플릿(alias template)** 을 쓸 수 있다는 이유 때문에 `typedef`보다 `using`을 쓰는 게 더 이롭다.\n\n## 별칭 템플릿 alias templates\n`typedef`는 템플릿으로 만들 수 없지만, `using` 별칭 선언은 템플릿으로 만들 수 있다. 이렇게 템플릿화한 것을 별칭 템플릿이라고 부른다.\n\n아래는 커스텀 얼로케이터 `MyAlloc`을 쓰는 연결 리스트 타입을 정의하는 예시다.\n\n```cpp\ntemplate<typename T>\nstruct MyAllocList {\n    typedef std::list<T, MyAlloc<T>> type;\n};\n\ntemplate<typename T>\nusing MyAllocList = std::list<T, MyAlloc<T>>;\n```\n별칭 템플릿을 쓰면 훨씬 간단하게 정의할 수 있다.\n\n여기서 만약 템플릿 파라미터 타입의 객체를 담는 연결 리스트를 클래스 내부에서 `typedef`로 쓰려면, `typedef` 이름 앞에 `typename`을 붙여야 한다.\n\n```cpp\ntemplate<typename T>\nclass Widget{\nprivate:\n    typename MyAllocList<T>::type list;\n};\n```\n이 예시에서 `MyAllocList<T>::type`은 템플릿 타입 파라미터에 의존하는 타입이다. 즉 `MyAllocList<T>::type`은 **종속 타입(dependent type)** 이며, C++에서는 종속 타입 이름 앞에 반드시 `typename`을 붙여야 한다.\n\n별칭 템플릿으로 정의하면 이 부분도 더 간단해진다.\n\n```cpp\ntemplate<typename T>\nusing MyAllocList = std::list<T, MyAlloc<T>>;\n\ntemplate<typename T>\nclass Widget {\nprivate:\n    MyAllocList<T> list;\n};\n```\n컴파일러가 `Widget` 템플릿을 처리하다가 `MyAllocList<T>`를 만나면, 이게 타입 이름이라는 걸 바로 안다. `MyAllocList`가 타입 템플릿이기 때문에 `MyAllocList<T>`는 무조건 타입 이름일 수밖에 없다. 즉 `MyAllocList<T>`는 **비종속 타입(non-dependent type)** 이므로 `typename`을 붙일 필요가 없고, 오히려 붙이면 안 된다.\n\n반면 `MyAllocList<T>::type`을 만나면 컴파일러는 이게 타입인지 확신할 수 없다. `MyAllocList`의 어떤 특수화(specialization)에서는 `MyAllocList<T>::type`이 타입이 아닌 다른 걸 가리킬 수도 있기 때문이다.\n\n```cpp\nclass Wine { ... };\n\ntemplate<>\nclass MyAllocList<Wine> {\nprivate:\n    enum class WineType\n    { White, Red, Rose };\n    \n    WineType type;\n    ...\n};\n```\n이 경우 `MyAllocList<Wine>::type`은 타입이 아니라 멤버 변수를 가리킨다. 따라서 `Widget` 템플릿 안에서 `MyAllocList<T>::type`이 타입을 가리키는지는 전적으로 `T`가 뭐냐에 달려 있다. 그래서 이 경우엔 `typename`을 붙여야 한다.\n\n# 결론\n1. `typedef`는 템플릿화를 지원하지 않지만, `using` 별칭 선언은 템플릿화를 지원한다.\n2. 별칭 템플릿을 쓰면 `::type` 접미사를 붙일 필요가 없다.\n3. 템플릿 내부에서 종속 타입을 가리킬 때는 `typename` 접두사를 붙여야 하는 경우가 많다.',ar=`---
 title: "#10. 스코프 없는 enum보다 스코프 있는 enum을 선호하라"
 date: 2026-07-30 10:24:52
 tags:
-  - cpp
-  - enum-class 
-  - unscoped-enum 
-  - implicit-conversion 
-  - forward-declaration 
-  - underlying-type
+- enums
 uploader: minjae
 excerpt: 스코프 없는 enum보다 스코프 있는 enum을 선호하라
 draft: false
@@ -1179,12 +1059,7 @@ auto val = std::get<toUType(UserInfoFields::uiEmail)>(uInfo);
 title: "#11. 정의되지 않은 비공개 함수보다 삭제된 함수를 선호하라"
 date: 2026-07-30 11:53:04
 tags:
-  - cpp
-  - delete-keyword 
-  - private-undefined 
-  - link-time-error 
-  - compile-time-error 
-  - non-member-functions
+- function-design
 uploader: minjae
 excerpt: ""
 draft: true
