@@ -17,8 +17,12 @@ export default function Body() {
           <Pagination currentPage={page} totalPages={totalPages} basePath="/" />
         </section>
         <aside className="w-full lg:w-72 lg:shrink-0">
-          <div className="lg:sticky lg:top-24 lg:self-start flex flex-col gap-6">
-            <Side />
+          <div className="lg:sticky lg:top-8 relative">
+            {/* 하단 그라데이션 */}
+            <div className="hidden lg:block absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white dark:from-stone-950 to-transparent z-10 pointer-events-none" />
+            <div className="lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto no-scrollbar flex flex-col gap-6 lg:pb-8">
+              <Side />
+            </div>
           </div>
         </aside>
       </div>

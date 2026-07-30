@@ -5,9 +5,6 @@ export default function AboutMe() {
   const { name, initial, github, email, description } = { ...blog.author, description: blog.description };
   return (
     <div>
-      <h2 className="text-xs font-semibold tracking-widest text-stone-400 dark:text-stone-500 uppercase mb-3">
-        {ui.sidebar.about}
-      </h2>
       <div className="flex flex-col items-center text-center gap-3 p-4 rounded-xl border border-stone-100 dark:border-stone-800">
         <div className="w-16 h-16 rounded-full overflow-hidden bg-brown-50 dark:bg-brown-800 flex items-center justify-center ring-2 ring-stone-100 dark:ring-stone-800 shrink-0">
           <img src={blog.author.avatar} alt={blog.author.name} className="w-full h-full object-cover" />        </div>

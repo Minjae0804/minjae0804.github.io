@@ -172,6 +172,54 @@ export function getPostsByPage(page = 1, perPage = 5) {
   };
 }
 
+export function getSeries() {
+  const series = [];
+  const seen = new Set();
+
+  for (const post of allPosts) {
+    if (!post.category) continue;
+    const parts = post.category.split("/");
+    for (let i = 1; i <= parts.length; i++) {
+      const path = parts.slice(0, i).join("/");
+      if (seen.has(path)) continue;
+      seen.add(path);
+      const key = `../posts/${path}/_config.json`;
+      if (categoryConfigs[key]) {
+        const config = categoryConfigs[key]?.default ?? categoryConfigs[key];
+        const prefix = path + "/";
+        const count = allPosts.filter(p =>
+          p.category === path || p.category.startsWith(prefix)
+        ).length;
+        series.push({ path, name: parts[i - 1], config, count });
+      }
+    }
+  }
+
+  return series.sort((a, b) => a.path.localeCompare(b.path, "ko", { numeric: true }));
+}
+
+export function getArchive() {
+  const map = {};
+  for (const post of allPosts) {
+    if (!post.date) continue;
+    const d = new Date(post.date);
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    if (!map[year]) map[year] = {};
+    if (!map[year][month]) map[year][month] = 0;
+    map[year][month]++;
+  }
+
+  return Object.entries(map)
+    .sort(([a], [b]) => Number(b) - Number(a))
+    .map(([year, months]) => ({
+      year: Number(year),
+      months: Object.entries(months)
+        .sort(([a], [b]) => Number(b) - Number(a))
+        .map(([month, count]) => ({ month: Number(month), count }))
+    }));
+}
+
 export function getParentConfig(categoryPath) {
   const parts = categoryPath.split("/");
   if (parts.length <= 1) return {};

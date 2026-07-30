@@ -33,11 +33,10 @@ export default function SearchBar() {
 
   return (
     <div ref={containerRef}>
-      <h2 className="text-xs font-semibold tracking-widest text-stone-400 dark:text-stone-500 uppercase mb-3">
-        {ui.sidebar.search}
-      </h2>
       <div className="relative">
         <input
+          id="search"
+          name="search"
           type="search"
           value={query}
           onChange={handleChange}

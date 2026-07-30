@@ -78,6 +78,14 @@
   content: none;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .pc-0 { @apply bg-brown-400 text-brown-50; }
 .pc-0:hover { @apply bg-brown-500; }
 .pc-1 { @apply bg-brown-300 text-brown-800; }
