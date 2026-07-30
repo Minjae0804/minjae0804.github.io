@@ -15,6 +15,8 @@ export default function TagCloud() {
   const tagBodiesRef = useRef([]);
   const spawnMoreRef = useRef(null);
   const initializedRef = useRef(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
 
   useEffect(() => {
     if (initializedRef.current) return;
@@ -317,9 +319,10 @@ export default function TagCloud() {
     const next = Math.min(visibleCount + moreCount, allTags.length);
     const newTags = allTags.slice(visibleCount, next);
     setVisibleCount(next);
-    // 태그 평균 높이 * 예상 행 수로 확장
-    const extraH = Math.ceil(newTags.length / 4) * 25; 
+    setButtonDisabled(true);
+    const extraH = Math.ceil(newTags.length / 4) * 25;
     if (spawnMoreRef.current) spawnMoreRef.current(newTags, extraH);
+    setTimeout(() => setButtonDisabled(false), 500);
   };
 
   return (
@@ -332,7 +335,8 @@ export default function TagCloud() {
         <button
           onClick={handleMore}
           style={{ animation: "fadeIn 0.5s ease" }}
-          className="text-xs text-stone-400 dark:text-stone-500 hover:text-brown-500 dark:hover:text-brown-300 transition-colors text-center py-1"
+          disabled={buttonDisabled}
+          className="text-xs text-stone-400 dark:text-stone-500 hover:text-brown-500 dark:hover:text-brown-300 transition-colors text-center py-1 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           +{Math.min(moreCount, allTags.length - visibleCount)}개 더 보기
         </button>
