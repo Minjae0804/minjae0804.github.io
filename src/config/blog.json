@@ -22,7 +22,9 @@
     "postsPerPage": 10,
     "categoryPostCount": 10,
     "categoryMoreCount": 20,
-    "categoryPostSort": "date-desc"
+    "categoryPostSort": "date-desc",
+    "tagInitialCount": 10,
+    "tagMoreCount": 10
   },
   "footer": {
     "poweredBy": "Vite + React",
