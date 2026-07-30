@@ -15,7 +15,9 @@ title: "#0. 용어 및 관례"
 date: 2026-07-16 10:31:00
 category: Effective Modern C++
 tags:
-  - cpp
+- terminology 
+- type-deduction 
+- references
 uploader: minjae
 excerpt: 용어 및 관례
 draft: false
@@ -1067,7 +1069,7 @@ draft: true
 
 fdsaf
 
-`,sr='---\ntitle: 값 범주(Value Category)\ndate: 2026-07-26 21:26:00\ncategory: C++\ntags:\n  - cpp\nuploader: minjae\nexcerpt: C++의 값 범주(Value Category)에 대해서\ndraft: false\n---\nC++의 모든 표현식(피연산자, 리터럴, 식별자 등과 연산자가 결합한 것)은 타입(Type)과 값 범주(Value Category)라는 두 가지 속성으로 특징지어진다. 각 표현식은 반드시 비참조(Non-reference) 타입을 지니며, prvalue, xvalue, lvalue라는 세 가지 기본 값 범주 중 정확히 하나에 속한다.\n\n### 범주 간 분류 및 개념 정의\n- **glvalue (generalized lvalue)** 평가를 통해 객체나 함수의 정체성(Identity)을 결정하는 표현식.\n- **prvalue (pure rvalue)** 평가를 통해 다음 중 하나를 수행하는 표현식:\n    - 내장 연산자의 피연산자 값을 계산한다. 이때 prvalue는 결과 객체(Result Object)를 지니지 않는다.\n    - 객체를 초기화한다. 이때 prvalue는 결과 객체를 지닌다.\n    > 결과 객체는 변수, `new` 표현식으로 생성된 객체, 임시 객체 구체화(Temporary Materialization)로 생성된 임시 객체 또는 그들의 멤버일 수 있다.\n    > - `void`가 아니면서 버려지는 표현식(Discarded Expressions)의 경우 결과 객체(구체화된 임시 객체)를 지닌다.\n    > - `decltype`의 피연산자로 사용되는 경우를 제외하면 모든 클래스 및 배열 prvalue는 결과 객체를 지닌다.\n- **xvalue (an eXpiring value)** 리소스를 재사용할 수 있는 객체 또는 비트 필드를 나타내는 glvalue.\n- **lvalue** xvalue가 아닌 glvalue.\n- **rvalue** prvalue와 xvalue를 통칭하는 표현식.\n\n#### 값 범주 간의 포함 관계\n- **glvalue** = lvalue + xvalue\n- **rvalue** = prvalue + xvalue\n\n## 기본 값 범주 (Primary Value Categories)\n\n### 1. lvalue\n\n다음 표현식들은 lvalue 표현식에 해당한다.\n\n- 변수, 함수, 템플릿 매개변수 객체(C++20 이후), 데이터 멤버의 이름(타입 상관없음).\n    - 변수의 타입이 rvalue 참조(오른값 참조)라 할지라도 그 변수의 이름으로만 구성된 표현식은 lvalue 표현식이다. _(단, 이동 가능 표현식은 예외)_\n- 반환 타입이 lvalue 참조(왼값 참조)인 함수 호출 또는 오버로딩된 연산자 표현식. (예: `std::getline(std::cin, str)`, `std::cout << 1`, `str1 = str2`, `++it`)\n- 모든 내장 대입 및 복합 대입 표현식. (`a = b`, `a += b`, `a %= b` 등)\n- 내장 전위 증감 표현식. (`++a`, `--a`)\n- 내장 간접 참조(역참조) 표현식. (`*p`)\n- 내장 첨자 표현식. (`a[n]`, `p[n]`. 단, `a[n]`의 경우 `a`는 배열 lvalue여야 함)\n- 객체의 멤버 표현식인 `a.m`.\n    - 단, `m`이 멤버 열거형이거나 비정적 멤버 함수인 경우 제외.\n    - 혹은 `a`가 rvalue이고 `m`이 객체 타입의 비정적 데이터 멤버인 경우 제외.\n- 내장 포인터 멤버 표현식인 `p->m`. (단, `m`이 멤버 열거형이거나 비정적 멤버 함수인 경우는 제외)\n- 멤버 포인터 표현식인 `a.*mp`. (이때 `a`는 lvalue이고 `mp`는 데이터 멤버 포인터여야 함)\n- 내장 포인터 멤버 포인터 표현식인 `p->*mp`. (이때 `mp`는 데이터 멤버 포인터)\n- 내장 콤마 표현식인 `a, b`. (이때 `b`는 lvalue여야 함)\n- 특정 조건의 `b`와 `c`에 대한 삼항 조건 연산자 `a ? b : c`. (예: 둘 다 동일 타입의 lvalue일 경우)\n- 문자열 리터럴. (예: `"Hello, world!"`)\n- lvalue 참조 타입으로의 캐스팅 표현식. (`static_cast<int&>(x)`, `static_cast<void(&)(int)>(x)`)\n- lvalue 참조 타입의 비타입 템플릿 매개변수(NTTP).\n    ```cpp\n    template <int& v>\n    void set() { v = 5; } // 템플릿 매개변수 v는 lvalue\n    \n    int a{3}; // 정적 변수, 컴파일 타임에 고정 주소가 결정됨\n    \n    void foo() { set<a>(); }\n    ```\n- 반환 타입이 함수에 대한 rvalue 참조인 함수 호출 또는 오버로딩된 연산자 표현식.\n- 함수에 대한 rvalue 참조 타입으로의 형변환 표현식. (`static_cast<void(&&)(int)>(x)`)\n\n#### lvalue의 속성\n- glvalue의 속성이 모두 적용된다.\n- 내장 주소값 연산자(`&`)를 통해 주소를 얻을 수 있다. (예: `&++i[1]`, `&std::endl`)\n- 변경 가능한(Modifiable) lvalue는 내장 대입 및 복합 대입 연산자의 좌항으로 사용 가능하다.\n- lvalue 참조를 초기화하는 데 사용 가능하다. 이 경우 표현식이 식별하는 객체에 새로운 이름이 부여된다.\n\n### 2. prvalue\n다음 표현식들은 prvalue 표현식에 해당한다.\n\n- 문자열 리터럴을 제외한 모든 리터럴. (`42`, `true`, `nullptr` 등)\n- 반환 타입이 비참조(Non-reference) 타입인 함수 호출 또는 오버로딩된 연산자 표현식. (`str.substr(1, 2)`, `str1 + str2`, `it++` 등)\n- 내장 후위 증감 표현식. (`a++`, `a--`)\n- 모든 내장 산술 표현식. (`a + b`, `a % b`, `a & b`, `a << b` 등)\n- 내장 논리 표현식. (`a && b`, `a || b`, `!a`)\n- 내장 비교 표현식. (`a < b`, `a == b`, `a >= b` 등)\n- 내장 주소값 연산 표현식. (`&a`)\n- 객체의 멤버 표현식인 `a.m`. (단, `m`이 멤버 열거형이거나 비정적 멤버 함수인 경우)\n- 포인터 멤버 표현식인 `p->m`. (단, `m`이 멤버 열거형이거나 비정적 멤버 함수인 경우)\n- 멤버 포인터 표현식인 `a.*mp`. (단, `mp`가 멤버 함수 포인터인 경우)\n- 포인터 멤버 포인터 표현식인 `p->*mp`. (단, `mp`가 멤버 함수 포인터인 경우)\n- 내장 콤마 표현식인 `a, b`. (단, `b`가 prvalue인 경우)\n- 특정 조건의 `b`와 `c`에 대한 삼항 조건 연산자 `a ? b : c`.\n- 비참조 타입으로의 캐스팅 표현식. (`static_cast<double>(x)`, `std::string{}`, `(int)42`)\n- `this` 포인터.\n- 열거형 요소(Enumerator).\n- 스칼라 타입의 비타입 템플릿 매개변수.\n    ```cpp\n    template <int v>\n    void foo() {\n        // v는 스칼라 타입 int의 템플릿 매개변수로, lvalue가 아님\n        const int* a = &v; // 올바르지 않은 코드 (ill-formed)\n        v = 3;             // 올바르지 않은 코드: 대입 연산자 좌항에는 lvalue가 필요함\n    }\n    ```\n- 람다 표현식. (`[](int x){ return x * x; }`)\n- requires 표현식. (`requires (T i) { typename T::type; }`)\n- 컨셉(Concept)의 특수화 표현식. (`std::equality_comparable<int>`)\n#### prvalue의 속성\n- rvalue의 속성이 모두 적용된다.\n- prvalue는 다형성(Polymorphic)을 가질 수 없다. 즉, 표현식이 나타내는 객체의 동적 타입(Dynamic Type)은 항상 표현식의 타입과 일치한다.\n- 클래스나 배열 타입이 아닌 prvalue는 cv-수식어(`const`/`volatile`)를 가질 수 없다. (단, cv-수식어가 붙은 참조에 바인딩되기 위해 구체화되는 경우는 예외)\n- prvalue는 불완전한 타입(Incomplete Type)을 가질 수 없다. (단, `void` 타입이거나 `decltype` 내에서 사용되는 경우는 예외)\n- prvalue는 추상 클래스 타입이나 그 배열 타입을 가질 수 없다.\n\n### 3. xvalue\n다음 표현식들은 xvalue 표현식에 해당한다.\n\n- 객체의 멤버 표현식인 `a.m`. (단, `a`가 rvalue이고 `m`이 객체 타입의 비정적 데이터 멤버인 경우)\n- 멤버 포인터 표현식인 `a.*mp`. (단, `a`가 rvalue이고 `mp`가 데이터 멤버 포인터인 경우)\n- 내장 콤마 표현식인 `a, b`. (단, `b`가 xvalue인 경우)\n- 특정 조건의 `b`와 `c`에 대한 삼항 조건 연산자 `a ? b : c`.\n- 반환 타입이 객체에 대한 rvalue 참조인 함수 호출 또는 오버로딩된 연산자 표현식. (`std::move(x)`)\n- 내장 첨자 표현식인 `a[n]`. (단, 피연산자 중 하나가 배열 rvalue인 경우)\n- 객체 타입에 대한 rvalue 참조로의 캐스팅 표현식. (`static_cast<char&&>(x)`)\n- 임시 객체 구체화(Temporary Materialization)가 일어난 후, 해당 임시 객체를 지칭하는 모든 표현식.\n- 이동 가능 표현식(Move-eligible Expressions).\n\n#### xvalue의 속성\n- rvalue의 속성과 glvalue의 속성을 모두 적용받는다.\n- 다른 모든 rvalue와 마찬가지로 rvalue 참조에 바인딩될 수 있으며, 다른 모든 glvalue와 마찬가지로 다형성을 가질 수 있고 클래스가 아닌 xvalue도 cv-수식어를 가질 수 있다.\n\n## 혼합 값 범주 (Mixed Categories)\n\n### 1. glvalue\nglvalue 표현식은 **lvalue** 또는 **xvalue**이다.\n\n- glvalue는 lvalue-to-rvalue, array-to-pointer, function-to-pointer 암시적 변환을 통해 prvalue로 암시적 변환될 수 있다.\n- glvalue는 다형성을 가질 수 있다. 즉, 식별하는 객체의 동적 타입이 표현식의 정적 타입과 반드시 일치하지 않아도 된다.\n- 표현식에서 허용하는 경우, glvalue는 불완전한 타입을 가질 수 있다.\n\n### 2. rvalue\nrvalue 표현식은 **prvalue** 또는 **xvalue**이다.\n\n- 내장 주소값 연산자(`&`)로 rvalue의 주소를 취할 수 없다. (`&int()`, `&i++`, `&42`, `&std::move(x)` 등은 모두 유효하지 않음)\n- rvalue는 내장 대입 및 복합 대입 연산자의 좌항으로 사용할 수 없다.\n- rvalue는 `const lvalue 참조`를 초기화하는 데 사용될 수 있으며, 이 경우 rvalue가 나타내는 임시 객체의 수명은 참조의 스코프가 끝날 때까지 연장된다.\n- rvalue는 `rvalue 참조`를 초기화하는 데 사용될 수 있으며, 이 경우에도 임시 객체의 수명이 참조의 스코프 종료 시점까지 연장된다.\n- 함수 인수로 전달될 때 rvalue 참조 매개변수 버전과 const lvalue 참조 매개변수 버전이 모두 존재한다면, rvalue는 rvalue 참조 오버로드에 우선적으로 바인딩된다. (즉, 이동 생성자/이동 대입 연산자가 호출됨)\n\n## 특수 범주 (Special Categories)\n\n### 1. 보류된 멤버 함수 호출 (Pending Member Function Call)\n`a.mf` 및 `p->mf` (`mf`는 비정적 멤버 함수), 그리고 `a.*pmf` 및 `p->*pmf` (`pmf`는 멤버 함수 포인터)와 같은 표현식은 **prvalue 표현식**으로 분류된다. 그러나 이 표현식들은 참조 초기화, 함수 인수, 혹은 함수 호출 연산자의 좌항 인자 `(p->*pmf)(args)`로 사용하는 것 외의 그 어떤 목적으로도 사용할 수 없다.\n\n### 2. Void 표현식 (Void Expressions)\n`void`를 반환하는 함수 호출 표현식, `void` 타입으로의 캐스팅 표현식, `throw` 표현식은 **prvalue 표현식**으로 분류된다. 하지만 참조를 초기화하거나 함수의 인수로 사용될 수는 없다.\n\n버려지는 값 문맥(Discarded-value Contexts, 예: 단독으로 쓰인 한 줄, 쉼표 연산자의 좌항 등)이나 `void`를 반환하는 함수의 `return` 문에서 사용할 수 있다. 또한 `throw` 표현식은 삼항 조건 연산자 `?:`의 두 번째 및 세 번째 피연산자로 사용 가능하다. Void 표현식은 결과 객체를 지니지 않는다.\n\n### 3. 비트 필드 (Bit-fields)\n비트 필드를 나타내는 표현식(예: `a.m`, 단 `a`는 `struct A { int m: 3; }` 타입의 lvalue)은 **glvalue 표현식**이다. 대입 연산자의 좌항으로 사용할 수 있지만, 주소를 취할 수는 없으며 비상수(non-const) lvalue 참조를 직접 바인딩할 수 없다. const lvalue 참조나 rvalue 참조로 초기화할 수는 있으나, 이 경우 비트 필드의 임시 복사본이 생성되어 바인딩된다.\n\n### 4. 이동 가능 표현식 (Move-eligible Expressions)\n변수의 이름으로만 구성된 표현식은 기본적으로 lvalue 표현식이지만, 아래 위치에서 피연산자로 사용될 경우 **이동 가능(Move-eligible)** 상태가 된다.\n\n- `return` 문\n- `co_return` 문\n- `throw` 표현식\n\n표현식이 이동 가능 상태가 되면, 오버로드 해결(Overload Resolution) 시 **rvalue로 취급되어** 복사 대신 이동 생성자가 선택될 수 있다.',cr=`---
+`,sr='---\ntitle: 값 범주(Value Category)\ndate: 2026-07-26 21:26:00\ncategory: C++\ntags:\n- value-category \n- terminology\nuploader: minjae\nexcerpt: C++의 값 범주(Value Category)에 대해서\ndraft: false\n---\nC++의 모든 표현식(피연산자, 리터럴, 식별자 등과 연산자가 결합한 것)은 타입(Type)과 값 범주(Value Category)라는 두 가지 속성으로 특징지어진다. 각 표현식은 반드시 비참조(Non-reference) 타입을 지니며, prvalue, xvalue, lvalue라는 세 가지 기본 값 범주 중 정확히 하나에 속한다.\n\n### 범주 간 분류 및 개념 정의\n- **glvalue (generalized lvalue)** 평가를 통해 객체나 함수의 정체성(Identity)을 결정하는 표현식.\n- **prvalue (pure rvalue)** 평가를 통해 다음 중 하나를 수행하는 표현식:\n    - 내장 연산자의 피연산자 값을 계산한다. 이때 prvalue는 결과 객체(Result Object)를 지니지 않는다.\n    - 객체를 초기화한다. 이때 prvalue는 결과 객체를 지닌다.\n    > 결과 객체는 변수, `new` 표현식으로 생성된 객체, 임시 객체 구체화(Temporary Materialization)로 생성된 임시 객체 또는 그들의 멤버일 수 있다.\n    > - `void`가 아니면서 버려지는 표현식(Discarded Expressions)의 경우 결과 객체(구체화된 임시 객체)를 지닌다.\n    > - `decltype`의 피연산자로 사용되는 경우를 제외하면 모든 클래스 및 배열 prvalue는 결과 객체를 지닌다.\n- **xvalue (an eXpiring value)** 리소스를 재사용할 수 있는 객체 또는 비트 필드를 나타내는 glvalue.\n- **lvalue** xvalue가 아닌 glvalue.\n- **rvalue** prvalue와 xvalue를 통칭하는 표현식.\n\n#### 값 범주 간의 포함 관계\n- **glvalue** = lvalue + xvalue\n- **rvalue** = prvalue + xvalue\n\n## 기본 값 범주 (Primary Value Categories)\n\n### 1. lvalue\n\n다음 표현식들은 lvalue 표현식에 해당한다.\n\n- 변수, 함수, 템플릿 매개변수 객체(C++20 이후), 데이터 멤버의 이름(타입 상관없음).\n    - 변수의 타입이 rvalue 참조(오른값 참조)라 할지라도 그 변수의 이름으로만 구성된 표현식은 lvalue 표현식이다. _(단, 이동 가능 표현식은 예외)_\n- 반환 타입이 lvalue 참조(왼값 참조)인 함수 호출 또는 오버로딩된 연산자 표현식. (예: `std::getline(std::cin, str)`, `std::cout << 1`, `str1 = str2`, `++it`)\n- 모든 내장 대입 및 복합 대입 표현식. (`a = b`, `a += b`, `a %= b` 등)\n- 내장 전위 증감 표현식. (`++a`, `--a`)\n- 내장 간접 참조(역참조) 표현식. (`*p`)\n- 내장 첨자 표현식. (`a[n]`, `p[n]`. 단, `a[n]`의 경우 `a`는 배열 lvalue여야 함)\n- 객체의 멤버 표현식인 `a.m`.\n    - 단, `m`이 멤버 열거형이거나 비정적 멤버 함수인 경우 제외.\n    - 혹은 `a`가 rvalue이고 `m`이 객체 타입의 비정적 데이터 멤버인 경우 제외.\n- 내장 포인터 멤버 표현식인 `p->m`. (단, `m`이 멤버 열거형이거나 비정적 멤버 함수인 경우는 제외)\n- 멤버 포인터 표현식인 `a.*mp`. (이때 `a`는 lvalue이고 `mp`는 데이터 멤버 포인터여야 함)\n- 내장 포인터 멤버 포인터 표현식인 `p->*mp`. (이때 `mp`는 데이터 멤버 포인터)\n- 내장 콤마 표현식인 `a, b`. (이때 `b`는 lvalue여야 함)\n- 특정 조건의 `b`와 `c`에 대한 삼항 조건 연산자 `a ? b : c`. (예: 둘 다 동일 타입의 lvalue일 경우)\n- 문자열 리터럴. (예: `"Hello, world!"`)\n- lvalue 참조 타입으로의 캐스팅 표현식. (`static_cast<int&>(x)`, `static_cast<void(&)(int)>(x)`)\n- lvalue 참조 타입의 비타입 템플릿 매개변수(NTTP).\n    ```cpp\n    template <int& v>\n    void set() { v = 5; } // 템플릿 매개변수 v는 lvalue\n    \n    int a{3}; // 정적 변수, 컴파일 타임에 고정 주소가 결정됨\n    \n    void foo() { set<a>(); }\n    ```\n- 반환 타입이 함수에 대한 rvalue 참조인 함수 호출 또는 오버로딩된 연산자 표현식.\n- 함수에 대한 rvalue 참조 타입으로의 형변환 표현식. (`static_cast<void(&&)(int)>(x)`)\n\n#### lvalue의 속성\n- glvalue의 속성이 모두 적용된다.\n- 내장 주소값 연산자(`&`)를 통해 주소를 얻을 수 있다. (예: `&++i[1]`, `&std::endl`)\n- 변경 가능한(Modifiable) lvalue는 내장 대입 및 복합 대입 연산자의 좌항으로 사용 가능하다.\n- lvalue 참조를 초기화하는 데 사용 가능하다. 이 경우 표현식이 식별하는 객체에 새로운 이름이 부여된다.\n\n### 2. prvalue\n다음 표현식들은 prvalue 표현식에 해당한다.\n\n- 문자열 리터럴을 제외한 모든 리터럴. (`42`, `true`, `nullptr` 등)\n- 반환 타입이 비참조(Non-reference) 타입인 함수 호출 또는 오버로딩된 연산자 표현식. (`str.substr(1, 2)`, `str1 + str2`, `it++` 등)\n- 내장 후위 증감 표현식. (`a++`, `a--`)\n- 모든 내장 산술 표현식. (`a + b`, `a % b`, `a & b`, `a << b` 등)\n- 내장 논리 표현식. (`a && b`, `a || b`, `!a`)\n- 내장 비교 표현식. (`a < b`, `a == b`, `a >= b` 등)\n- 내장 주소값 연산 표현식. (`&a`)\n- 객체의 멤버 표현식인 `a.m`. (단, `m`이 멤버 열거형이거나 비정적 멤버 함수인 경우)\n- 포인터 멤버 표현식인 `p->m`. (단, `m`이 멤버 열거형이거나 비정적 멤버 함수인 경우)\n- 멤버 포인터 표현식인 `a.*mp`. (단, `mp`가 멤버 함수 포인터인 경우)\n- 포인터 멤버 포인터 표현식인 `p->*mp`. (단, `mp`가 멤버 함수 포인터인 경우)\n- 내장 콤마 표현식인 `a, b`. (단, `b`가 prvalue인 경우)\n- 특정 조건의 `b`와 `c`에 대한 삼항 조건 연산자 `a ? b : c`.\n- 비참조 타입으로의 캐스팅 표현식. (`static_cast<double>(x)`, `std::string{}`, `(int)42`)\n- `this` 포인터.\n- 열거형 요소(Enumerator).\n- 스칼라 타입의 비타입 템플릿 매개변수.\n    ```cpp\n    template <int v>\n    void foo() {\n        // v는 스칼라 타입 int의 템플릿 매개변수로, lvalue가 아님\n        const int* a = &v; // 올바르지 않은 코드 (ill-formed)\n        v = 3;             // 올바르지 않은 코드: 대입 연산자 좌항에는 lvalue가 필요함\n    }\n    ```\n- 람다 표현식. (`[](int x){ return x * x; }`)\n- requires 표현식. (`requires (T i) { typename T::type; }`)\n- 컨셉(Concept)의 특수화 표현식. (`std::equality_comparable<int>`)\n#### prvalue의 속성\n- rvalue의 속성이 모두 적용된다.\n- prvalue는 다형성(Polymorphic)을 가질 수 없다. 즉, 표현식이 나타내는 객체의 동적 타입(Dynamic Type)은 항상 표현식의 타입과 일치한다.\n- 클래스나 배열 타입이 아닌 prvalue는 cv-수식어(`const`/`volatile`)를 가질 수 없다. (단, cv-수식어가 붙은 참조에 바인딩되기 위해 구체화되는 경우는 예외)\n- prvalue는 불완전한 타입(Incomplete Type)을 가질 수 없다. (단, `void` 타입이거나 `decltype` 내에서 사용되는 경우는 예외)\n- prvalue는 추상 클래스 타입이나 그 배열 타입을 가질 수 없다.\n\n### 3. xvalue\n다음 표현식들은 xvalue 표현식에 해당한다.\n\n- 객체의 멤버 표현식인 `a.m`. (단, `a`가 rvalue이고 `m`이 객체 타입의 비정적 데이터 멤버인 경우)\n- 멤버 포인터 표현식인 `a.*mp`. (단, `a`가 rvalue이고 `mp`가 데이터 멤버 포인터인 경우)\n- 내장 콤마 표현식인 `a, b`. (단, `b`가 xvalue인 경우)\n- 특정 조건의 `b`와 `c`에 대한 삼항 조건 연산자 `a ? b : c`.\n- 반환 타입이 객체에 대한 rvalue 참조인 함수 호출 또는 오버로딩된 연산자 표현식. (`std::move(x)`)\n- 내장 첨자 표현식인 `a[n]`. (단, 피연산자 중 하나가 배열 rvalue인 경우)\n- 객체 타입에 대한 rvalue 참조로의 캐스팅 표현식. (`static_cast<char&&>(x)`)\n- 임시 객체 구체화(Temporary Materialization)가 일어난 후, 해당 임시 객체를 지칭하는 모든 표현식.\n- 이동 가능 표현식(Move-eligible Expressions).\n\n#### xvalue의 속성\n- rvalue의 속성과 glvalue의 속성을 모두 적용받는다.\n- 다른 모든 rvalue와 마찬가지로 rvalue 참조에 바인딩될 수 있으며, 다른 모든 glvalue와 마찬가지로 다형성을 가질 수 있고 클래스가 아닌 xvalue도 cv-수식어를 가질 수 있다.\n\n## 혼합 값 범주 (Mixed Categories)\n\n### 1. glvalue\nglvalue 표현식은 **lvalue** 또는 **xvalue**이다.\n\n- glvalue는 lvalue-to-rvalue, array-to-pointer, function-to-pointer 암시적 변환을 통해 prvalue로 암시적 변환될 수 있다.\n- glvalue는 다형성을 가질 수 있다. 즉, 식별하는 객체의 동적 타입이 표현식의 정적 타입과 반드시 일치하지 않아도 된다.\n- 표현식에서 허용하는 경우, glvalue는 불완전한 타입을 가질 수 있다.\n\n### 2. rvalue\nrvalue 표현식은 **prvalue** 또는 **xvalue**이다.\n\n- 내장 주소값 연산자(`&`)로 rvalue의 주소를 취할 수 없다. (`&int()`, `&i++`, `&42`, `&std::move(x)` 등은 모두 유효하지 않음)\n- rvalue는 내장 대입 및 복합 대입 연산자의 좌항으로 사용할 수 없다.\n- rvalue는 `const lvalue 참조`를 초기화하는 데 사용될 수 있으며, 이 경우 rvalue가 나타내는 임시 객체의 수명은 참조의 스코프가 끝날 때까지 연장된다.\n- rvalue는 `rvalue 참조`를 초기화하는 데 사용될 수 있으며, 이 경우에도 임시 객체의 수명이 참조의 스코프 종료 시점까지 연장된다.\n- 함수 인수로 전달될 때 rvalue 참조 매개변수 버전과 const lvalue 참조 매개변수 버전이 모두 존재한다면, rvalue는 rvalue 참조 오버로드에 우선적으로 바인딩된다. (즉, 이동 생성자/이동 대입 연산자가 호출됨)\n\n## 특수 범주 (Special Categories)\n\n### 1. 보류된 멤버 함수 호출 (Pending Member Function Call)\n`a.mf` 및 `p->mf` (`mf`는 비정적 멤버 함수), 그리고 `a.*pmf` 및 `p->*pmf` (`pmf`는 멤버 함수 포인터)와 같은 표현식은 **prvalue 표현식**으로 분류된다. 그러나 이 표현식들은 참조 초기화, 함수 인수, 혹은 함수 호출 연산자의 좌항 인자 `(p->*pmf)(args)`로 사용하는 것 외의 그 어떤 목적으로도 사용할 수 없다.\n\n### 2. Void 표현식 (Void Expressions)\n`void`를 반환하는 함수 호출 표현식, `void` 타입으로의 캐스팅 표현식, `throw` 표현식은 **prvalue 표현식**으로 분류된다. 하지만 참조를 초기화하거나 함수의 인수로 사용될 수는 없다.\n\n버려지는 값 문맥(Discarded-value Contexts, 예: 단독으로 쓰인 한 줄, 쉼표 연산자의 좌항 등)이나 `void`를 반환하는 함수의 `return` 문에서 사용할 수 있다. 또한 `throw` 표현식은 삼항 조건 연산자 `?:`의 두 번째 및 세 번째 피연산자로 사용 가능하다. Void 표현식은 결과 객체를 지니지 않는다.\n\n### 3. 비트 필드 (Bit-fields)\n비트 필드를 나타내는 표현식(예: `a.m`, 단 `a`는 `struct A { int m: 3; }` 타입의 lvalue)은 **glvalue 표현식**이다. 대입 연산자의 좌항으로 사용할 수 있지만, 주소를 취할 수는 없으며 비상수(non-const) lvalue 참조를 직접 바인딩할 수 없다. const lvalue 참조나 rvalue 참조로 초기화할 수는 있으나, 이 경우 비트 필드의 임시 복사본이 생성되어 바인딩된다.\n\n### 4. 이동 가능 표현식 (Move-eligible Expressions)\n변수의 이름으로만 구성된 표현식은 기본적으로 lvalue 표현식이지만, 아래 위치에서 피연산자로 사용될 경우 **이동 가능(Move-eligible)** 상태가 된다.\n\n- `return` 문\n- `co_return` 문\n- `throw` 표현식\n\n표현식이 이동 가능 상태가 되면, 오버로드 해결(Overload Resolution) 시 **rvalue로 취급되어** 복사 대신 이동 생성자가 선택될 수 있다.',cr=`---
 draft: true
 ---
 
@@ -1109,9 +1111,11 @@ date-asc	오래된 순
 title-asc	제목 오름차순
 title-desc	제목 내림차순`,ur=`---
 title: "기술은 어떻게 우리의 직관을 해부하는가"
-date: "2026-05-06 14:30:00"
-category: "essay"
-tags: ["thoughts"]
+date: 2026-05-06 14:30:00
+tags: 
+- philosophy 
+- cognition 
+- technology
 uploader: "minjae"
 excerpt: "기술의 본질은 인지의 해체와 같다."
 draft: false
@@ -1136,9 +1140,11 @@ draft: false
 
 기술의 발전이란 단순한 도구의 개선이 아니라, 사람이 스스로를 되돌아보고 인지 너머의 자연을 탐구하는 과정이다. 인류가 앞으로 나아가는 힘은 그 자신을 뒤돌아봄에서 나왔으며, 앞으로도 그리할 것이다.`,dr=`---
 title: "추상화와 인터페이스 설계에 대하여"
-date: "2026-03-06 14:30:00"
+date: 2026-03-06 14:30:00
 category: "tech"
-tags: ["abstract", "theory"]
+tags: 
+- abstraction 
+- software-design
 uploader: "minjae"
 excerpt: "추상화란 근본적으로 무엇이며, 이것은 어떻게 활용되는가?"
 draft: false
@@ -1188,9 +1194,11 @@ OOP의 다형성은 이러한 예측의 산물이다. 다형성의 핵심은 동
 > https://toss.tech/article/will-ai-replace-developers
 > >`,fr=`---
 title: "Joel Spolsky의 추상화 누수 법칙"
-date: "2026-03-04 14:30:00"
+date: 2026-03-04 14:30:00
 category: "tech"
-tags: ["abstract", "theory"]
+tags: 
+- abstraction
+- software-design
 uploader: "minjae"
 excerpt: "Joel Spolsky - The Law of Leaky Abstractions의 번역"
 draft: false
@@ -1245,7 +1253,9 @@ title: 클래스 멤버의 접근 지정자를 정하는 기준에 대해
 date: 2026-06-09 14:30:00
 category: tech
 tags:
-  - coding
+- access-modifiers 
+- class-design 
+- abstraction
 uploader: minjae
 excerpt: 클래스 멤버의 접근 지정자는 해당 멤버가 클래스와 어떤 추상 수준 관계에 있는지에 따라 결정된다.
 draft: false
@@ -1401,7 +1411,7 @@ protected 멤버는 상속계통에 속하는 모든 클래스들에서 그들 �
 title: "#n. abcde"
 date: "{{date}} {{time}}"
 tags:
-  - cpp
+
 uploader: minjae
 excerpt: ""
 draft: true
