@@ -33,7 +33,7 @@ export default function TagCloud() {
       const canvas = canvasRef.current;
       if (!canvas) return;
       const W = canvas.offsetWidth;
-      const H = 240;
+      const H = 280;
       canvas.width = W;
       canvas.height = H;
       const ctx = canvas.getContext("2d");
@@ -58,7 +58,7 @@ export default function TagCloud() {
       const world = engine.world;
 
       const wallOpts = { isStatic: true };
-      let currentH = 240;
+      let currentH = 280;
       const ground = Bodies.rectangle(W/2, currentH+25, W, 50, wallOpts);
       World.add(world, [
         ground,
@@ -75,13 +75,13 @@ export default function TagCloud() {
         Matter.Body.setPosition(ground, { x: W/2, y: newH + 25 });
 
         // 바닥 중앙에서 충격파
-        const epicenterX = W / 2;
+        const epicenterX = W / 5;
         const epicenterY = newH;
         for (const body of tagBodiesRef.current) {
           const dx = body.position.x - epicenterX;
           const dy = body.position.y - epicenterY;
           const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-          const force = 0.05 / dist;
+          const force = 0.02 / dist;
           Matter.Body.applyForce(body, body.position, {
             x: dx * force,
             y: dy * force,
@@ -256,7 +256,7 @@ export default function TagCloud() {
         ctx.clearRect(0, 0, W, H);
         ctx.save();
         ctx.beginPath();
-        ctx.roundRect(0, 0, W, currentH, 8);
+        ctx.roundRect(0.5, 0.5, W-1, currentH-1, 8);
         ctx.clip();
         ctx.fillStyle = isDark ? "#1c1917" : "#ffffff";
         ctx.fillRect(0, 0, W, currentH);
@@ -318,7 +318,7 @@ export default function TagCloud() {
     const newTags = allTags.slice(visibleCount, next);
     setVisibleCount(next);
     // 태그 평균 높이 * 예상 행 수로 확장
-    const extraH = Math.ceil(newTags.length / 4) * 40;
+    const extraH = Math.ceil(newTags.length / 4) * 25; 
     if (spawnMoreRef.current) spawnMoreRef.current(newTags, extraH);
   };
 
@@ -326,7 +326,7 @@ export default function TagCloud() {
     <div className="flex flex-col gap-2">
       <canvas
         ref={canvasRef}
-        style={{ width: "100%", height: "240px", borderRadius: "8px", display: "block" }}
+        style={{ width: "100%", height: "280px", borderRadius: "8px", display: "block" }}
       />
       {hasMore && showButton && (
         <button
