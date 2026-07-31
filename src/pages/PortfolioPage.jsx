@@ -82,7 +82,7 @@ const LANG = {
         "LeetCode",
       ],
     },
-    goalText: `저의 목표는 일본에서 C++ 개발자로 커리어를 시작하는 것입니다. Linux 기반 서버 개발로 출발해 시스템 전반에 대한 이해를 쌓은 뒤, 장기적으로는 게임 프로그래머로 성장하는 것을 목표로 하고 있습니다. 궁극적으로는 FromSoftware와 같이 높은 완성도를 추구하는 스튜디오에서 플레이어가 직접 체감하는 시스템을 구현하는 개발자가 되고 싶습니다.\n\n
+    goalText: `저의 목표는 일본에서 C++ 개발자로 커리어를 시작하는 것입니다. Linux 기반 서버 개발로 출발해 시스템 전반에 대한 이해를 쌓은 뒤, 장기적으로는 게임 프로그래머로 성장하는 것을 목표로 하고 있습니다. 궁극적으로는 FromSoftware와 같이 높은 완성도를 추구하는 스튜디오에서 플레이어가 직접 체감하는 시스템을 구현하는 개발자가 되고 싶습니다.\n
       이를 위해 현재 Effective C++와 Effective Modern C++를 통해 C++의 깊은 이해를 쌓고 있으며, 자료구조 및 알고리즘 학습과 LeetCode 문제 풀이를 병행하고 있습니다. 저수준부터 원리를 이해하고 구현하는 방식으로 실력을 쌓아, 언젠가 스스로 만든 시스템이 누군가의 기억에 남는 게임 경험을 만들어내는 데 기여하고 싶습니다.`,
   },
   ja: {
@@ -162,7 +162,7 @@ const LANG = {
         "LeetCode — 進行中",
       ],
     },
-    goalText: `私の目標は、日本でC++エンジニアとしてキャリアをスタートさせることです。Linuxベースのサーバー開発から始め、システム全体への理解を深めた上で、長期的にはゲームプログラマーとして成長することを目指しています。最終的には、FromSoftwareのような高い完成度を追求するスタジオで、プレイヤーが直接体感するシステムを実装する開発者になりたいと考えています。\n\n
+    goalText: `私の目標は、日本でC++エンジニアとしてキャリアをスタートさせることです。Linuxベースのサーバー開発から始め、システム全体への理解を深めた上で、長期的にはゲームプログラマーとして成長することを目指しています。最終的には、FromSoftwareのような高い完成度を追求するスタジオで、プレイヤーが直接体感するシステムを実装する開発者になりたいと考えています。\n
       そのために現在、Effective C++およびEffective Modern C++を通じてC++の深い理解を積み重ねており、データ構造・アルゴリズムの学習とLeetCodeの問題演習を並行して行っています。低レベルから原理を理解し実装する方式で実力を磨き、いつか自分が作ったシステムが誰かの記憶に残るゲーム体験を生み出すことに貢献したいと思っています。`,
   },
   en: {
@@ -242,7 +242,7 @@ const LANG = {
         "LeetCode — In Progress",
       ],
     },
-    goalText: `My goal is to start my career in Japan as a C++ developer. Beginning with Linux-based server development to build a deep understanding of systems, I aim to grow into a game programmer in the long run. Ultimately, I want to become a developer who implements systems that players directly feel — at a studio that pursues exceptional quality, like FromSoftware.\n\n
+    goalText: `My goal is to start my career in Japan as a C++ developer. Beginning with Linux-based server development to build a deep understanding of systems, I aim to grow into a game programmer in the long run. Ultimately, I want to become a developer who implements systems that players directly feel — at a studio that pursues exceptional quality, like FromSoftware.\n
       To that end, I am currently building a deep understanding of C++ through Effective C++ and Effective Modern C++, while studying data structures and algorithms and practicing on LeetCode. By understanding and implementing concepts from the ground up, I hope to one day contribute to creating game experiences that stay with players long after they put down the controller.`,
   },
 };
