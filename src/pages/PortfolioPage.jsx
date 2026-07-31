@@ -9,7 +9,7 @@ const LANG = {
     hero: {
       name: "박민재",
       nameEn: "Minjae Park",
-      tagline: "C++ 기반 게임플레이 시스템 구현에 관심을 가진 프로그래머",
+      tagline: "C++ 개발에 관심을 가진 프로그래머",
       school: "인덕대학교 컴퓨터소프트웨어학과 졸업예정",
       goal: "C++ 개발자를 목표로 일본에서 커리어를 시작하고자 합니다. Linux 환경 기반의 서버 개발로 출발해, 장기적으로는 게임 프로그래머로 성장하는 것이 목표입니다.",
     },
@@ -90,7 +90,7 @@ const LANG = {
     hero: {
       name: "朴珉宰",
       nameEn: "Minjae Park",
-      tagline: "C++ベースのゲームプレイシステム実装に関心を持つプログラマー",
+      tagline: "C++開発に関心を持つプログラマー",
       school: "仁徳大学 コンピュータソフトウェア工学科 卒業予定",
       goal: "C++エンジニアとして日本でキャリアをスタートさせることを目指しています。\nLinux環境でのサーバー開発から始め、長期的にはゲームプログラマーとして成長していくことが目標です。",
     },
@@ -170,7 +170,7 @@ const LANG = {
     hero: {
       name: "Minjae Park",
       nameEn: "박민재",
-      tagline: "Programmer passionate about C++-based gameplay system implementation",
+      tagline: "A programmer with a passion for C++ development",
       school: "Induk University, Dept. of Computer Software Engineering (expected graduation)",
       goal: "My goal is to start my career in Japan as a C++ developer.\nBeginning with Linux-based server development, I aim to grow into a game programmer in the long run.",
     },
