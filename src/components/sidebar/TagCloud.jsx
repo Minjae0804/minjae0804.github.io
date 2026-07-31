@@ -21,6 +21,7 @@ export default function TagCloud() {
 
 
   useEffect(() => {
+
     if (initializedRef.current) return;
     initializedRef.current = true;
     if (!allTags.length) return;
@@ -131,7 +132,7 @@ export default function TagCloud() {
             rowH = Math.max(rowH, th);
 
             const body = Bodies.rectangle(x, y, tw, th, {
-              restitution: 0.2, friction: 0.8, frictionAir: 0.02,
+              restitution: 0.4, friction: 0.05, frictionAir: 0.01,
               chamfer: { radius: th / 2 },
             });
             body.tagName = tag.name;
@@ -150,7 +151,7 @@ export default function TagCloud() {
 
           setTimeout(() => {
             const sorted = newBodies.map((body, i) => ({ body, idx: i }))
-              .sort((a, b) => (a.body.position.x + a.body.position.y) - (b.body.position.x + b.body.position.y));
+              .sort(() => Math.random() - 0.5);
 
             sorted.forEach(({ idx }, i) => {
               const [leftC, rightC] = newConstraints[idx];
@@ -210,8 +211,8 @@ export default function TagCloud() {
       }, borderDelay);
 
       // 마지막 태그 떨어지고 1초 후 버튼 표시
-      const totalDelay = 1000 + initialCount * 150 + 1500 + 1000;
-      setTimeout(() => { setShowButton(true); setButtonVisible(true); }, totalDelay);
+      const totalDelay = 1000 + initialCount * 100 + 800 + 500;
+      setTimeout(() => setShowButton(true), totalDelay);
 
       const mouse = Mouse.create(canvas);
       const mc = MouseConstraint.create(engine, {
@@ -233,7 +234,12 @@ export default function TagCloud() {
           const my = e.offsetY * (H / rect.height);
           for (const body of tagBodiesRef.current) {
             const { x, y } = body.position;
-            if (mx >= x - body.tw/2 && mx <= x + body.tw/2 && my >= y - body.th/2 && my <= y + body.th/2) {
+            const angle = body.angle;
+            const dx = mx - x;
+            const dy = my - y;
+            const localX = dx * Math.cos(-angle) - dy * Math.sin(-angle);
+            const localY = dx * Math.sin(-angle) + dy * Math.cos(-angle);
+            if (Math.abs(localX) <= body.tw/2 && Math.abs(localY) <= body.th/2) {
               navigate(`/tags/${body.tagName}`);
               break;
             }
@@ -298,6 +304,11 @@ export default function TagCloud() {
       }
 
       drawFrame();
+
+      setTimeout(() => {
+        setShowButton(true);
+        setButtonVisible(true);
+      }, totalDelay);
     };
 
     if (window.Matter) {
@@ -324,7 +335,9 @@ export default function TagCloud() {
     setButtonVisible(false);
     const extraH = Math.ceil(newTags.length / 4) * 25;
     if (spawnMoreRef.current) spawnMoreRef.current(newTags, extraH);
+
     setTimeout(() => {
+      setShowButton(true); 
       setButtonKey(k => k + 1);
       setButtonVisible(true);
     }, 500);

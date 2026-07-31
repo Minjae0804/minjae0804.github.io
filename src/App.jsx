@@ -9,6 +9,8 @@ import TagPage from "./pages/TagPage";
 import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ScrollToTopOnNavigate from "./lib/ScrollToTopOnNavigate";
+import PortfolioPage from "./pages/PortfolioPage";
+
 
 export default function App() {
   return (
@@ -23,6 +25,7 @@ export default function App() {
         <Route path="/tags" element={<TagsPage />} />
         <Route path="/tags/:name" element={<TagPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
