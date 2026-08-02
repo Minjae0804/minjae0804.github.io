@@ -1,23 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 export default function useTOC(html) {
-  const [headings, setHeadings] = useState([]);
-  const [activeIds, setActiveIds] = useState([]);
-
-  useEffect(() => {
-    if (!html) return;
+  const headings = useMemo(() => {
+    if (!html) return [];
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
     const els = doc.querySelectorAll("h2, h3");
 
-    const parsed = Array.from(els).map((el) => ({
+    return Array.from(els).map((el) => ({
       id: el.id,
       text: el.textContent,
       level: Number(el.tagName[1]),
     }));
-
-    setHeadings(parsed);
   }, [html]);
+
+  const [activeIds, setActiveIds] = useState([]);
 
   useEffect(() => {
     if (headings.length === 0) return;

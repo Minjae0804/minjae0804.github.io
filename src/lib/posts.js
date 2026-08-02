@@ -1,5 +1,10 @@
 import { marked } from "marked";
-import hljs from "highlight.js";
+import hljs from "highlight.js/lib/core";
+import cpp from "highlight.js/lib/languages/cpp";
+import plaintext from "highlight.js/lib/languages/plaintext";
+
+hljs.registerLanguage("cpp", cpp);
+hljs.registerLanguage("plaintext", plaintext);
 
 marked.use({
   breaks: true,

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getCategories, getCategoryInfo } from "../../lib/posts";
-import ui from "../../config/ui.json";
 import blog from "../../config/blog.json";
 
 function CategoryItem({ name, path, depth = 0, parentConfig = {} }) {

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTags } from "../../lib/posts";
 import blog from "../../config/blog.json";
@@ -6,8 +6,7 @@ import blog from "../../config/blog.json";
 export default function TagCloud() {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
-  const allTagsRef = useRef(getTags());
-  const allTags = allTagsRef.current;
+  const allTags = useMemo(() => getTags(), []);
   const initialCount = blog.sidebar.tagInitialCount ?? 10;
   const moreCount = blog.sidebar.tagMoreCount ?? 10;
   const [visibleCount, setVisibleCount] = useState(initialCount);
@@ -15,7 +14,6 @@ export default function TagCloud() {
   const tagBodiesRef = useRef([]);
   const spawnMoreRef = useRef(null);
   const initializedRef = useRef(false);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [buttonKey, setButtonKey] = useState(0);
   const [buttonVisible, setButtonVisible] = useState(false);
 
@@ -231,7 +229,7 @@ export default function TagCloud() {
         if (!dragging && mouseDownPos) {
           const rect = canvas.getBoundingClientRect();
           const mx = e.offsetX * (W / rect.width);
-          const my = e.offsetY * (H / rect.height);
+          const my = e.offsetY * (currentH / rect.height);
           for (const body of tagBodiesRef.current) {
             const { x, y } = body.position;
             const angle = body.angle;
@@ -324,7 +322,7 @@ export default function TagCloud() {
       tagBodiesRef.current = [];
       initializedRef.current = false;
     };
-  }, []);
+  }, [allTags, initialCount, navigate]);
 
   const hasMore = visibleCount < allTags.length;
 
@@ -354,8 +352,7 @@ export default function TagCloud() {
           key={buttonKey}
           style={{ animation: "fadeIn 0.5s ease" }}
           onClick={handleMore}
-          disabled={buttonDisabled}
-          className="text-xs text-stone-400 dark:text-stone-500 hover:text-brown-500 dark:hover:text-brown-300 transition-colors text-center py-1 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="text-xs text-stone-400 dark:text-stone-500 hover:text-brown-500 dark:hover:text-brown-300 transition-colors text-center py-1"
         >
           +{Math.min(moreCount, allTags.length - visibleCount)}개 더 보기
         </button>

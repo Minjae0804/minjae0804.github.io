@@ -5,7 +5,7 @@ import useSEO from "../lib/useSEO";
 import PageLayout from "./PageLayout";
 
 export default function AboutPage() {
-  const { name, github, email, initial } = blog.author;
+  const { name, github, email } = blog.author;
   // const greeting = aboutConfig.greeting.replace("{name}", name);
 
   useSEO({ title: "소개", description: blog.description });

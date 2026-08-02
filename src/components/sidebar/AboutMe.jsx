@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom";
 import blog from "../../config/blog.json";
-import ui from "../../config/ui.json";
 
 export default function AboutMe() {
-  const { name, initial, github, email, description } = { ...blog.author, description: blog.description };
+  const { name, github, email } = blog.author;
   return (
     <div>
       <div className="flex flex-col items-center text-center gap-3 p-4 rounded-xl border border-stone-100 dark:border-stone-800">
