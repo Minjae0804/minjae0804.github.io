@@ -4,7 +4,14 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Sun, 02 Aug 2026 14:21:17 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 02 Aug 2026 14:21:38 GMT</lastBuildDate>
+    <item>
+      <title>#14. 예외를 던지지 않을 함수는 noexcept로 선언하라</title>
+      <link>https://minjae0804.github.io/posts/EMC-14</link>
+      <guid>https://minjae0804.github.io/posts/EMC-14</guid>
+      <pubDate>Fri, 31 Jul 2026 17:29:13 GMT</pubDate>
+      <description>예외를 던지지 않을 함수는 noexcept로 선언하라</description>
+    </item>
     <item>
       <title>#13. iterator보다 const_iterator를 선호하라</title>
       <link>https://minjae0804.github.io/posts/EMC-13</link>
@@ -137,13 +144,6 @@
       <guid>https://minjae0804.github.io/posts/about-abstraction-and-interface-design</guid>
       <pubDate>Fri, 06 Mar 2026 14:30:00 GMT</pubDate>
       <description>추상화란 근본적으로 무엇이며, 이것은 어떻게 활용되는가?</description>
-    </item>
-    <item>
-      <title>Joel Spolsky의 추상화 누수 법칙</title>
-      <link>https://minjae0804.github.io/posts/joel-spolsky-leaky-abstractions</link>
-      <guid>https://minjae0804.github.io/posts/joel-spolsky-leaky-abstractions</guid>
-      <pubDate>Wed, 04 Mar 2026 14:30:00 GMT</pubDate>
-      <description>Joel Spolsky - The Law of Leaky Abstractions의 번역</description>
     </item>
   </channel>
 </rss>

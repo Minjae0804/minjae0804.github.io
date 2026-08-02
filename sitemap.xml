@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/EMC-14</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/EMC-13</loc>
   </url>
   <url>
@@ -79,28 +82,37 @@
     <loc>https://minjae0804.github.io/posts/joel-spolsky-leaky-abstractions</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/categories/C%2B%2B</loc>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/categories/C%2B%2B/Effective%20Modern%20C%2B%2B</loc>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/categories/C%2B%2B/Effective%20Modern%20C%2B%2B/3.%20%ED%98%84%EB%8C%80%EC%A0%81%20C%2B%2B%EC%97%90%20%EC%A0%81%EC%9D%91%ED%95%98%EA%B8%B0</loc>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/categories/C%2B%2B/Effective%20Modern%20C%2B%2B/2.%20auto</loc>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B/3.%20%ED%98%84%EB%8C%80%EC%A0%81%20C%2B%2B%EC%97%90%20%EC%A0%81%EC%9D%91%ED%95%98%EA%B8%B0</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/categories/C%2B%2B/Effective%20Modern%20C%2B%2B/1.%20%ED%98%95%EC%8B%9D%20%EC%97%B0%EC%97%AD</loc>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B/2.%20auto</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/categories/C%2B%2B/Effective%20Modern%20C%2B%2B/0.%20%EC%9A%A9%EC%96%B4%20%EB%B0%8F%20%EA%B4%80%EB%A1%80</loc>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B/1.%20%ED%98%95%EC%8B%9D%20%EC%97%B0%EC%97%AD</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/categories/tech</loc>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B/0.%20%EC%9A%A9%EC%96%B4%20%EB%B0%8F%20%EA%B4%80%EB%A1%80</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/categories/essay</loc>
+    <loc>https://minjae0804.github.io/categories/%EA%B0%9C%EB%85%90</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/function-design</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/exception-safety</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/optimization</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/container</loc>
@@ -110,9 +122,6 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/const-correctness</loc>
-  </url>
-  <url>
-    <loc>https://minjae0804.github.io/tags/function-design</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/inheritance</loc>
