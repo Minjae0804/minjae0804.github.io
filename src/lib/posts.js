@@ -1,10 +1,6 @@
 import { marked } from "marked";
-import hljs from "highlight.js/lib/core";
-import cpp from "highlight.js/lib/languages/cpp";
-import plaintext from "highlight.js/lib/languages/plaintext";
-
-hljs.registerLanguage("cpp", cpp);
-hljs.registerLanguage("plaintext", plaintext);
+import hljs from "highlight.js";
+import katex from "katex";
 
 marked.use({
   breaks: true,
@@ -79,12 +75,33 @@ function parseFrontmatter(raw) {
 
 function parsePost(raw, slug, category) {
   const { data, content } = parseFrontmatter(raw);
-  let html = marked.parse(content);
+
+  // 수식을 먼저 플레이스홀더로 치환 (marked 파싱 전)
+  const mathMap = [];
+  const placeholder = (tex, display) => {
+    const id = mathMap.length;
+    mathMap.push({ tex, display });
+    return `MATHPLACEHOLDER_${id}_END`;
+  };
+
+  let processedContent = content
+    .replace(/\$\$([\s\S]+?)\$\$/g, (_, tex) => placeholder(tex, true))
+    .replace(/\$([^$\n]+)\$/g, (_, tex) => placeholder(tex, false));
+
+  let html = marked.parse(processedContent);
 
   html = html.replace(/(<code[^>]*>[\s\S]*?<\/code>)|\*\*([^*\n]+)\*\*|`([^`\n]+)`/g, (match, codeTag, bold, inline) => {
     if (codeTag) return codeTag;
     if (bold) return `<strong>${bold}</strong>`;
     return `<code>${inline}</code>`;
+  });
+
+  // 플레이스홀더를 KaTeX로 복원
+  html = html.replace(/MATHPLACEHOLDER_(\d+)_END/g, (_, id) => {
+    const { tex, display } = mathMap[Number(id)];
+    try {
+      return katex.renderToString(tex.trim(), { displayMode: display, throwOnError: false });
+    } catch { return tex; }
   });
 
   return {
