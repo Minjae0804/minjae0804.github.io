@@ -4,7 +4,14 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Sun, 02 Aug 2026 15:01:56 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2026 02:11:26 GMT</lastBuildDate>
+    <item>
+      <title>#15. 가능하면 항상 constexpr을 사용하라</title>
+      <link>https://minjae0804.github.io/posts/EMC-15</link>
+      <guid>https://minjae0804.github.io/posts/EMC-15</guid>
+      <pubDate>Thu, 06 Aug 2026 09:50:11 GMT</pubDate>
+      <description>가능하면 항상 constexpr을 사용하라</description>
+    </item>
     <item>
       <title>#14. 예외를 던지지 않을 함수는 noexcept로 선언하라</title>
       <link>https://minjae0804.github.io/posts/EMC-14</link>
@@ -137,13 +144,6 @@
       <guid>https://minjae0804.github.io/posts/how-technology-dissects-our-intuition</guid>
       <pubDate>Wed, 06 May 2026 14:30:00 GMT</pubDate>
       <description>기술의 본질은 인지의 해체와 같다.</description>
-    </item>
-    <item>
-      <title>추상화와 인터페이스 설계에 대하여</title>
-      <link>https://minjae0804.github.io/posts/about-abstraction-and-interface-design</link>
-      <guid>https://minjae0804.github.io/posts/about-abstraction-and-interface-design</guid>
-      <pubDate>Fri, 06 Mar 2026 14:30:00 GMT</pubDate>
-      <description>추상화란 근본적으로 무엇이며, 이것은 어떻게 활용되는가?</description>
     </item>
   </channel>
 </rss>
