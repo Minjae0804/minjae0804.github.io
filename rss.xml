@@ -4,7 +4,14 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Thu, 06 Aug 2026 03:00:01 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2026 09:25:22 GMT</lastBuildDate>
+    <item>
+      <title>람다 대수에 대해</title>
+      <link>https://minjae0804.github.io/posts/lambda-calculus</link>
+      <guid>https://minjae0804.github.io/posts/lambda-calculus</guid>
+      <pubDate>Thu, 06 Aug 2026 14:24:20 GMT</pubDate>
+      <description>Lambda Calculus란</description>
+    </item>
     <item>
       <title>#15. 가능하면 항상 constexpr을 사용하라</title>
       <link>https://minjae0804.github.io/posts/EMC-15</link>
@@ -137,13 +144,6 @@
       <guid>https://minjae0804.github.io/posts/public%20and%20protected</guid>
       <pubDate>Tue, 09 Jun 2026 14:30:00 GMT</pubDate>
       <description>클래스 멤버의 접근 지정자는 해당 멤버가 클래스와 어떤 추상 수준 관계에 있는지에 따라 결정된다.</description>
-    </item>
-    <item>
-      <title>기술은 어떻게 우리의 직관을 해부하는가</title>
-      <link>https://minjae0804.github.io/posts/how-technology-dissects-our-intuition</link>
-      <guid>https://minjae0804.github.io/posts/how-technology-dissects-our-intuition</guid>
-      <pubDate>Wed, 06 May 2026 14:30:00 GMT</pubDate>
-      <description>기술의 본질은 인지의 해체와 같다.</description>
     </item>
   </channel>
 </rss>
