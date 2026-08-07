@@ -86,10 +86,10 @@ uploader: minjae
 excerpt: Lambda Calculus란
 draft: false
 ---
-# 람다 대수 Lambda Calculus
+# $\\lambda$ 대수 Lambda Calculus
 계산을 함수와 함수의 연산으로 추상화한 체계.
 
-## 람다 대수의 기본 개념
+## $\\lambda$ 대수의 기본 개념
 ### 익명 함수 Anonymous Function
 이름 없이 매개변수와 매개변수를 사용한 식만으로 정의된 함수.
 
@@ -109,7 +109,7 @@ f(x,y)&=g(x)(y)\\\\
 g(x)&=g_x\\\\
 g_x(y)&=x^2+y^2
 \\end{aligned}$$
-이렇게 다변수 함수를 일변수 함수들로 분리하는 과정을 **커링(currying)** 이라고 한다. 이제 분리된 두 함수는 익명 함수로 다음과 같이 나타낼 수 있다.
+이렇게 다변수 함수를 일변수 함수들로 분리하는 과정을 **커링**이라고 한다. 이제 분리된 두 함수는 익명 함수로 다음과 같이 나타낼 수 있다.
 $$\\begin{aligned}
 g_x(y)=&x^2+y^2\\\\
 ⇒g_x=&\\lambda y.x^2+y^2
@@ -119,9 +119,9 @@ g(x)=&g_x\\\\
 ⇒g=&\\lambda x.\\lambda y.x^2+y^2
 \\end{aligned}$$
 
-## 람다 대수의 정의
+## $\\lambda$ 대수의 정의
 람다 대수는 람다 항과 변환 규칙으로 정의된다.
-### 람다 항 Lambda Term
+### $\\lambda$ 항 Lambda Term
 람다 항은 다음 세 가지 재귀적 정의로 정의된다.
 
 1. $x$는 람다 항이다. 이를 **변수(variable)** 라고 한다.
