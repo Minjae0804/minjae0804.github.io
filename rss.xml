@@ -4,7 +4,14 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Fri, 07 Aug 2026 03:35:49 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 07 Aug 2026 08:45:16 GMT</lastBuildDate>
+    <item>
+      <title>#16. const 멤버 함수를 스레드에 안전하게 작성하라</title>
+      <link>https://minjae0804.github.io/posts/EMC-16</link>
+      <guid>https://minjae0804.github.io/posts/EMC-16</guid>
+      <pubDate>Fri, 07 Aug 2026 17:01:37 GMT</pubDate>
+      <description> const 멤버 함수를 스레드에 안전하게 작성하라</description>
+    </item>
     <item>
       <title>람다 대수에 대해</title>
       <link>https://minjae0804.github.io/posts/lambda-calculus</link>
@@ -137,13 +144,6 @@
       <guid>https://minjae0804.github.io/posts/.md</guid>
       <pubDate>Mon, 15 Jun 2026 14:30:00 GMT</pubDate>
       <description>프로그램은 목적을 이루기 위한 수단이며, 그것에는 수많은 의미의 상실이 뒤따른다.</description>
-    </item>
-    <item>
-      <title>클래스 멤버의 접근 지정자를 정하는 기준에 대해</title>
-      <link>https://minjae0804.github.io/posts/public%20and%20protected</link>
-      <guid>https://minjae0804.github.io/posts/public%20and%20protected</guid>
-      <pubDate>Tue, 09 Jun 2026 14:30:00 GMT</pubDate>
-      <description>클래스 멤버의 접근 지정자는 해당 멤버가 클래스와 어떤 추상 수준 관계에 있는지에 따라 결정된다.</description>
     </item>
   </channel>
 </rss>
