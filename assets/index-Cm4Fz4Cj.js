@@ -86,10 +86,10 @@ uploader: minjae
 excerpt: Lambda Calculus란
 draft: false
 ---
-# $\\lambda$ 대수 Lambda Calculus
+# # λ 대수 Lambda Calculus
 계산을 함수와 함수의 연산으로 추상화한 체계.
 
-## $\\lambda$ 대수의 기본 개념
+## # λ 대수의 기본 개념
 ### 익명 함수 Anonymous Function
 이름 없이 매개변수와 매개변수를 사용한 식만으로 정의된 함수.
 
@@ -119,9 +119,9 @@ g(x)=&g_x\\\\
 ⇒g=&\\lambda x.\\lambda y.x^2+y^2
 \\end{aligned}$$
 
-## $\\lambda$ 대수의 정의
+## # λ 대수의 정의
 람다 대수는 람다 항과 변환 규칙으로 정의된다.
-### $\\lambda$ 항 Lambda Term
+### λ 항 Lambda Term
 람다 항은 다음 세 가지 재귀적 정의로 정의된다.
 
 1. $x$는 람다 항이다. 이를 **변수(variable)** 라고 한다.
