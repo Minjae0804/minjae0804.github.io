@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/EMC-17</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/EMC-16</loc>
   </url>
   <url>
@@ -116,6 +119,15 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%EC%83%81</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/special-member-functions</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/move-semantics</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/rule-of-five</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/concurrency</loc>
