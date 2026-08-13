@@ -4,7 +4,14 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Tue, 11 Aug 2026 15:22:16 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 02:26:39 GMT</lastBuildDate>
+    <item>
+      <title>#18. 소유권 독점 자원의 관리에는 std::unique_ptr를 사용하라</title>
+      <link>https://minjae0804.github.io/posts/EMC-18</link>
+      <guid>https://minjae0804.github.io/posts/EMC-18</guid>
+      <pubDate>Thu, 13 Aug 2026 10:21:09 GMT</pubDate>
+      <description>소유권 독점 자원의 관리에는 std::unique_ptr를 사용하라</description>
+    </item>
     <item>
       <title>#17. 특수 멤버 함수들의 자동 작성 조건을 숙지하라</title>
       <link>https://minjae0804.github.io/posts/EMC-17</link>
@@ -137,13 +144,6 @@
       <guid>https://minjae0804.github.io/posts/EMC-01</guid>
       <pubDate>Thu, 16 Jul 2026 14:29:00 GMT</pubDate>
       <description>템플릿 형식 연역 규칙을 숙지하라</description>
-    </item>
-    <item>
-      <title>#0. 용어 및 관례</title>
-      <link>https://minjae0804.github.io/posts/EMC-00</link>
-      <guid>https://minjae0804.github.io/posts/EMC-00</guid>
-      <pubDate>Thu, 16 Jul 2026 10:31:00 GMT</pubDate>
-      <description>용어 및 관례</description>
     </item>
   </channel>
 </rss>
