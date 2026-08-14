@@ -4,7 +4,7 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Fri, 14 Aug 2026 07:44:25 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 07:48:18 GMT</lastBuildDate>
     <item>
       <title>#19. 소유권 공유 자원의 관리에는 std::shared_ptr을 사용하라</title>
       <link>https://minjae0804.github.io/posts/EMC-19</link>
