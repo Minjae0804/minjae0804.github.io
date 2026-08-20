@@ -4,7 +4,7 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Thu, 20 Aug 2026 06:18:27 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 06:25:56 GMT</lastBuildDate>
     <item>
       <title>#21. new를 직접 사용하는 것보다 std::make_unique()와 std::make_shared()를 선호하라</title>
       <link>https://minjae0804.github.io/posts/EMC-21</link>
