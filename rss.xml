@@ -4,7 +4,14 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Thu, 20 Aug 2026 03:02:03 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 06:16:27 GMT</lastBuildDate>
+    <item>
+      <title>#21. new를 직접 사용하는 것보다 std::make_unique()와 std::make_shared()를 선호하라</title>
+      <link>https://minjae0804.github.io/posts/EMC-21</link>
+      <guid>https://minjae0804.github.io/posts/EMC-21</guid>
+      <pubDate>Thu, 20 Aug 2026 12:01:52 GMT</pubDate>
+      <description>new를 직접 사용하는 것보다 std::make_unique()와 std::make_shared()를 선호하라</description>
+    </item>
     <item>
       <title>#20. std::shared_ptr처럼 작동하되 대상을 잃을 수도 있는 포인터가 필요하면 std::weak_ptr를 사용하라</title>
       <link>https://minjae0804.github.io/posts/EMC-20</link>
@@ -137,13 +144,6 @@
       <guid>https://minjae0804.github.io/posts/EMC-04</guid>
       <pubDate>Mon, 20 Jul 2026 10:31:00 GMT</pubDate>
       <description>연역된 형식을 파악하는 방법을 알아두라</description>
-    </item>
-    <item>
-      <title>#3. decltype의 작동방식을 숙지하라</title>
-      <link>https://minjae0804.github.io/posts/EMC-03</link>
-      <guid>https://minjae0804.github.io/posts/EMC-03</guid>
-      <pubDate>Fri, 17 Jul 2026 12:00:00 GMT</pubDate>
-      <description>decltype의 작동방식을 숙지하라</description>
     </item>
   </channel>
 </rss>
