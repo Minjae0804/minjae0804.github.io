@@ -4,7 +4,14 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Fri, 14 Aug 2026 07:48:18 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 03:02:03 GMT</lastBuildDate>
+    <item>
+      <title>#20. std::shared_ptr처럼 작동하되 대상을 잃을 수도 있는 포인터가 필요하면 std::weak_ptr를 사용하라</title>
+      <link>https://minjae0804.github.io/posts/EMC-20</link>
+      <guid>https://minjae0804.github.io/posts/EMC-20</guid>
+      <pubDate>Thu, 20 Aug 2026 10:05:16 GMT</pubDate>
+      <description>std::shared_ptr처럼 작동하되 대상을 잃을 수도 있는 포인터가 필요하면 std::weak_ptr를 사용하라</description>
+    </item>
     <item>
       <title>#19. 소유권 공유 자원의 관리에는 std::shared_ptr을 사용하라</title>
       <link>https://minjae0804.github.io/posts/EMC-19</link>
@@ -137,13 +144,6 @@
       <guid>https://minjae0804.github.io/posts/EMC-03</guid>
       <pubDate>Fri, 17 Jul 2026 12:00:00 GMT</pubDate>
       <description>decltype의 작동방식을 숙지하라</description>
-    </item>
-    <item>
-      <title>#2. auto의 형식 연역 규칙을 숙지하라</title>
-      <link>https://minjae0804.github.io/posts/EMC-02</link>
-      <guid>https://minjae0804.github.io/posts/EMC-02</guid>
-      <pubDate>Fri, 17 Jul 2026 10:00:00 GMT</pubDate>
-      <description>auto의 형식 연역 규칙을 숙지하라</description>
     </item>
   </channel>
 </rss>

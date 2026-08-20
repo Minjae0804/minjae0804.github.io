@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/EMC-20</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/EMC-19</loc>
   </url>
   <url>
@@ -128,6 +131,15 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%EC%83%81</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/weak-ptr</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/shared-ptr</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/circular-reference</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/reference-counting</loc>
