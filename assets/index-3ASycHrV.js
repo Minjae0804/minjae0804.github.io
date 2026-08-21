@@ -2347,6 +2347,7 @@ public:
 #include "gadget.h"
 #include <string>
 #include <vector>
+
 struct Widget::Impl {
     std::string name;
     std::vector<double> data;
@@ -2377,6 +2378,7 @@ public:
 #include "gadget.h"
 #include <string>
 #include <vector>
+
 struct Widget::Impl {
     std::string name;
     std::vector<double> data;
