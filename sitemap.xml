@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/EMC-22</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/EMC-21</loc>
   </url>
   <url>
@@ -134,6 +137,12 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%EC%83%81</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/pimpl</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/compile-time</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/smart-pointer</loc>
