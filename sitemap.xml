@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/EMC-23</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/EMC-22</loc>
   </url>
   <url>
@@ -118,6 +121,9 @@
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B/5.%20%EC%98%A4%EB%A5%B8%EA%B0%92%20%EC%B0%B8%EC%A1%B0%2C%20%EC%9D%B4%EB%8F%99%20%EC%9D%98%EB%AF%B8%EB%A1%A0%2C%20%EC%99%84%EB%B2%BD%20%EC%A0%84%EB%8B%AC</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B/4.%20%EC%8A%A4%EB%A7%88%ED%8A%B8%20%ED%8F%AC%EC%9D%B8%ED%84%B0</loc>
   </url>
   <url>
@@ -137,6 +143,15 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%EC%83%81</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/move-semantics</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/rvalue-reference</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/perfect-forwarding</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/pimpl</loc>
@@ -173,9 +188,6 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/special-member-functions</loc>
-  </url>
-  <url>
-    <loc>https://minjae0804.github.io/tags/move-semantics</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/rule-of-five</loc>
