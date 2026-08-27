@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/CiA-1</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/EMC-23</loc>
   </url>
   <url>
@@ -118,6 +121,9 @@
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/C%2B%2B%20Concurrency%20in%20Action</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B</loc>
   </url>
   <url>
@@ -143,6 +149,15 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%EC%83%81</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/concurrency</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/multithreading</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/cpp-concurrency-in-action</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/move-semantics</loc>
@@ -191,9 +206,6 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/rule-of-five</loc>
-  </url>
-  <url>
-    <loc>https://minjae0804.github.io/tags/concurrency</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/thread-safety</loc>
