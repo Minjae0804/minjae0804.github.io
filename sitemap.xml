@@ -19,7 +19,16 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/posts/CiA-1</loc>
+    <loc>https://minjae0804.github.io/posts/CiA-1-3</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/posts/CiA-1-2</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/posts/CiA-2-1</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/posts/CiA-1-1</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/posts/EMC-23</loc>
@@ -124,6 +133,12 @@
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/C%2B%2B%20Concurrency%20in%20Action</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/C%2B%2B%20Concurrency%20in%20Action/1.%20Hello%2C%20world%20of%20concurrency%20in%20C%2B%2B!</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/C%2B%2B%20Concurrency%20in%20Action/2.%20Managing%20Threads</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/Effective%20Modern%20C%2B%2B</loc>
   </url>
   <url>
@@ -160,10 +175,19 @@
     <loc>https://minjae0804.github.io/tags/cpp-concurrency-in-action</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/tags/move-semantics</loc>
+    <loc>https://minjae0804.github.io/tags/parallelism</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/thread-management</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/rvalue-reference</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/context-switching</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/move-semantics</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/perfect-forwarding</loc>
