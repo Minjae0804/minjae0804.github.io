@@ -569,11 +569,11 @@ draft: false
 
 `,dr=`---
 title: 1-2. 왜 동시성을 쓰는가
-date: 2026-08-27 15:12:32
+date: 2026-08-27 11:14:23
 tags:
-- concurrency
-- parallelism
-- multithreading
+  - concurrency
+  - parallelism
+  - multithreading
 uploader: minjae
 excerpt: 왜 동시성을 쓰는가
 draft: false
@@ -616,11 +616,11 @@ draft: false
 
 `,fr=`---
 title: 1-3. C++의 동시성과 멀티스레딩
-date: 2026-08-27 15:14:37
+date: 2026-08-27 12:14:23
 tags:
-- concurrency
-- multithreading
-- cpp-concurrency-in-action
+  - concurrency
+  - multithreading
+  - cpp-concurrency-in-action
 uploader: minjae
 excerpt: C++의 동시성과 멀티스레딩
 draft: false
