@@ -623,10 +623,10 @@ C++11부터 언어와 표준 라이브러리 차원에서 동시성을 정식으
 \`std::shared_timed_mutex\` 등 뮤텍스 종류가 확장되었다.
 
 #### C++17
-\`std::shared_mutex\` 추가, 그리고 STL 알고리즘에 Execution Policy(std::execution::par 등)를 도입해 표준 알고리즘 자체를 병렬 실행 가능하게 했다. 이는 앞서 정리한 Data Parallelism을 언어 차원에서 직접 지원하게 된 것이다.
+\`std::shared_mutex\` 추가, 그리고 STL 알고리즘에 Execution Policy(\`std::execution::par\` 등)를 도입해 표준 알고리즘 자체를 병렬 실행 가능하게 했다. 이는 앞서 정리한 Data Parallelism을 언어 차원에서 직접 지원하게 된 것이다.
 
 #### 플랫폼 종속 기능과의 연동
-표준 라이브러리가 모든 플랫폼 기능을 다 감싸지는 못하기 때문에, std::thread 등은 native_handle()이라는 함수를 제공한다. 이를 통해 표준에 없는 플랫폼 고유 API에 직접 접근할 수 있다. 
+표준 라이브러리가 모든 플랫폼 기능을 다 감싸지는 못하기 때문에, \`std::thread\` 등은 \`native_handle()\`이라는 함수를 제공한다. 이를 통해 표준에 없는 플랫폼 고유 API에 직접 접근할 수 있다. 
 
 ## C++ 스레드를 사용하는 간단한 예제
 \`\`\`cpp
