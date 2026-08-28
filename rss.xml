@@ -4,7 +4,14 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Fri, 28 Aug 2026 07:08:02 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 28 Aug 2026 07:45:04 GMT</lastBuildDate>
+    <item>
+      <title>2-3. 스레드 소유권 이전</title>
+      <link>https://minjae0804.github.io/posts/CiA-2-3</link>
+      <guid>https://minjae0804.github.io/posts/CiA-2-3</guid>
+      <pubDate>Fri, 28 Aug 2026 13:40:17 GMT</pubDate>
+      <description>스레드 소유권 이전</description>
+    </item>
     <item>
       <title>2-2. 스레드 함수에 인자 전달</title>
       <link>https://minjae0804.github.io/posts/CiA-2-2</link>
@@ -137,13 +144,6 @@
       <guid>https://minjae0804.github.io/posts/EMC-11</guid>
       <pubDate>Thu, 30 Jul 2026 11:53:04 GMT</pubDate>
       <description>미정의 private 함수보다 delete 함수를 선호하라</description>
-    </item>
-    <item>
-      <title>#10. 스코프 없는 enum보다 스코프 있는 enum을 선호하라</title>
-      <link>https://minjae0804.github.io/posts/EMC-10</link>
-      <guid>https://minjae0804.github.io/posts/EMC-10</guid>
-      <pubDate>Thu, 30 Jul 2026 10:24:52 GMT</pubDate>
-      <description>스코프 없는 enum보다 스코프 있는 enum을 선호하라</description>
     </item>
   </channel>
 </rss>

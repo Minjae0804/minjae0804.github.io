@@ -928,7 +928,7 @@ date: 2026-08-28 13:40:17
 tags:
 uploader: minjae
 excerpt: 스레드 소유권 이전
-draft: true
+draft: false
 ---
 
 # 스레드 소유권 이전
