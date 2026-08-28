@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/CiA-2-4</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/CiA-2-3</loc>
   </url>
   <url>
@@ -175,6 +178,9 @@
     <loc>https://minjae0804.github.io/tags/concurrency</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/tags/parallelism</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/tags/thread-management</loc>
   </url>
   <url>
@@ -188,9 +194,6 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/cpp-concurrency-in-action</loc>
-  </url>
-  <url>
-    <loc>https://minjae0804.github.io/tags/parallelism</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/context-switching</loc>
