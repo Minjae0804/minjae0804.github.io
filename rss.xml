@@ -4,7 +4,14 @@
     <title>Sally.log</title>
     <link>https://minjae0804.github.io</link>
     <description>직관의 이해</description>
-    <lastBuildDate>Fri, 28 Aug 2026 08:18:15 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 28 Aug 2026 08:29:41 GMT</lastBuildDate>
+    <item>
+      <title>2-5. 스레드 식별</title>
+      <link>https://minjae0804.github.io/posts/CiA-2-5</link>
+      <guid>https://minjae0804.github.io/posts/CiA-2-5</guid>
+      <pubDate>Fri, 28 Aug 2026 17:18:09 GMT</pubDate>
+      <description>스레드 식별</description>
+    </item>
     <item>
       <title>2-4. 런타임에 스레드 갯수 정하기</title>
       <link>https://minjae0804.github.io/posts/CiA-2-4</link>
@@ -137,13 +144,6 @@
       <guid>https://minjae0804.github.io/posts/EMC-13</guid>
       <pubDate>Fri, 31 Jul 2026 14:19:06 GMT</pubDate>
       <description>iterator보다 const_iterator를 선호하라</description>
-    </item>
-    <item>
-      <title>#12. 오버라이드 함수들을 override로 선언하라</title>
-      <link>https://minjae0804.github.io/posts/EMC-12</link>
-      <guid>https://minjae0804.github.io/posts/EMC-12</guid>
-      <pubDate>Fri, 31 Jul 2026 11:38:19 GMT</pubDate>
-      <description>오버라이드 함수들을 override로 선언하라</description>
     </item>
   </channel>
 </rss>

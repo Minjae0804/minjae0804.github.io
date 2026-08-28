@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/CiA-2-5</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/CiA-2-4</loc>
   </url>
   <url>
@@ -178,10 +181,13 @@
     <loc>https://minjae0804.github.io/tags/concurrency</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/tags/parallelism</loc>
+    <loc>https://minjae0804.github.io/tags/thread-management</loc>
   </url>
   <url>
-    <loc>https://minjae0804.github.io/tags/thread-management</loc>
+    <loc>https://minjae0804.github.io/tags/total-order</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/parallelism</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/move-semantics</loc>
