@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/CiA-2-2</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/CiA-2-1</loc>
   </url>
   <url>
@@ -172,6 +175,9 @@
     <loc>https://minjae0804.github.io/tags/thread-management</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/tags/move-semantics</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/tags/rvalue-reference</loc>
   </url>
   <url>
@@ -185,9 +191,6 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/context-switching</loc>
-  </url>
-  <url>
-    <loc>https://minjae0804.github.io/tags/move-semantics</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/perfect-forwarding</loc>
