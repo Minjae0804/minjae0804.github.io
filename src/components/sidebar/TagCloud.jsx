@@ -98,7 +98,7 @@ export default function TagCloud() {
 
       function getFontSize(count) {
         const ratio = maxCount === minCount ? 0.5 : (count - minCount) / (maxCount - minCount);
-        return Math.round(11 + ratio * 10);
+        return Math.round(12 + ratio * 1);
       }
       function getColorIdx(count) {
         const ratio = maxCount === minCount ? 0.5 : (count - minCount) / (maxCount - minCount);
