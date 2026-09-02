@@ -19,6 +19,9 @@
     <loc>https://minjae0804.github.io/portfolio</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/posts/CiA-3-1</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/posts/CiA-2-5</loc>
   </url>
   <url>
@@ -145,6 +148,9 @@
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/C%2B%2B%20Concurrency%20in%20Action</loc>
   </url>
   <url>
+    <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/C%2B%2B%20Concurrency%20in%20Action/3.%20Sharing%20Data%20Between%20Threads</loc>
+  </url>
+  <url>
     <loc>https://minjae0804.github.io/categories/%EA%B5%AC%ED%98%84/C%2B%2B/C%2B%2B%20Concurrency%20in%20Action/2.%20Managing%20Threads</loc>
   </url>
   <url>
@@ -179,6 +185,12 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/concurrency</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/race-condition</loc>
+  </url>
+  <url>
+    <loc>https://minjae0804.github.io/tags/mutex</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/thread-management</loc>
@@ -248,9 +260,6 @@
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/thread-safety</loc>
-  </url>
-  <url>
-    <loc>https://minjae0804.github.io/tags/mutex</loc>
   </url>
   <url>
     <loc>https://minjae0804.github.io/tags/lambda-calculus</loc>
