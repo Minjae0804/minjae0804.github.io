@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useSEO from "../lib/useSEO";
 import { LANG, SKILLS_DATA, PROJECTS } from "../data/portfolio";
@@ -7,9 +7,25 @@ const LANGS = Object.keys(LANG);
 
 export default function PortfolioPage() {
   const [lang, setLang] = useState("ko");
+  const [gallery, setGallery] = useState(null); // { images, index, title } | null
   const t = LANG[lang];
 
   useSEO({ title: "Portfolio — Minjae Park" });
+
+  useEffect(() => {
+    if (!gallery) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setGallery(null);
+      if (e.key === "ArrowRight") {
+        setGallery((g) => g && { ...g, index: (g.index + 1) % g.images.length });
+      }
+      if (e.key === "ArrowLeft") {
+        setGallery((g) => g && { ...g, index: (g.index - 1 + g.images.length) % g.images.length });
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [gallery]);
 
   return (
     <div className="min-h-screen bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100">
@@ -112,8 +128,30 @@ export default function PortfolioPage() {
                 <div key={proj.id} className="flex flex-col sm:flex-row gap-6 group">
                   {/* 이미지 */}
                   <div className="sm:w-64 sm:shrink-0 rounded-xl overflow-hidden bg-stone-50 dark:bg-stone-900 border border-stone-100 dark:border-stone-800">
-                    {proj.image ? (
-                      <img src={proj.image} alt={p.title} className="w-full h-40 sm:h-48 object-cover object-top" />
+                    {proj.images.length > 0 ? (
+                      <button
+                        type="button"
+                        onClick={() => setGallery({ images: proj.images, index: 0, title: p.title })}
+                        className="relative block w-full h-40 sm:h-48 cursor-zoom-in"
+                        aria-label={`${p.title} 이미지 확대`}
+                      >
+                        <img src={proj.images[0]} alt={p.title} className="w-full h-full object-cover object-top" />
+                        <span className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
+                            className="w-6 h-6 text-white opacity-0 hover:opacity-100 transition-opacity">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6" />
+                          </svg>
+                        </span>
+                        {proj.images.length > 1 && (
+                          <span className="absolute bottom-1.5 right-1.5 flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-black/60 text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.174C3.05 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.8-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.174 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                            </svg>
+                            {proj.images.length}
+                          </span>
+                        )}
+                      </button>
                     ) : (
                       <div className="w-full h-40 sm:h-48 flex items-center justify-center text-stone-300 dark:text-stone-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-12 h-12"><path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
@@ -239,6 +277,80 @@ export default function PortfolioPage() {
         </section>
 
       </div>
+
+      {gallery && (
+        <ImageLightbox
+          gallery={gallery}
+          onClose={() => setGallery(null)}
+          onPrev={() => setGallery((g) => ({ ...g, index: (g.index - 1 + g.images.length) % g.images.length }))}
+          onNext={() => setGallery((g) => ({ ...g, index: (g.index + 1) % g.images.length }))}
+        />
+      )}
+    </div>
+  );
+}
+
+function ImageLightbox({ gallery, onClose, onPrev, onNext }) {
+  const { images, index, title } = gallery;
+  const hasMultiple = images.length > 1;
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${title} 이미지 확대 보기`}
+      onClick={onClose}
+      className="fixed inset-0 z-100 bg-black/85 flex items-center justify-center p-4 sm:p-8"
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="닫기"
+        className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 flex items-center justify-center rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      {hasMultiple && (
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onPrev(); }}
+          aria-label="이전 이미지"
+          className="absolute left-2 sm:left-6 w-10 h-10 flex items-center justify-center rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+      )}
+
+      <img
+        src={images[index]}
+        alt={`${title} ${index + 1}`}
+        onClick={(e) => e.stopPropagation()}
+        className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+      />
+
+      {hasMultiple && (
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onNext(); }}
+          aria-label="다음 이미지"
+          className="absolute right-2 sm:right-6 w-10 h-10 flex items-center justify-center rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      )}
+
+      {hasMultiple && (
+        <span className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/70 bg-black/40 px-2.5 py-1 rounded-full">
+          {index + 1} / {images.length}
+        </span>
+      )}
     </div>
   );
 }
