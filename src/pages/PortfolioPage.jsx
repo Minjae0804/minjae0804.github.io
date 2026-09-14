@@ -206,7 +206,7 @@ export default function PortfolioPage() {
             <TimelineItem
               title={t.experience.kmove}
               desc={t.experience.kmoveDesc}
-              period="2025.06 – 2026.02"
+              period="2026.06 – 2027.02"
             />
           </div>
         </section>

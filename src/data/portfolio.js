@@ -41,7 +41,7 @@ export const LANG = {
       club: "창업동아리 INDEV 회장",
       clubDesc: "인덕대학교",
       kmove: "IT 실무 역량 강화 취업 훈련",
-      kmoveDesc: "D&S KOREA㈜ · 968시간 · 2026.06 – 2027.02",
+      kmoveDesc: "D&S KOREA㈜",
     },
     education: {
       univ: "인덕대학교",
