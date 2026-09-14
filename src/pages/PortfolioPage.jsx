@@ -163,7 +163,7 @@ export default function PortfolioPage() {
             <TimelineItem
               title={t.experience.club}
               desc={t.experience.clubDesc}
-              period="2025 –"
+              period="2026 –"
             />
             <TimelineItem
               title={t.experience.kmove}

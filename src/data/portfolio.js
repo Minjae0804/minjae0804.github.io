@@ -4,9 +4,9 @@ export const LANG = {
     hero: {
       name: "박민재",
       nameEn: "Minjae Park",
-      tagline: "C++ 개발에 관심을 가진 프로그래머",
+      tagline: "Linux 기반 C++ 시스템 개발자",
       school: "인덕대학교 컴퓨터소프트웨어학과 졸업예정",
-      goal: "C++ 개발자를 목표로 일본에서 커리어를 시작하고자 합니다. Linux 환경 기반의 서버 개발로 출발해, 장기적으로는 게임 프로그래머로 성장하는 것이 목표입니다.",
+      goal: "Linux 환경 기반의 C++ 시스템/서버 개발 역량을 바탕으로, 안정적으로 동작하는 인프라를 구현하는 개발자로 성장하고자 합니다.",
     },
     sections: {
       skills: "보유 기술",
@@ -20,6 +20,7 @@ export const LANG = {
     skills: {
       lang: "언어",
       framework: "프레임워크 / 라이브러리",
+      os: "운영체제 / 시스템 프로그래밍",
       db: "데이터베이스",
       cloud: "클라우드 / 인프라",
       devops: "버전 관리 / 배포",
@@ -36,11 +37,11 @@ export const LANG = {
     },
     experience: {
       teamlead: "2026 INDEV Team 1 팀장 및 프론트/디자인 담당",
-      teamleadDesc: "인덕대학교 프로젝트 팀 (8인, 백엔드 5 / 프론트엔드 3)",
+      teamleadDesc: "인덕대학교 프로젝트 팀 (9인, 백엔드 6 / 프론트엔드 3)",
       club: "창업동아리 INDEV 회장",
       clubDesc: "인덕대학교",
-      kmove: "K-Move Japan IT 취업 훈련",
-      kmoveDesc: "D&S KOREA㈜ · 968시간 · 2025.06 – 2026.02",
+      kmove: "IT 실무 역량 강화 취업 훈련",
+      kmoveDesc: "D&S KOREA㈜ · 968시간 · 2026.06 – 2027.02",
     },
     education: {
       univ: "인덕대학교",
@@ -72,24 +73,25 @@ export const LANG = {
     },
     learning: {
       items: [
-        "Effective C++ (Scott Meyers)",
-        "Effective Modern C++ (Scott Meyers)",
-        "자료구조 및 알고리즘 분석 (Mark Allen Weiss)",
-        "수학으로 시작하는 3D 게임 개발 (양영일)",
+        "Effective C++ (Scott Meyers) - 완료",
+        "Effective Modern C++ (Scott Meyers) - 진행중",
+        "C++ Concurrency in Action (Anthony Williams) - 진행중",
+        "Linux System Programming (Robert Love) - 진행 예정",
+        "자료구조 및 알고리즘 분석 (Mark Allen Weiss) - 진행 예정",
         "LeetCode",
       ],
     },
-    goalText: `저의 목표는 일본에서 C++ 개발자로 커리어를 시작하는 것입니다. Linux 기반 서버 개발로 출발해 시스템 전반에 대한 이해를 쌓은 뒤, 장기적으로는 게임 프로그래머로 성장하는 것을 목표로 하고 있습니다. 궁극적으로는 FromSoftware와 같이 높은 완성도를 추구하는 스튜디오에서 플레이어가 직접 체감하는 시스템을 구현하는 개발자가 되고 싶습니다.\n
-      이를 위해 현재 Effective C++와 Effective Modern C++를 통해 C++의 깊은 이해를 쌓고 있으며, 자료구조 및 알고리즘 학습과 LeetCode 문제 풀이를 병행하고 있습니다. 저수준부터 원리를 이해하고 구현하는 방식으로 실력을 쌓아, 언젠가 스스로 만든 시스템이 누군가의 기억에 남는 게임 경험을 만들어내는 데 기여하고 싶습니다.`,
+    goalText: `저의 목표는 Linux 환경 기반의 C++ 서버 개발자로 성장하는 것입니다. 현재 시스템 프로그래밍과 저수준 원리에 대한 이해를 바탕으로, 안정적이고 견고하게 동작하는 백엔드/인프라 시스템을 구현하는 개발자가 되고자 합니다.\n
+      이를 위해 현재 Effective C++와 Effective Modern C++를 통해 C++의 깊은 이해를 쌓고 있으며, 자료구조 및 알고리즘 학습과 LeetCode 문제 풀이를 병행하고 있습니다. 저수준부터 원리를 이해하고 구현하는 방식으로 실력을 쌓아, 신뢰성과 완성도 높은 시스템을 만드는 데 기여하고 싶습니다.`,
   },
   ja: {
     nav: { about: "概要に戻る" },
     hero: {
       name: "朴珉宰",
       nameEn: "Minjae Park",
-      tagline: "C++開発に関心を持つプログラマー",
+      tagline: "Linuxベースの C++システム開発者",
       school: "仁徳大学 コンピュータソフトウェア工学科 卒業予定",
-      goal: "C++エンジニアとして日本でキャリアをスタートさせることを目指しています。\nLinux環境でのサーバー開発から始め、長期的にはゲームプログラマーとして成長していくことが目標です。",
+      goal: "Linux環境をベースとしたC++システム・サーバー開発力を活かし、安定的に動作するインフラを実装するエンジニアとして成長することを目指しています。",
     },
     sections: {
       skills: "保有技術",
@@ -103,6 +105,7 @@ export const LANG = {
     skills: {
       lang: "言語",
       framework: "フレームワーク / ライブラリ",
+      os: "OS / システムプログラミング",
       db: "データベース",
       cloud: "クラウド / インフラ",
       devops: "バージョン管理 / デプロイ",
@@ -122,8 +125,8 @@ export const LANG = {
       teamleadDesc: "仁徳大学プロジェクトチーム（9名、バックエンド6 / フロントエンド3）",
       club: "スタートアップ同好会 会長",
       clubDesc: "仁徳大学",
-      kmove: "K-Move Japan IT就職訓練",
-      kmoveDesc: "D&S KOREA㈜ · 968時間 · 2025.06 – 2026.02",
+      kmove: "IT実務力強化就職訓練",
+      kmoveDesc: "D&S KOREA㈜ · 968時間 · 2026.06 – 2027.02",
     },
     education: {
       univ: "仁徳大学",
@@ -147,7 +150,7 @@ export const LANG = {
         { name: "学科プロジェクト競技大会 SWプロジェクト学術賞", date: "2025年 2学期", org: "仁徳大学" },
         { name: "データ分析オンラインメタバース競技大会 データマスター賞", date: "2025年 2学期", org: "仁徳大学" },
         { name: "成績最優秀賞", date: "2025年 2学期", org: "仁徳大学" },
-        { name: "WebフロントエンドコンテストACK 2025 論文発表", date: "2026年 1学期", org: "仁徳大学" },
+        { name: "Webフロントエンド競技大会 最優秀賞", date: "2026年 1学期", org: "仁徳大学" },
         { name: "ビッグデータ分析競技大会 メタバースオデッセイ 最優秀賞", date: "2026年 1学期", org: "仁徳大学" },
         { name: "ACK 2025 論文発表", date: "2025", org: "ACK" },
       ],
@@ -155,23 +158,25 @@ export const LANG = {
     },
     learning: {
       items: [
-        "Effective C++ (Scott Meyers) — 進行中",
-        "Effective Modern C++ (Scott Meyers) — 予定",
-        "数学から始める3Dゲーム開発 — 予定",
-        "LeetCode — 進行中",
+        "Effective C++ (Scott Meyers) — 完了",
+        "Effective Modern C++ (Scott Meyers) — 進行中",
+        "C++ Concurrency in Action (Anthony Williams) — 進行中",
+        "Linux System Programming (Robert Love) — 予定",
+        "データ構造とアルゴリズム分析 (Mark Allen Weiss) — 予定",
+        "LeetCode",
       ],
     },
-    goalText: `私の目標は、日本でC++エンジニアとしてキャリアをスタートさせることです。Linuxベースのサーバー開発から始め、システム全体への理解を深めた上で、長期的にはゲームプログラマーとして成長することを目指しています。最終的には、FromSoftwareのような高い完成度を追求するスタジオで、プレイヤーが直接体感するシステムを実装する開発者になりたいと考えています。\n
-      そのために現在、Effective C++およびEffective Modern C++を通じてC++の深い理解を積み重ねており、データ構造・アルゴリズムの学習とLeetCodeの問題演習を並行して行っています。低レベルから原理を理解し実装する方式で実力を磨き、いつか自分が作ったシステムが誰かの記憶に残るゲーム体験を生み出すことに貢献したいと思っています。`,
+    goalText: `私の目標は、Linux環境をベースとしたC++サーバーエンジニアとして成長することです。現在、システムプログラミングと低レベルの原理への理解をもとに、安定的かつ堅牢に動作するバックエンド・インフラシステムを実装するエンジニアになりたいと考えています。\n
+      そのために現在、Effective C++およびEffective Modern C++を通じてC++の深い理解を積み重ねており、データ構造・アルゴリズムの学習とLeetCodeの問題演習を並行して行っています。低レベルから原理を理解し実装する方式で実力を磨き、信頼性と完成度の高いシステムを作ることに貢献したいと思っています。`,
   },
   en: {
     nav: { about: "Back to About" },
     hero: {
       name: "Minjae Park",
       nameEn: "박민재",
-      tagline: "A programmer with a passion for C++ development",
+      tagline: "Linux-based C++ Systems Developer",
       school: "Induk University, Dept. of Computer Software Engineering (expected graduation)",
-      goal: "My goal is to start my career in Japan as a C++ developer.\nBeginning with Linux-based server development, I aim to grow into a game programmer in the long run.",
+      goal: "Building on Linux-based C++ systems and server development skills, I aim to grow into a developer who implements reliable, stable infrastructure.",
     },
     sections: {
       skills: "Skills",
@@ -185,6 +190,7 @@ export const LANG = {
     skills: {
       lang: "Languages",
       framework: "Frameworks / Libraries",
+      os: "OS / Systems Programming",
       db: "Databases",
       cloud: "Cloud / Infrastructure",
       devops: "Version Control / Deployment",
@@ -204,8 +210,8 @@ export const LANG = {
       teamleadDesc: "Induk University Project Team (9 members, 6 Backend / 3 Frontend)",
       club: "Startup Club President",
       clubDesc: "Induk University",
-      kmove: "K-Move Japan IT Employment Training",
-      kmoveDesc: "D&S KOREA Co., Ltd. · 968 hours · Jun 2025 – Feb 2026",
+      kmove: "IT Employment Skills Training",
+      kmoveDesc: "D&S KOREA Co., Ltd. · 968 hours · Jun 2026 – Feb 2027",
     },
     education: {
       univ: "Induk University",
@@ -237,28 +243,56 @@ export const LANG = {
     },
     learning: {
       items: [
-        "Effective C++ (Scott Meyers) — In Progress",
-        "Effective Modern C++ (Scott Meyers) — Planned",
-        "3D Game Development Starting with Math — Planned",
-        "LeetCode — In Progress",
+        "Effective C++ (Scott Meyers) — Completed",
+        "Effective Modern C++ (Scott Meyers) — In Progress",
+        "C++ Concurrency in Action (Anthony Williams) — In Progress",
+        "Linux System Programming (Robert Love) — Planned",
+        "Data Structures and Algorithm Analysis (Mark Allen Weiss) — Planned",
+        "LeetCode",
       ],
     },
-    goalText: `My goal is to start my career in Japan as a C++ developer. Beginning with Linux-based server development to build a deep understanding of systems, I aim to grow into a game programmer in the long run. Ultimately, I want to become a developer who implements systems that players directly feel — at a studio that pursues exceptional quality, like FromSoftware.\n
-      To that end, I am currently building a deep understanding of C++ through Effective C++ and Effective Modern C++, while studying data structures and algorithms and practicing on LeetCode. By understanding and implementing concepts from the ground up, I hope to one day contribute to creating game experiences that stay with players long after they put down the controller.`,
+    goalText: `My goal is to grow into a C++ server developer built on a foundation of Linux systems programming. Based on my understanding of system programming and low-level principles, I aim to become a developer who builds stable, robust backend and infrastructure systems.\n
+      To that end, I am currently deepening my understanding of C++ through Effective C++ and Effective Modern C++, while studying data structures and algorithms and practicing on LeetCode. By understanding and implementing concepts from the ground up, I hope to contribute to building reliable, high-quality systems.`,
   },
 };
 
 export const SKILLS_DATA = {
   lang: ["C++", "Java", "PHP", "JavaScript", "Python", "R", "HTML5", "CSS3", "JSP"],
   framework: ["Spring Framework", "React", "Ajax", "Unity"],
+  os: ["Linux (WSL/Ubuntu-24.04)", "CMake", "Ninja"],
   db: ["MySQL", "MariaDB", "phpMyAdmin", "MySQL Workbench", "RStudio", "SQLite"],
-  cloud: ["AWS", "Amazon EC2", "Amazon RDS", "Amazon S3", "Amazon API Gateway", "Linux"],
+  cloud: ["AWS", "Amazon EC2", "Amazon RDS", "Amazon S3", "Amazon API Gateway"],
   devops: ["Git", "GitHub", "GitHub Actions", "GitHub Pages"],
-  tools: ["Android Studio", "iOS / iOS Autolayout", "Figma", "MS ACCESS"],
-  concepts: ["OOP", "DBMS", "REST API", "MVC", "Architecture", "Frontend", "Backend", "BigData"],
+  tools: ["Figma", "MS ACCESS", "Android Studio", "iOS / iOS Autolayout"],
 };
 
 export const PROJECTS = [
+  {
+    id: "bankaccount-cli",
+    ko: {
+      title: "BankAccount CLI",
+      subtitle: "Linux 시스템 프로그래밍",
+      desc: "Linux 환경 기반 계좌 관리 시스템 CLI 프로그램. unique_ptr 기반 다형성 컬렉션 관리, 2-phase commit 방식의 계좌 이체 구현.",
+      role: "개발",
+      type: "solo",
+    },
+    ja: {
+      title: "BankAccount CLI",
+      subtitle: "Linuxシステムプログラミング",
+      desc: "Linux環境ベースの口座管理システムCLIプログラム。unique_ptrによる多態性コレクション管理、2フェーズコミット方式の口座振替を実装。",
+      role: "開発",
+      type: "solo",
+    },
+    en: {
+      title: "BankAccount CLI",
+      subtitle: "Linux Systems Programming",
+      desc: "A CLI-based bank account management system built on Linux. Implements polymorphic collection management via unique_ptr and account transfers using 2-phase commit.",
+      role: "Developer",
+      type: "solo",
+    },
+    stack: ["C++", "CMake", "Ninja", "Linux (WSL/Ubuntu-24.04)"],
+    image: null,
+  },
   {
     id: "medichat",
     ko: {

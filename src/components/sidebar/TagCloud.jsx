@@ -16,6 +16,7 @@ export default function TagCloud() {
   const initializedRef = useRef(false);
   const [buttonKey, setButtonKey] = useState(0);
   const [buttonVisible, setButtonVisible] = useState(false);
+  const [canvasHeight, setCanvasHeight] = useState(280);
 
 
   useEffect(() => {
@@ -75,6 +76,7 @@ export default function TagCloud() {
         currentH = newH;
         canvas.height = newH;
         canvas.style.height = newH + "px";
+        setCanvasHeight(newH); // React가 리렌더링 때 style.height를 280px로 되돌리지 않도록 state로도 반영
         Matter.Body.setPosition(ground, { x: W/2, y: newH + 25 });
 
         // 바닥 중앙에서 충격파
@@ -107,6 +109,22 @@ export default function TagCloud() {
       function measureTag(text, fontSize) {
         ctx.font = `500 ${fontSize}px sans-serif`;
         return ctx.measureText(text).width;
+      }
+
+      // 새로 추가되는 태그들이 실제로 몇 줄을 차지할지 미리 계산해서
+      // 캔버스를 그만큼 늘려야 위쪽으로 넘쳐서 잘리지 않음
+      function estimateExtraHeight(tags) {
+        let curX = 10, curY = 0, rowH = 0;
+        tags.forEach((tag) => {
+          const fontSize = getFontSize(tag.count);
+          const th = fontSize + 14;
+          const tw = measureTag(`#${tag.name}`, fontSize) + 20;
+          if (curX + tw > W - 10) { curX = 10; curY += rowH + 6; rowH = 0; }
+          curX += tw + 6;
+          rowH = Math.max(rowH, th);
+        });
+        curY += rowH; // 마지막 줄 높이
+        return curY + 20; // 여유 공간
       }
 
       function spawnTags(tags, fromTop = false, delay = 0) {
@@ -186,7 +204,8 @@ export default function TagCloud() {
         }
       }
 
-      spawnMoreRef.current = (tags, extraH) => {
+      spawnMoreRef.current = (tags) => {
+        const extraH = estimateExtraHeight(tags);
         expandHeight(currentH + extraH);
         spawnTags(tags, true, 0);
       };
@@ -314,6 +333,7 @@ export default function TagCloud() {
     } else {
       script.src = "https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js";
       script.onload = init;
+      script.onerror = () => console.error("[TagCloud] Matter.js 스크립트 로드 실패 (CDN 접근 불가?)");
       if (!existingScript) document.body.appendChild(script);
     }
 
@@ -331,8 +351,7 @@ export default function TagCloud() {
     const newTags = allTags.slice(visibleCount, next);
     setVisibleCount(next);
     setButtonVisible(false);
-    const extraH = Math.ceil(newTags.length / 4) * 25;
-    if (spawnMoreRef.current) spawnMoreRef.current(newTags, extraH);
+    if (spawnMoreRef.current) spawnMoreRef.current(newTags);
 
     setTimeout(() => {
       setShowButton(true); 
@@ -345,7 +364,7 @@ export default function TagCloud() {
     <div className="flex flex-col gap-2">
       <canvas
         ref={canvasRef}
-        style={{ width: "100%", height: "280px", borderRadius: "8px", display: "block" }}
+        style={{ width: "100%", height: canvasHeight + "px", borderRadius: "8px", display: "block" }}
       />
       {hasMore && showButton && buttonVisible && (
         <button
