@@ -270,22 +270,22 @@ export const PROJECTS = [
   {
     id: "yakjigi",
     ko: {
-      title: "AI 활용 의약품 정보 챗봇 웹사이트",
-      subtitle: "Yakjigi",
+      title: "Yakjigi",
+      subtitle: "AI 활용 의약품 정보 챗봇 웹사이트",
       desc: "사용자의 증상을 입력받고 AI가 적절한 의약품을 추천하는 챗봇 웹사이트. 주변 약국 위치를 공공 API 기반으로 출력. ACK 2025 논문 발표.",
       role: "디자인 / 백엔드 / 클라우드",
       type: "team",
     },
     ja: {
-      title: "AI活用 医薬品情報チャットボットWebサイト",
-      subtitle: "Yakjigi",
+      title: "Yakjigi",
+      subtitle: "AI活用 医薬品情報チャットボットWebサイト",
       desc: "ユーザーの症状を入力するとAIが適切な医薬品を推薦するチャットボットWebサイト。公共APIで近隣薬局を表示。ACK 2025論文発表。",
       role: "デザイン / バックエンド / クラウド",
       type: "team",
     },
     en: {
-      title: "AI-Powered Medication Info Chatbot",
-      subtitle: "Yakjigi",
+      title: "Yakjigi",
+      subtitle: "AI-Powered Medication Info Chatbot",
       desc: "A chatbot website that recommends appropriate medications based on user-inputted symptoms using AI. Nearby pharmacies displayed via public API. Presented at ACK 2025.",
       role: "Design / Backend / Cloud",
       type: "team",
